@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>cb845bc1-84b9-4b7a-8501-feed85a6543c</ProjectGuid>
+    <ProjectGuid>{CB845BC1-84B9-4B7A-8501-FEED85A6543C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Service.Interfacies</RootNamespace>
@@ -30,24 +30,39 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Net.Http"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Entities\ServiceAuthor.cs" />
+    <Compile Include="Entities\ServiceBook.cs" />
+    <Compile Include="Entities\ServiceCollection.cs" />
+    <Compile Include="Entities\ServiceComment.cs" />
+    <Compile Include="Entities\ServiceContent.cs" />
+    <Compile Include="Entities\ServiceGenre.cs" />
+    <Compile Include="Entities\ServiceLike.cs" />
+    <Compile Include="Entities\ServiceList.cs" />
+    <Compile Include="Entities\ServiceReview.cs" />
+    <Compile Include="Entities\ServiceTag.cs" />
+    <Compile Include="Entities\User\ServiceEmailAuthorizeUser.cs" />
+    <Compile Include="Entities\User\ServiceLoginAuthorizeUser.cs" />
+    <Compile Include="Entities\User\ServiceUser.cs" />
+    <Compile Include="IAuthorService.cs" />
+    <Compile Include="Interfacies\ICommentService.cs" />
+    <Compile Include="Interfacies\IFindService.cs" />
+    <Compile Include="Interfacies\ICollectionService.cs" />
+    <Compile Include="Interfacies\IBookService.cs" />
+    <Compile Include="Interfacies\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entities\Book\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -57,5 +72,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-
- </Project>
+</Project>

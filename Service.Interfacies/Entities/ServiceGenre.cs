@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ORMLibrary
+namespace Service.Interfacies.Entities
 {
-    public class Class1
+    public class ServiceGenre
     {
+
     }
 }

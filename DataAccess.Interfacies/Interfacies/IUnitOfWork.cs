@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service.Interfacies
+namespace DataAccess.Interfacies.Interfacies
 {
-    public class Class1
+    public interface IUnitOfWork
     {
+        void SaveChanges();
     }
 }

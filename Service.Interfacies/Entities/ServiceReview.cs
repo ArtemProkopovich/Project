@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Interfacies
+namespace Service.Interfacies.Entities
 {
-    public class Class1
+    public class ServiceReview
     {
     }
 }
