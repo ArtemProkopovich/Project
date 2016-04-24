@@ -17,6 +17,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ORMLibrary", "ORMLibrary\OR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyResolverLibrary", "DependencyResolverLibrary\DependencyResolverLibrary.csproj", "{872B5728-F2CC-43CF-AD5E-B8F4D221E72F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9BD1C8DB-742E-4FFF-98A9-A061CC2F9A90}"
+	ProjectSection(SolutionItems) = preProject
+		uml_doc.EAP = uml_doc.EAP
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
