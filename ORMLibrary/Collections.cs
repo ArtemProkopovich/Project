@@ -12,25 +12,21 @@ namespace ORMLibrary
     using System;
     using System.Collections.Generic;
     
-    public partial class Collection_Book
+    public partial class Collections
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Collection_Book()
+        public Collections()
         {
-            this.Bookmarks = new HashSet<Bookmarks>();
-            this.Quotes = new HashSet<Quotes>();
+            this.Collection_Book = new HashSet<Collection_Book>();
         }
     
-        public int Collection_BookID { get; set; }
         public int CollectionID { get; set; }
-        public int BookID { get; set; }
-        public Nullable<bool> IsRead { get; set; }
+        public int UserID { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Bookmarks> Bookmarks { get; set; }
-        public virtual Books Books { get; set; }
-        public virtual Collections Collections { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Quotes> Quotes { get; set; }
+        public virtual ICollection<Collection_Book> Collection_Book { get; set; }
+        public virtual Users Users { get; set; }
     }
 }

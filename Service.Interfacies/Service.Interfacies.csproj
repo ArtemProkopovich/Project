@@ -45,10 +45,13 @@
     <Compile Include="Entities\ServiceCollection.cs" />
     <Compile Include="Entities\ServiceComment.cs" />
     <Compile Include="Entities\ServiceContent.cs" />
+    <Compile Include="Entities\ServiceCover.cs" />
+    <Compile Include="Entities\ServiceFile.cs" />
     <Compile Include="Entities\ServiceGenre.cs" />
     <Compile Include="Entities\ServiceLike.cs" />
     <Compile Include="Entities\ServiceList.cs" />
     <Compile Include="Entities\ServiceReview.cs" />
+    <Compile Include="Entities\ServiceScreening.cs" />
     <Compile Include="Entities\ServiceTag.cs" />
     <Compile Include="Entities\User\ServiceEmailAuthorizeUser.cs" />
     <Compile Include="Entities\User\ServiceLoginAuthorizeUser.cs" />

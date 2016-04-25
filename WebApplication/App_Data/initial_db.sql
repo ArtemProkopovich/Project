@@ -234,6 +234,7 @@ CREATE TABLE [Book-Tag]
 
 CREATE TABLE [Bookmarks]
 (
+	[BookmarkID] int NOT NULL IDENTITY (1, 1),
 	[Collection_BookID] int NOT NULL,
 	[Page] int NOT NULL
 )
@@ -252,7 +253,8 @@ CREATE TABLE [Collection-Book]
 (
 	[Collection_BookID] int NOT NULL IDENTITY (1, 1),
 	[CollectionID] int NOT NULL,
-	[BookID] int NOT NULL
+	[BookID] int NOT NULL,
+	[IsRead] bit
 )
 ;
 
@@ -267,6 +269,7 @@ CREATE TABLE [Collections]
 
 CREATE TABLE [Comments]
 (
+	[CommentID] int NOT NULL IDENTITY (1, 1),
 	[UserID] int NOT NULL,
 	[BookID] int NOT NULL,
 	[Text] text NOT NULL
@@ -275,6 +278,7 @@ CREATE TABLE [Comments]
 
 CREATE TABLE [Contents]
 (
+	[ContentID] int NOT NULL IDENTITY (1, 1),
 	[BookID] int NOT NULL,
 	[UserID] int NOT NULL,
 	[Text] text
@@ -283,6 +287,7 @@ CREATE TABLE [Contents]
 
 CREATE TABLE [Covers]
 (
+	[CoverID] int NOT NULL IDENTITY (1, 1),
 	[BookID] int NOT NULL,
 	[Image] image NOT NULL
 )
@@ -290,6 +295,7 @@ CREATE TABLE [Covers]
 
 CREATE TABLE [Files]
 (
+	[FileID] int NOT NULL IDENTITY (1, 1),
 	[BookID] int NOT NULL,
 	[Path] varchar(255) NOT NULL
 )
@@ -304,6 +310,7 @@ CREATE TABLE [Genres]
 
 CREATE TABLE [Likes]
 (
+	[LikeID] int NOT NULL IDENTITY (1, 1),
 	[UserID] int NOT NULL,
 	[BookID] int NOT NULL,
 	[Like] bit NOT NULL
@@ -319,6 +326,7 @@ CREATE TABLE [Lists]
 
 CREATE TABLE [Quotes]
 (
+	[QuoteID] int NOT NULL IDENTITY (1, 1),
 	[Collection_BookID] int NOT NULL,
 	[Text] text NOT NULL
 )
@@ -326,6 +334,7 @@ CREATE TABLE [Quotes]
 
 CREATE TABLE [Reviews]
 (
+	[ReviewID] int NOT NULL IDENTITY (1, 1),
 	[UserID] int NOT NULL,
 	[BookID] int NOT NULL,
 	[Text] text NOT NULL
@@ -342,6 +351,7 @@ CREATE TABLE [Roles]
 
 CREATE TABLE [Screenings]
 (
+	[ScreeningID] int NOT NULL IDENTITY (1, 1),
 	[BookID] int NOT NULL,
 	[Film_Name] varchar(200) NOT NULL,
 	[Year] datetime NOT NULL,
@@ -366,19 +376,24 @@ CREATE TABLE [User-Role]
 CREATE TABLE [Users]
 (
 	[UserID] int NOT NULL IDENTITY (1, 1),
-	[Name] varchar(50),
+	[Name] varchar(50) NOT NULL,
 	[Surname] varchar(50),
-	[Login] varchar(50) NOT NULL,
+	[Login] varchar(64) NOT NULL,
 	[Password] varchar(64) NOT NULL,
-	[Email] varchar(50),
+	[Email] varchar(50) NOT NULL,
 	[Phone] varchar(50),
-	[BookID] int
+	[Level] int DEFAULT 1
 )
 ;
 
 ALTER TABLE [Authors] 
  ADD CONSTRAINT [PK_Authors]
 	PRIMARY KEY CLUSTERED ([AuthorID])
+;
+
+ALTER TABLE [Bookmarks] 
+ ADD CONSTRAINT [PK_Bookmarks]
+	PRIMARY KEY CLUSTERED ([BookmarkID])
 ;
 
 ALTER TABLE [Books] 
@@ -396,13 +411,38 @@ ALTER TABLE [Collections]
 	PRIMARY KEY CLUSTERED ([CollectionID])
 ;
 
+ALTER TABLE [Comments] 
+ ADD CONSTRAINT [PK_Comments]
+	PRIMARY KEY CLUSTERED ([CommentID])
+;
+
+ALTER TABLE [Contents] 
+ ADD CONSTRAINT [PK_Contents]
+	PRIMARY KEY CLUSTERED ([ContentID])
+;
+
 ALTER TABLE [Contents] 
  ADD CONSTRAINT [UQ_Content_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
+;
+
+ALTER TABLE [Covers] 
+ ADD CONSTRAINT [PK_Covers]
+	PRIMARY KEY CLUSTERED ([CoverID])
+;
+
+ALTER TABLE [Files] 
+ ADD CONSTRAINT [PK_Files]
+	PRIMARY KEY CLUSTERED ([FileID])
 ;
 
 ALTER TABLE [Genres] 
  ADD CONSTRAINT [PK_Genres]
 	PRIMARY KEY CLUSTERED ([GenreID])
+;
+
+ALTER TABLE [Likes] 
+ ADD CONSTRAINT [PK_Likes]
+	PRIMARY KEY CLUSTERED ([LikeID])
 ;
 
 ALTER TABLE [Likes] 
@@ -414,6 +454,16 @@ ALTER TABLE [Lists]
 	PRIMARY KEY CLUSTERED ([ListID])
 ;
 
+ALTER TABLE [Quotes] 
+ ADD CONSTRAINT [PK_Quotes]
+	PRIMARY KEY CLUSTERED ([QuoteID])
+;
+
+ALTER TABLE [Reviews] 
+ ADD CONSTRAINT [PK_Reviews]
+	PRIMARY KEY CLUSTERED ([ReviewID])
+;
+
 ALTER TABLE [Reviews] 
  ADD CONSTRAINT [UQ_Review_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
 ;
@@ -421,6 +471,11 @@ ALTER TABLE [Reviews]
 ALTER TABLE [Roles] 
  ADD CONSTRAINT [PK_Roles]
 	PRIMARY KEY CLUSTERED ([RoleID])
+;
+
+ALTER TABLE [Screenings] 
+ ADD CONSTRAINT [PK_Screenings]
+	PRIMARY KEY CLUSTERED ([ScreeningID])
 ;
 
 ALTER TABLE [Tags] 

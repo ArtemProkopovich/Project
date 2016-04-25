@@ -12,6 +12,12 @@ namespace Service.Interfacies
         void AddBook(ServiceBook book);
         void RemoveBook(ServiceBook book);
         void UpdateBook(ServiceBook book);
+        void AddCover(ServiceCover cover);
+        void RemoveCover(ServiceCover cover);
+        void AddFile(ServiceFile file);
+        void RemoveFile(ServiceFile file);
+        void AddScreening(ServiceScreening screening);
+        void RemoveScreening(ServiceScreening screening);
         ServiceBook FindFirst(Func<ServiceBook, bool> func);
         IEnumerable<ServiceBook> FindAll(Func<ServiceBook, bool> func);
         IEnumerable<ServiceBook> GetUserBooks(ServiceUser user);

@@ -49,7 +49,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\DalAuthor.cs" />
     <Compile Include="Entities\DalBook.cs" />
+    <Compile Include="Entities\DalBookmark.cs" />
+    <Compile Include="Entities\DalCollection.cs" />
+    <Compile Include="Entities\DalCollectionBook.cs" />
+    <Compile Include="Entities\DalComment.cs" />
+    <Compile Include="Entities\DalContent.cs" />
+    <Compile Include="Entities\DalCover.cs" />
+    <Compile Include="Entities\DalFile.cs" />
+    <Compile Include="Entities\DalGenre.cs" />
+    <Compile Include="Entities\DalLike.cs" />
+    <Compile Include="Entities\DalList.cs" />
+    <Compile Include="Entities\DalQuote.cs" />
+    <Compile Include="Entities\DalReview.cs" />
+    <Compile Include="Entities\DalRole.cs" />
+    <Compile Include="Entities\DalScreening.cs" />
+    <Compile Include="Entities\DalTag.cs" />
     <Compile Include="Entities\DalUser.cs" />
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Interfacies\IBookRepository.cs" />
