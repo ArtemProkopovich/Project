@@ -6,16 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Interfacies.Entities;
 
-namespace DataAccess.Interfacies.Interfacies
+namespace DataAccess.Interfacies
 {
     public interface IRepository<TEntity> where TEntity : IEntity
     {
-        IEnumerable<TEntity> ReadAll();
-        TEntity ReadById(int key);
+        IEnumerable<TEntity> GetAll();
+        TEntity GetById(int key);
         TEntity Find(Expression<Func<TEntity, bool>> f);
         IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> f);
-        void Create(TEntity e);
-        void Delete(TEntity e);
+        void Create(TEntity entity);
+        void Delete(TEntity entity);
         void Update(TEntity entity);
     }
 }

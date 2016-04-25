@@ -49,12 +49,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\AuthorRepository.cs" />
+    <Compile Include="Repository\BookRepository.cs" />
+    <Compile Include="Repository\CollectionRepository.cs" />
+    <Compile Include="Repository\EFUnitOfWork.cs" />
+    <Compile Include="Repository\GenreRepository.cs" />
+    <Compile Include="Repository\ListRepository.cs" />
+    <Compile Include="Repository\TagRepository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mappers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess.Interfacies\DataAccess.Interfacies.csproj">
+      <Project>{416dd748-3aa9-46f6-8582-e0c1dcd2fea5}</Project>
+      <Name>DataAccess.Interfacies</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ORMLibrary\ORMLibrary.csproj">
+      <Project>{885462aa-391b-4776-b598-1b8f50d7fd9f}</Project>
+      <Name>ORMLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Interfacies.Interfacies
+namespace DataAccess.Interfacies
 {
     public interface IBookRepository
     {

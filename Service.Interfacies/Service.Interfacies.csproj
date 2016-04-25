@@ -56,7 +56,7 @@
     <Compile Include="Entities\User\ServiceEmailAuthorizeUser.cs" />
     <Compile Include="Entities\User\ServiceLoginAuthorizeUser.cs" />
     <Compile Include="Entities\User\ServiceUser.cs" />
-    <Compile Include="IAuthorService.cs" />
+    <Compile Include="Interfacies\IAuthorService.cs" />
     <Compile Include="Interfacies\ICommentService.cs" />
     <Compile Include="Interfacies\IFindService.cs" />
     <Compile Include="Interfacies\ICollectionService.cs" />
