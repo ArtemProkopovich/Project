@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Interfacies.Entities
 {
-    public class DalContent
+    public class DalContent : IEntity
     {
+        public int ID { get; set; }
+        public int UserID { get; set; }
+        public int BookID { get; set; }
+        public string Text { get; set; }
     }
 }

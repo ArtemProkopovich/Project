@@ -9,5 +9,7 @@ namespace DataAccess.Interfacies.Entities
     public class DalBookmark:IEntity
     {
         public int ID { get; set; }
+        public int CollectionBookID { get; set; }
+        public int Page { get; set; }
     }
 }

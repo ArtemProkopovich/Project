@@ -9,5 +9,7 @@ namespace DataAccess.Interfacies.Entities
     public class DalCover:IEntity
     {
         public int ID { get; set; }
+        public int BookID { get; set; }
+        public byte[] Image { get; set; }
     }
 }

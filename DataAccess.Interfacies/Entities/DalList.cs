@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Interfacies.Entities
 {
-    public class DalList:IEntity
+    public class DalList : IEntity
     {
         public int ID { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using DataAccess.Interfacies;
 using DataAccess.Interfacies.Entities;
 using ORMLibrary;
+using DataAccessLibrary.Mappers;
 
 namespace DataAccessLibrary.Repository
 {
@@ -21,12 +22,13 @@ namespace DataAccessLibrary.Repository
 
         public void Create(DalAuthor entity)
         {
-            throw new NotImplementedException();
+            context.Set<Authors>().Add(entity.ToOrmAuthor());
         }
 
         public void Delete(DalAuthor entity)
         {
-            throw new NotImplementedException();
+            var el = context.Set<Authors>().Single(e => e.AuthorID == entity.ID);
+            context.Set<Authors>().Remove(el);
         }
 
         public DalAuthor Find(Expression<Func<DalAuthor, bool>> f)
@@ -41,18 +43,18 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalAuthor> GetAll()
         {
-            throw new NotImplementedException();
+            return context.Set<Authors>().Select(e => e.ToDalAuthor());
         }
 
         public DalAuthor GetById(int key)
         {
-            throw new NotImplementedException();
-            context.Set<Authors>().Find(key);
+            return context.Set<Authors>().Find(key).ToDalAuthor();
         }
 
         public void Update(DalAuthor entity)
         {
-            throw new NotImplementedException();
+            context.Entry(entity.ToOrmAuthor()).State = EntityState.Modified;
+
         }
     }
 }

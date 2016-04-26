@@ -9,5 +9,7 @@ namespace DataAccess.Interfacies.Entities
     public class DalQuote:IEntity
     {
         public int ID { get; set; }
+        public int CollectionBookID { get; set; }
+        public string Text { get; set; }
     }
 }

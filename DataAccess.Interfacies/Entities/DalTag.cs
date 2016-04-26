@@ -9,5 +9,6 @@ namespace DataAccess.Interfacies.Entities
     public class DalTag:IEntity
     {
         public int ID { get; set; }
+        public string Name { get; set; }
     }
 }

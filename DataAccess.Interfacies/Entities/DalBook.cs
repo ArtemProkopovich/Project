@@ -9,5 +9,8 @@ namespace DataAccess.Interfacies.Entities
     public class DalBook : IEntity
     {
         public int ID { get; set; }
+        public string Name { get; set; }
+        public DateTime? FirstPublication { get; set; }
+        public int AgeCategory { get; set; }
     }
 }

@@ -9,5 +9,8 @@ namespace DataAccess.Interfacies.Entities
     public class DalCollection:IEntity
     {
         public int ID { get; set; }
+        public int UserID { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }

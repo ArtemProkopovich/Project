@@ -9,5 +9,7 @@ namespace DataAccess.Interfacies.Entities
     public class DalRole:IEntity
     {
         public int ID { get; set; }
+        public string Name { get; set; }
+        public int Priority { get; set; }
     }
 }
