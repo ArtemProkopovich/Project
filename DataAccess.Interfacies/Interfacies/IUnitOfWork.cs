@@ -9,13 +9,13 @@ namespace DataAccess.Interfacies
 {
     public interface IUnitOfWork : IDisposable
     {
-        IRepository<DalAuthor> Authors { get; }
-        IRepository<DalBook> Books { get; }
-        IRepository<DalUser> Users { get; }
-        IRepository<DalList> Lists { get; }
-        IRepository<DalTag> Tags { get; }
-        IRepository<DalGenre> Genres { get; }
-        IRepository<DalCollection> Collections { get; }
+        IAuthorRepository Authors { get; }
+        IBookRepository Books { get; }
+        ICollectionRepository Collections { get; }
+        IGenreRepository Genres { get; }
+        IListRepository Lists { get; }
+        ITagRepository Tags { get; }
+        IUserRepository Users { get; }
         void Save();
         Task SaveAsync();
     }

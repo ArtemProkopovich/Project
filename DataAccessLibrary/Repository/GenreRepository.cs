@@ -7,24 +7,28 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Interfacies;
 using DataAccess.Interfacies.Entities;
+using ORMLibrary;
+using DataAccessLibrary.Mappers;
 
 namespace DataAccessLibrary.Repository
 {
-    public class GenreRepository : IRepository<DalGenre>
+    public class GenreRepository : IGenreRepository
     {
-        private readonly DbContext context;
-        public GenreRepository(DbContext context)
+        private readonly ProjectDataEntities context;
+        public GenreRepository(ProjectDataEntities context)
         {
             this.context = context;
         }
         public void Create(DalGenre entity)
         {
-            throw new NotImplementedException();
+            context.Genres.Add(entity.ToOrmGenre());
         }
 
         public void Delete(DalGenre entity)
         {
-            throw new NotImplementedException();
+            var cl = context.Genres.FirstOrDefault(e => e.GenreID == entity.ID);
+            if (cl != null)
+                context.Genres.Remove(cl);
         }
 
         public DalGenre Find(Expression<Func<DalGenre, bool>> f)
@@ -39,17 +43,26 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalGenre> GetAll()
         {
-            throw new NotImplementedException();
+            return context.Genres.Select(e => e.ToDalGenre());
+        }
+
+        public IEnumerable<DalBook> GetBooks(DalGenre genre)
+        {
+            return context.Genres.FirstOrDefault(e => e.GenreID == genre.ID)?.Books.Select(e => e.ToDalBook());
         }
 
         public DalGenre GetById(int key)
         {
-            throw new NotImplementedException();
+            return context.Genres.FirstOrDefault(e => e.GenreID == key)?.ToDalGenre();
         }
 
         public void Update(DalGenre entity)
         {
-            throw new NotImplementedException();
+            var g = context.Genres.FirstOrDefault(e => e.GenreID == entity.ID);
+            if (g != null)
+            {
+                g.Name = entity.Name;
+            }
         }
     }
 }

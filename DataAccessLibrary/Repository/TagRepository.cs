@@ -7,24 +7,28 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Interfacies;
 using DataAccess.Interfacies.Entities;
+using DataAccessLibrary.Mappers;
+using ORMLibrary;
 
 namespace DataAccessLibrary.Repository
 {
-    public class TagRepository : IRepository<DalTag>
+    public class TagRepository : ITagRepository
     {
-        private readonly DbContext context;
-        public TagRepository(DbContext context)
+        private readonly ProjectDataEntities context;
+        public TagRepository(ProjectDataEntities context)
         {
             this.context = context;
         }
         public void Create(DalTag entity)
         {
-            throw new NotImplementedException();
+            context.Tags.Add(entity.ToOrmTag());
         }
 
         public void Delete(DalTag entity)
         {
-            throw new NotImplementedException();
+            var t = context.Tags.FirstOrDefault(e => e.TagID == entity.ID);
+            if (t != null)
+                context.Tags.Remove(t);
         }
 
         public DalTag Find(Expression<Func<DalTag, bool>> f)
@@ -39,17 +43,26 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalTag> GetAll()
         {
-            throw new NotImplementedException();
+            return context.Tags.Select(e => e.ToDalTag());
+        }
+
+        public IEnumerable<DalBook> GetBooks(DalTag tag)
+        {
+            return context.Genres.FirstOrDefault(e => e.GenreID == tag.ID)?.Books.Select(e => e.ToDalBook());
         }
 
         public DalTag GetById(int key)
         {
-            throw new NotImplementedException();
+            return context.Tags.FirstOrDefault(e => e.TagID == key)?.ToDalTag();
         }
 
         public void Update(DalTag entity)
         {
-            throw new NotImplementedException();
+            var g = context.Tags.FirstOrDefault(e => e.TagID == entity.ID);
+            if (g != null)
+            {
+                g.Name = entity.Name;
+            }
         }
     }
 }

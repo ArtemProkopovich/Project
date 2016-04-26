@@ -10,19 +10,35 @@ using DataAccess.Interfacies.Entities;
 
 namespace DataAccessLibrary.Repository
 {
-    public class ListRepository : IRepository<DalList>
+    public class ListRepository : IListRepository
     {
         private readonly DbContext context;
         public ListRepository(DbContext context)
         {
             this.context = context;
         }
+
+        public void AddBook(DalList list, DalBook book)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddBooks(DalList list, IEnumerable<DalBook> books)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Create(DalList entity)
         {
             throw new NotImplementedException();
         }
 
         public void Delete(DalList entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteBook(DalList list, DalBook book)
         {
             throw new NotImplementedException();
         }
@@ -38,6 +54,11 @@ namespace DataAccessLibrary.Repository
         }
 
         public IEnumerable<DalList> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<DalBook> GetBooks(DalList list)
         {
             throw new NotImplementedException();
         }

@@ -12,23 +12,24 @@ using DataAccessLibrary.Mappers;
 
 namespace DataAccessLibrary.Repository
 {
-    public class AuthorRepository : IRepository<DalAuthor>
+    public class AuthorRepository : IAuthorRepository
     {
-        private readonly DbContext context;
-        public AuthorRepository(DbContext context)
+        private readonly ProjectDataEntities context;
+        public AuthorRepository(ProjectDataEntities context)
         {
             this.context = context;
         }
 
         public void Create(DalAuthor entity)
         {
-            context.Set<Authors>().Add(entity.ToOrmAuthor());
+            context.Authors.Add(entity.ToOrmAuthor());
         }
 
         public void Delete(DalAuthor entity)
         {
-            var el = context.Set<Authors>().Single(e => e.AuthorID == entity.ID);
-            context.Set<Authors>().Remove(el);
+            var a = context.Authors.FirstOrDefault(e => e.AuthorID == entity.ID);
+            if (a != null)
+                context.Authors.Remove(a);
         }
 
         public DalAuthor Find(Expression<Func<DalAuthor, bool>> f)
@@ -43,18 +44,30 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalAuthor> GetAll()
         {
-            return context.Set<Authors>().Select(e => e.ToDalAuthor());
+            return context.Authors.Select(e=>e.ToDalAuthor());
+        }
+
+        public IEnumerable<DalBook> GetBooks(DalAuthor author)
+        {
+            return context.Books.Where(e => e.Authors.AsQueryable().Any(t => t.AuthorID == author.ID))
+                .Select(r => r.ToDalBook());
         }
 
         public DalAuthor GetById(int key)
         {
-            return context.Set<Authors>().Find(key).ToDalAuthor();
+            return context.Authors.FirstOrDefault(e => e.AuthorID == key)?.ToDalAuthor();
         }
 
         public void Update(DalAuthor entity)
         {
-            context.Entry(entity.ToOrmAuthor()).State = EntityState.Modified;
-
+            var a = context.Authors.FirstOrDefault(e => e.AuthorID == entity.ID);
+            if (a != null)
+            {
+                a.Biography = entity.Biography;
+                a.Birth_Date = entity.BirthDate;
+                a.Death_Date = entity.DeathDate;
+                a.Name = entity.Name;
+            }
         }
     }
 }

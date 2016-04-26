@@ -68,6 +68,7 @@
     <Compile Include="Entities\DalTag.cs" />
     <Compile Include="Entities\DalUser.cs" />
     <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Interfacies\IAuthorRepository.cs" />
     <Compile Include="Interfacies\IBookRepository.cs" />
     <Compile Include="Interfacies\ICollectionRepository.cs" />
     <Compile Include="Interfacies\IGenreRepository.cs" />

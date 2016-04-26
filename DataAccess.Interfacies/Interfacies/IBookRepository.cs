@@ -13,6 +13,8 @@ namespace DataAccess.Interfacies
         void DeleteTag(DalBook book, DalTag tag);
         void AddGenre(DalBook book, DalGenre genre);
         void DeleteGenre(DalBook book, DalGenre genre);
+        void AddAuthor(DalBook book, DalAuthor author);
+        void DeleteAuthor(DalBook book, DalAuthor author);
    
         void AddLike(DalBook book, DalUser user, DalLike like);
         void DeleteLike(DalBook book, DalUser user, DalLike like);

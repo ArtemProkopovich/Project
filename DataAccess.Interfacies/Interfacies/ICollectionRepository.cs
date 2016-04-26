@@ -13,7 +13,7 @@ namespace DataAccess.Interfacies
         IEnumerable<DalCollectionBook> GetCollectionBooks(DalCollection collection);
         IEnumerable<DalBook> GetCollcetionBooks(DalCollection collection);
         void AddBook(DalCollection collection, DalBook book);
-        void DeleteBook(DalCollection collection, DalBook book);
+        void DeleteBook(DalCollection collection, DalCollectionBook book);
         void AddBookmark(DalCollectionBook collectionBook, DalBookmark bookmark);
         void DeleteBookmark(DalCollectionBook collectionBook, DalBookmark bookmark);
         void AddQuote(DalCollectionBook collectionBook, DalQuote quote);

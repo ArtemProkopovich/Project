@@ -9,7 +9,7 @@ using ORMLibrary;
 
 namespace DataAccessLibrary.Mappers
 {
-    public static class DalOrmMapping
+    public static class DalOrmAuthorMapper
     {
         public static DalAuthor ToDalAuthor(this Authors author)
         {

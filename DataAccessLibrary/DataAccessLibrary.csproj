@@ -49,7 +49,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mappers\DalOrmMapping.cs" />
+    <Compile Include="Mappers\DalOrmContentMapper.cs" />
+    <Compile Include="Mappers\DalOrmCoverMapper.cs" />
+    <Compile Include="Mappers\DalOrmFileMapper.cs" />
+    <Compile Include="Mappers\DalOrmLikeMapper.cs" />
+    <Compile Include="Mappers\DalOrmQuoteMapper.cs" />
+    <Compile Include="Mappers\DalOrmReviewMapper.cs" />
+    <Compile Include="Mappers\DalOrmAuthorMapper.cs" />
+    <Compile Include="Mappers\DalOrmBookMapper.cs" />
+    <Compile Include="Mappers\DalOrmBookmarkMapper.cs" />
+    <Compile Include="Mappers\DalOrmCollectionBookMapper.cs" />
+    <Compile Include="Mappers\DalOrmCollectionMapper.cs" />
+    <Compile Include="Mappers\DalOrmCommentMapper.cs" />
+    <Compile Include="Mappers\DalOrmGenreMapper.cs" />
+    <Compile Include="Mappers\DalOrmListMapper.cs" />
+    <Compile Include="Mappers\DalOrmRoleMapper.cs" />
+    <Compile Include="Mappers\DalOrmScreeningMapper.cs" />
+    <Compile Include="Mappers\DalOrmTagMapper.cs" />
+    <Compile Include="Mappers\DalOrmUserMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AuthorRepository.cs" />
     <Compile Include="Repository\BookRepository.cs" />
