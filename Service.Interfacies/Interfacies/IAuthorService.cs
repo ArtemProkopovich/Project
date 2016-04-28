@@ -12,8 +12,11 @@ namespace Service.Interfacies
         void AddAuthor(ServiceAuthor author);
         void RemoveAuthor(ServiceAuthor author);
         void UpdateAuthor(ServiceAuthor author);
-        void AddBook(ServiceAuthor author, ServiceBook book);
-        void RemoveBook(ServiceAuthor author, ServiceBook book);
+        ServiceAuthor GetById(int id);
+        ServiceFullAuthor GetFullAuthorInfo(int id);
+        ServiceFullAuthor GetFullAuthorInfo(ServiceAuthor author);
+        void AddAuthorBook(ServiceAuthor author, ServiceBook book);
+        void RemoveAuthorBook(ServiceAuthor author, ServiceBook book);
         ServiceAuthor FindFirst(Func<ServiceAuthor, bool> func);
         IEnumerable<ServiceAuthor> FindAll(Func<ServiceAuthor, bool> func);
 

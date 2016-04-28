@@ -8,5 +8,8 @@ namespace Service.Interfacies.Entities
 {
     public class ServiceCover
     {
+        public int ID { get; set; }
+        public int BookID { get; set; }
+        public byte[] Image { get; set; }
     }
 }

@@ -40,17 +40,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\ServiceAuthor.cs" />
-    <Compile Include="Entities\ServiceBook.cs" />
+    <Compile Include="Entities\Author\ServiceAuthor.cs" />
+    <Compile Include="Entities\Book\ServiceBook.cs" />
+    <Compile Include="Entities\ServiceBookmark.cs" />
     <Compile Include="Entities\ServiceCollection.cs" />
+    <Compile Include="Entities\ServiceCollectionBook.cs" />
     <Compile Include="Entities\ServiceComment.cs" />
     <Compile Include="Entities\ServiceContent.cs" />
     <Compile Include="Entities\ServiceCover.cs" />
     <Compile Include="Entities\ServiceFile.cs" />
+    <Compile Include="Entities\Book\ServiceFullBook.cs" />
+    <Compile Include="Entities\Author\ServiceFullAuthor.cs" />
     <Compile Include="Entities\ServiceGenre.cs" />
     <Compile Include="Entities\ServiceLike.cs" />
     <Compile Include="Entities\ServiceList.cs" />
+    <Compile Include="Entities\ServiceQuote.cs" />
     <Compile Include="Entities\ServiceReview.cs" />
+    <Compile Include="Entities\ServiceRole.cs" />
     <Compile Include="Entities\ServiceScreening.cs" />
     <Compile Include="Entities\ServiceTag.cs" />
     <Compile Include="Entities\User\ServiceEmailAuthorizeUser.cs" />
@@ -64,9 +70,7 @@
     <Compile Include="Interfacies\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Entities\Book\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -52,6 +52,12 @@ namespace DataAccessLibrary.Repository
             }
         }
 
+        public void AddUserCollection(DalUser user, DalCollection collection)
+        {
+            collection.UserID = user.ID;
+            context.Collections.Add(collection.ToOrmCollection());
+        }
+
         public void Create(DalCollection entity)
         {
             context.Collections.Add(entity.ToOrmCollection());
@@ -74,21 +80,21 @@ namespace DataAccessLibrary.Repository
             }
         }
 
-        public void DeleteBookmark(DalCollectionBook collectionBook, DalBookmark bookmark)
+        public void DeleteBookmark(DalBookmark bookmark)
         {
-            var dbBook = context.Collection_Book.FirstOrDefault(e => e.Collection_BookID == collectionBook.ID);
+            //var dbBook = context.Collection_Book.FirstOrDefault(e => e.Collection_BookID == collectionBook.ID);
             var dbBm = context.Bookmarks.FirstOrDefault(e => e.BookmarkID == bookmark.ID);
-            if (dbBook != null && dbBm != null)
+            if (dbBm != null)
             {
                 context.Bookmarks.Remove(dbBm);
             }
         }
 
-        public void DeleteQuote(DalCollectionBook collectionBook, DalQuote quote)
+        public void DeleteQuote(DalQuote quote)
         {
-            var dbBook = context.Collection_Book.FirstOrDefault(e => e.Collection_BookID == collectionBook.ID);
+            //var dbBook = context.Collection_Book.FirstOrDefault(e => e.Collection_BookID == collectionBook.ID);
             var dbQ = context.Quotes.FirstOrDefault(e => e.QuoteID == quote.ID);
-            if (dbBook != null && dbQ != null)
+            if (dbQ != null)
             {
                 context.Quotes.Remove(dbQ);
             }

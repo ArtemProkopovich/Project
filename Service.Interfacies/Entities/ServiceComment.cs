@@ -8,5 +8,9 @@ namespace Service.Interfacies.Entities
 {
     public class ServiceComment
     {
+        public int ID { get; set; }
+        public int UserID { get; set; }
+        public int BookID { get; set; }
+        public string Text { get; set; }
     }
 }

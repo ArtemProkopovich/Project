@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Service.Interfacies.Entities
 {
-    public class ServiceFile
+    public class ServiceQuote
     {
         public int ID { get; set; }
-        public int BookID { get; set; }
-        public string Path { get; set; }
+        public int CollectionBookID { get; set; }
+        public string Text { get; set; }
     }
 }

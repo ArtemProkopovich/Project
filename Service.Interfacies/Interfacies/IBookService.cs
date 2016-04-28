@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,12 +12,16 @@ namespace Service.Interfacies
     {
         void AddBook(ServiceBook book);
         void RemoveBook(ServiceBook book);
+        ServiceBook GetBookById(int id);
+        ServiceFullBook GetFullBookInfo(int id);
+        ServiceFullBook GetFullBookInfo(ServiceBook book);
+        Stream GetBookFile(ServiceFile file);
         void UpdateBook(ServiceBook book);
-        void AddCover(ServiceCover cover);
+        void AddCover(ServiceBook book, ServiceCover cover);
         void RemoveCover(ServiceCover cover);
-        void AddFile(ServiceFile file);
+        void AddFile(ServiceBook book, ServiceFile file);
         void RemoveFile(ServiceFile file);
-        void AddScreening(ServiceScreening screening);
+        void AddScreening(ServiceBook book, ServiceScreening screening);
         void RemoveScreening(ServiceScreening screening);
         ServiceBook FindFirst(Func<ServiceBook, bool> func);
         IEnumerable<ServiceBook> FindAll(Func<ServiceBook, bool> func);

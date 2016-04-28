@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Service.Interfacies.Entities
 {
-    public class ServiceAuthor
+    public class ServiceRole
     {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public int Priority { get; set; }
     }
 }

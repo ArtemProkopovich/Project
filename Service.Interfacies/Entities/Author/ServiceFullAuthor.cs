@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Service.Interfacies.Entities
 {
-    public class ServiceFile
+    public class ServiceFullAuthor
     {
-        public int ID { get; set; }
-        public int BookID { get; set; }
-        public string Path { get; set; }
+        public ServiceAuthor AuthorData { get; set; }
+        public IEnumerable<ServiceBook> AuthorBooks { get; set; }
     }
 }

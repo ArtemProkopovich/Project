@@ -141,7 +141,7 @@ namespace DataAccessLibrary.Repository
                 dbBook.Authors.Remove(dbAuthor);
         }
 
-        public void DeleteComment(DalBook book, DalUser user, DalComment comment)
+        public void DeleteComment(DalComment comment)
         {
             var dbComment = context.Comments.FirstOrDefault(e => e.CommentID == comment.ID);
             if (dbComment != null)
@@ -149,21 +149,21 @@ namespace DataAccessLibrary.Repository
 
         }
 
-        public void DeleteContent(DalBook book, DalUser user, DalContent content)
+        public void DeleteContent(DalContent content)
         {
             var dbContent = context.Contents.FirstOrDefault(e => e.ContentID == content.ID);
             if (dbContent != null)
                 context.Contents.Remove(dbContent);
         }
 
-        public void DeleteCover(DalBook book, DalCover cover)
+        public void DeleteCover(DalCover cover)
         {
             var dbCover = context.Covers.FirstOrDefault(e => e.CoverID == cover.ID);
             if (dbCover != null)
                 context.Covers.Remove(dbCover);
         }
 
-        public void DeleteFile(DalBook book, DalFile file)
+        public void DeleteFile(DalFile file)
         {
             var dbFile = context.Files.FirstOrDefault(e =>e.FileID == file.ID);
             if (dbFile != null)
@@ -182,21 +182,21 @@ namespace DataAccessLibrary.Repository
                 dbBook.Genres.Remove(dbGenre);
         }
 
-        public void DeleteLike(DalBook book, DalUser user, DalLike like)
+        public void DeleteLike(DalLike like)
         {
             var dbLike = context.Likes.FirstOrDefault(e => e.LikeID == like.ID);
             if (dbLike != null)
                 context.Likes.Remove(dbLike);
         }
 
-        public void DeleteReview(DalBook book, DalUser user, DalReview reivew)
+        public void DeleteReview(DalReview reivew)
         {
             var dbReview = context.Reviews.FirstOrDefault(e => e.ReviewID == reivew.ID);
             if (dbReview != null)
                 context.Reviews.Remove(dbReview);
         }
 
-        public void DeleteScreening(DalBook book, DalScreening screening)
+        public void DeleteScreening(DalScreening screening)
         {
             var dbScr = context.Screenings.FirstOrDefault(e => e.ScreeningID == screening.ID);
             if (dbScr != null)
@@ -226,9 +226,24 @@ namespace DataAccessLibrary.Repository
             return context.Books.Select(e => e.ToDalBook());
         }
 
+        public IEnumerable<DalAuthor> GetAuthors(DalBook book)
+        {
+            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Authors.Select(e => e.ToDalAuthor());
+        }
+
         public DalBook GetById(int key)
         {
             return context.Books.FirstOrDefault(e => e.BookID == key)?.ToDalBook();
+        }
+
+        public IEnumerable<DalComment> GetComments(DalBook book)
+        {
+            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Comments.Select(e => e.ToDalComment());
+        }
+
+        public IEnumerable<DalContent> GetContents(DalBook book)
+        {
+            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Contents.Select(e => e.ToDalContent());
         }
 
         public IEnumerable<DalCover> GetCovers(DalBook book)
@@ -247,12 +262,32 @@ namespace DataAccessLibrary.Repository
             return new List<DalFile>();
         }
 
+        public IEnumerable<DalGenre> GetGenres(DalBook book)
+        {
+            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Genres.Select(e => e.ToDalGenre());
+        }
+
+        public IEnumerable<DalLike> GetLikes(DalBook book)
+        {
+            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Likes.Select(e => e.ToDalLike());
+        }
+
+        public IEnumerable<DalReview> GetReviews(DalBook book)
+        {
+            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Reviews.Select(e => e.ToDalReview());
+        }
+
         public IEnumerable<DalScreening> GetScreenings(DalBook book)
         {
             var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
             if (dbBook != null)
                 return dbBook.Screenings.Select(e => e.ToDalScreening());
             return new List<DalScreening>();
+        }
+
+        public IEnumerable<DalTag> GetTags(DalBook book)
+        {
+            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Tags.Select(e => e.ToDalTag());
         }
 
         public void Update(DalBook entity)

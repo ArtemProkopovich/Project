@@ -12,6 +12,7 @@ namespace Service.Interfacies
         ServiceUser Login(ServiceEmailAuthorizeUser user);
         ServiceUser Login(ServiceLoginAuthorizeUser user);
         ServiceUser Sign(ServiceUser user);
-        ServiceUser Exit(ServiceUser user);
+        ServiceRole GetUserRole(ServiceUser user);
+        void Exit(ServiceUser user);
     }
 }

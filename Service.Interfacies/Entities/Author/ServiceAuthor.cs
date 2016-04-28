@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Service.Interfacies.Entities
 {
-    public class ServiceCollection
+    public class ServiceAuthor
     {
         public int ID { get; set; }
-        public int UserID { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
+        public DateTime? BirthDate { get; set; }
+        public DateTime? DeathDate { get; set; }
+        public string Biography { get; set; }
     }
 }
