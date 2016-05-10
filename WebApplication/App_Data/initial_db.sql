@@ -1,4 +1,4 @@
-﻿IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id('[FK_Book-Author_Authors]') AND OBJECTPROPERTY(id, 'IsForeignKey') = 1) 
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id('[FK_Book-Author_Authors]') AND OBJECTPROPERTY(id, 'IsForeignKey') = 1) 
 ALTER TABLE [Book-Author] DROP CONSTRAINT [FK_Book-Author_Authors]
 ;
 
@@ -422,7 +422,7 @@ ALTER TABLE [Contents]
 ;
 
 ALTER TABLE [Contents] 
- ADD CONSTRAINT [UQ_Content_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
+ ADD CONSTRAINT [UQ_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
 ;
 
 ALTER TABLE [Covers] 
@@ -446,7 +446,7 @@ ALTER TABLE [Likes]
 ;
 
 ALTER TABLE [Likes] 
- ADD CONSTRAINT [UQ_Like_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
+ ADD CONSTRAINT [UQ_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
 ;
 
 ALTER TABLE [Lists] 
@@ -465,7 +465,7 @@ ALTER TABLE [Reviews]
 ;
 
 ALTER TABLE [Reviews] 
- ADD CONSTRAINT [UQ_Review_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
+ ADD CONSTRAINT [UQ_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
 ;
 
 ALTER TABLE [Roles] 
@@ -585,7 +585,7 @@ ALTER TABLE [Screenings] ADD CONSTRAINT [FK_Screenings_Books]
 ;
 
 ALTER TABLE [User-Role] ADD CONSTRAINT [FK_User-Role_Roles]
-	FOREIGN KEY ([RoleID]) REFERENCES [Roles] ([RoleID]) ON DELETE Cascade ON UPDATE No Action
+	FOREIGN KEY ([RoleID]) REFERENCES [Roles] ([RoleID]) ON DELETE Set Default ON UPDATE Cascade
 ;
 
 ALTER TABLE [User-Role] ADD CONSTRAINT [FK_User-Role_Users]
