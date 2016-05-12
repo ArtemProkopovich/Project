@@ -19,9 +19,10 @@ namespace DataAccessLibrary.Repository
         {
             this.context = context;
         }
-        public void Create(DalTag entity)
+        public int Create(DalTag entity)
         {
-            context.Tags.Add(entity.ToOrmTag());
+            Tags t = context.Tags.Add(entity.ToOrmTag());
+            return t.TagID;
         }
 
         public void Delete(DalTag entity)
@@ -43,7 +44,8 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalTag> GetAll()
         {
-            return context.Tags.Select(e => e.ToDalTag());
+            var tags = context.Tags.ToList();
+            return tags.Select(e => e.ToDalTag());
         }
 
         public IEnumerable<DalBook> GetBooks(DalTag tag)
@@ -54,6 +56,11 @@ namespace DataAccessLibrary.Repository
         public DalTag GetById(int key)
         {
             return context.Tags.FirstOrDefault(e => e.TagID == key)?.ToDalTag();
+        }
+
+        public DalTag GetByName(string name)
+        {
+            return context.Tags.FirstOrDefault(e => e.Name == name)?.ToDalTag();
         }
 
         public void Update(DalTag entity)

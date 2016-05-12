@@ -11,7 +11,7 @@ namespace ServiceLibrary.Mappers
             {
                 ID = cover.ID,
                 BookID = cover.BookID,
-                Image = cover.Image
+                ImagePath = cover.ImagePath
             };
         }
 
@@ -21,7 +21,7 @@ namespace ServiceLibrary.Mappers
             {
                 ID = cover.ID,
                 BookID = cover.BookID,
-                Image = cover.Image
+                ImagePath = cover.ImagePath
             };
         }
     }

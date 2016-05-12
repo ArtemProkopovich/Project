@@ -20,9 +20,9 @@ namespace ServiceLibrary.Service
         {
             this.unit = unit;
         }
-        public void AddBook(ServiceBook book)
+        public int AddBook(ServiceBook book)
         {
-            unit.Books.Create(book.ToDalBook());
+            return unit.Books.Create(book.ToDalBook());
         }
 
         public void AddCover(ServiceBook book, ServiceCover cover)

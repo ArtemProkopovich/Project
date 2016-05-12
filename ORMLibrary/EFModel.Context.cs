@@ -16,7 +16,7 @@ namespace ORMLibrary
     public partial class ProjectDataEntities : DbContext
     {
         public ProjectDataEntities()
-            : base("name=ProjectDataEntities")
+            : base("name=project_dbEntities")
         {
         }
     

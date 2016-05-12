@@ -121,9 +121,10 @@ namespace DataAccessLibrary.Repository
             }
         }
 
-        public void Create(DalBook entity)
+        public int Create(DalBook entity)
         {
-            context.Books.Add(entity.ToOrmBook());
+            Books book = context.Books.Add(entity.ToOrmBook());
+            return book.BookID;
         }
 
         public void Delete(DalBook entity)
@@ -223,7 +224,7 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalBook> GetAll()
         {
-            return context.Books.Select(e => e.ToDalBook());
+            return context.Books.ToList().Select(e => e.ToDalBook());
         }
 
         public IEnumerable<DalAuthor> GetAuthors(DalBook book)

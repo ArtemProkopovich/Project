@@ -10,5 +10,6 @@ namespace DataAccess.Interfacies
     public interface ITagRepository : IRepository<DalTag>
     {
         IEnumerable<DalBook> GetBooks(DalTag tag);
+        DalTag GetByName(string name);
     }
 }

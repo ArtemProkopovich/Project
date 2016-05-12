@@ -10,6 +10,6 @@ namespace DataAccess.Interfacies.Entities
     {
         public int ID { get; set; }
         public int BookID { get; set; }
-        public byte[] Image { get; set; }
+        public string ImagePath { get; set; }
     }
 }

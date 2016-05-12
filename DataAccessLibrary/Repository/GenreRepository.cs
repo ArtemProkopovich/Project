@@ -19,9 +19,10 @@ namespace DataAccessLibrary.Repository
         {
             this.context = context;
         }
-        public void Create(DalGenre entity)
+        public int Create(DalGenre entity)
         {
-            context.Genres.Add(entity.ToOrmGenre());
+            Genres g = context.Genres.Add(entity.ToOrmGenre());
+            return g.GenreID;
         }
 
         public void Delete(DalGenre entity)
@@ -43,7 +44,7 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalGenre> GetAll()
         {
-            return context.Genres.Select(e => e.ToDalGenre());
+            return context.Genres.ToList().Select(e => e.ToDalGenre());
         }
 
         public IEnumerable<DalBook> GetBooks(DalGenre genre)
@@ -54,6 +55,11 @@ namespace DataAccessLibrary.Repository
         public DalGenre GetById(int key)
         {
             return context.Genres.FirstOrDefault(e => e.GenreID == key)?.ToDalGenre();
+        }
+
+        public DalGenre GetByName(string name)
+        {
+            return context.Genres.FirstOrDefault(e => e.Name == name)?.ToDalGenre();
         }
 
         public void Update(DalGenre entity)

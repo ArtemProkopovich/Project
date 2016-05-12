@@ -10,5 +10,6 @@ namespace DataAccess.Interfacies
     public interface IGenreRepository : IRepository<DalGenre>
     {
         IEnumerable<DalBook> GetBooks(DalGenre genre);
+        DalGenre GetByName(string name);
     }
 }

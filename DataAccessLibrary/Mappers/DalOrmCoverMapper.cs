@@ -16,7 +16,7 @@ namespace DataAccessLibrary.Mappers
             {
                 CoverID = cover.ID,
                 BookID = cover.BookID,
-                Image = cover.Image
+                Path = cover.ImagePath
             };
         }
 
@@ -26,7 +26,7 @@ namespace DataAccessLibrary.Mappers
             {
                 ID = cover.CoverID,
                 BookID = cover.BookID,
-                Image = cover.Image
+                ImagePath = cover.Path
             };
         }
     }

@@ -4,46 +4,47 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="cd4dd91e79734ad59362a975122e6ef2" Name="Diagram1">
-        <EntityTypeShape EntityType="DataModel.Authors" Width="1.5" PointX="0.75" PointY="16.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Bookmarks" Width="1.5" PointX="7.5" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Books" Width="1.5" PointX="3" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Collection_Book" Width="1.5" PointX="5.25" PointY="16.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Collections" Width="1.5" PointX="3" PointY="20.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Comments" Width="1.5" PointX="8.25" PointY="16.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Contents" Width="1.5" PointX="8.25" PointY="13.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Covers" Width="1.5" PointX="5.25" PointY="21.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Files" Width="1.5" PointX="5.25" PointY="24.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Genres" Width="1.5" PointX="5.25" PointY="26.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Likes" Width="1.5" PointX="8.25" PointY="19.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Lists" Width="1.5" PointX="5.25" PointY="32" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Quotes" Width="1.5" PointX="7.5" PointY="23.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Reviews" Width="1.5" PointX="5.25" PointY="12.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Roles" Width="1.5" PointX="0.75" PointY="12" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Screenings" Width="1.5" PointX="5.25" PointY="37.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Tags" Width="1.5" PointX="5.25" PointY="40.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DataModel.Users" Width="1.5" PointX="3" PointY="11" IsExpanded="true" />
-        <AssociationConnector Association="DataModel.FK_Bookmarks_Collection_Book" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.FK_Collection_Book_Books" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.FK_Comments_Books" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.FK_Contents_Books" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.FK_Covers_Books" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.FK_Files_Books" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.FK_Likes_Books" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.FK_Reviews_Books" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.FK_Screenings_Books" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.FK_Collection_Book_Collections" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.FK_Quotes_Collection_Book" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.FK_Collections_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.FK_Comments_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.FK_Contents_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.FK_Likes_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.FK_Reviews_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.Book_Author" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.Book_Genre" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.Book_List" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.Book_Tag" ManuallyRouted="false" />
-        <AssociationConnector Association="DataModel.User_Role" ManuallyRouted="false" />
+      <Diagram DiagramId="c7b24be9689a4f699c8b1e64e5bc022e" Name="Diagram1">
+        <EntityTypeShape EntityType="ProjectDataEntities.Authors" Width="1.5" PointX="0.75" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDataEntities.Bookmarks" Width="1.5" PointX="7.5" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDataEntities.Books" Width="1.5" PointX="3" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDataEntities.Collection_Book" Width="1.5" PointX="5.25" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDataEntities.Collections" Width="1.5" PointX="3" PointY="21.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDataEntities.Comments" Width="1.5" PointX="8.25" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDataEntities.Contents" Width="1.5" PointX="8.25" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDataEntities.Covers" Width="1.5" PointX="5.25" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDataEntities.Files" Width="1.5" PointX="5.25" PointY="24.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDataEntities.Genres" Width="1.5" PointX="5.25" PointY="27.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDataEntities.Likes" Width="1.5" PointX="8.25" PointY="20.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDataEntities.Lists" Width="1.5" PointX="5.25" PointY="33.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDataEntities.Quotes" Width="1.5" PointX="7.5" PointY="24" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDataEntities.Reviews" Width="1.5" PointX="5.25" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDataEntities.Roles" Width="1.5" PointX="0.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDataEntities.Screenings" Width="1.5" PointX="5.25" PointY="39.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDataEntities.Tags" Width="1.5" PointX="5.25" PointY="42" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectDataEntities.Users" Width="1.5" PointX="3" PointY="11.75" IsExpanded="true" />
+        <AssociationConnector Association="ProjectDataEntities.FK_Bookmarks_Collection_Book" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.FK_Collection_Book_Books" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.FK_Comments_Books" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.FK_Contents_Books" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.FK_Covers_Books" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.FK_Files_Books" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.FK_Likes_Books" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.FK_Reviews_Books" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.FK_Screenings_Books" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.FK_Collection_Book_Collections" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.FK_Quotes_Collection_Book" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.FK_Collections_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.FK_Comments_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.FK_Contents_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.FK_Genres_Genres" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.FK_Likes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.FK_Reviews_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.Book_Author" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.Book_Genre" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.Book_List" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.Book_Tag" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjectDataEntities.User_Role" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

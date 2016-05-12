@@ -20,9 +20,10 @@ namespace DataAccessLibrary.Repository
             this.context = context;
         }
 
-        public void Create(DalAuthor entity)
+        public int Create(DalAuthor entity)
         {
-            context.Authors.Add(entity.ToOrmAuthor());
+            Authors author = context.Authors.Add(entity.ToOrmAuthor());
+            return author.AuthorID;
         }
 
         public void Delete(DalAuthor entity)
@@ -44,7 +45,7 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalAuthor> GetAll()
         {
-            return context.Authors.Select(e=>e.ToDalAuthor());
+            return context.Authors.ToList().Select(e=>e.ToDalAuthor());
         }
 
         public IEnumerable<DalBook> GetBooks(DalAuthor author)

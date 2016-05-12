@@ -17,12 +17,17 @@ namespace ORMLibrary
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Genres()
         {
+            this.Genres1 = new HashSet<Genres>();
             this.Books = new HashSet<Books>();
         }
     
         public int GenreID { get; set; }
         public string Name { get; set; }
+        public Nullable<int> Parent_GenreID { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Genres> Genres1 { get; set; }
+        public virtual Genres Genres2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Books> Books { get; set; }
     }

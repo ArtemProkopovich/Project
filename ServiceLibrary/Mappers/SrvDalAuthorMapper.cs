@@ -13,7 +13,8 @@ namespace ServiceLibrary.Mappers
                 Name = author.Name,
                 BirthDate = author.BirthDate,
                 DeathDate = author.DeathDate,
-                Biography = author.Biography
+                Biography = author.Biography,
+                Photo = author.Photo
             };
         }
 
@@ -25,7 +26,8 @@ namespace ServiceLibrary.Mappers
                 Name = author.Name,
                 BirthDate = author.BirthDate,
                 DeathDate = author.DeathDate,
-                Biography = author.Biography
+                Biography = author.Biography,
+                Photo = author.Photo
             };
         }
     }

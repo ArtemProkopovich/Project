@@ -58,9 +58,10 @@ namespace DataAccessLibrary.Repository
             context.Collections.Add(collection.ToOrmCollection());
         }
 
-        public void Create(DalCollection entity)
+        public int Create(DalCollection entity)
         {
-            context.Collections.Add(entity.ToOrmCollection());
+            Collections c = context.Collections.Add(entity.ToOrmCollection());
+            return c.CollectionID;
         }
 
         public void Delete(DalCollection entity)
@@ -112,7 +113,7 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalCollection> GetAll()
         {
-            return context.Collections.Select(e => e.ToDalCollection());
+            return context.Collections.ToList().Select(e => e.ToDalCollection());
         }
 
         public DalCollection GetById(int key)

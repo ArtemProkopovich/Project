@@ -35,6 +35,7 @@ namespace ORMLibrary
         public string Name { get; set; }
         public Nullable<System.DateTime> First_Publication { get; set; }
         public Nullable<int> Age_Caegory { get; set; }
+        public int Confirmed { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Collection_Book> Collection_Book { get; set; }

@@ -10,7 +10,7 @@ namespace Service.Interfacies
 {
     public interface IBookService
     {
-        void AddBook(ServiceBook book);
+        int AddBook(ServiceBook book);
         void RemoveBook(ServiceBook book);
         ServiceBook GetBookById(int id);
         ServiceFullBook GetFullBookInfo(int id);

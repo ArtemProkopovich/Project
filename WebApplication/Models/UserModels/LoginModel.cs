@@ -8,10 +8,10 @@ namespace WebApplication.Models.UserModels
 {
     public class LoginModel
     {
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Invalid login")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Login can't be empty")]
         public string Login { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Invalid login.")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Password can't be empty.")]
         public string Password { get; set; }
     }
 }

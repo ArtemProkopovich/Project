@@ -22,9 +22,10 @@ namespace ORMLibrary
     
         public int AuthorID { get; set; }
         public string Name { get; set; }
-        public DateTime? Birth_Date { get; set; }
-        public DateTime? Death_Date { get; set; }
+        public Nullable<System.DateTime> Birth_Date { get; set; }
+        public Nullable<System.DateTime> Death_Date { get; set; }
         public string Biography { get; set; }
+        public string Photo_Path { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Books> Books { get; set; }

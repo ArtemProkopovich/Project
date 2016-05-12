@@ -7,13 +7,15 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Interfacies;
 using DataAccess.Interfacies.Entities;
+using DataAccessLibrary.Mappers;
+using ORMLibrary;
 
 namespace DataAccessLibrary.Repository
 {
     public class ListRepository : IListRepository
     {
-        private readonly DbContext context;
-        public ListRepository(DbContext context)
+        private readonly ProjectDataEntities context;
+        public ListRepository(ProjectDataEntities context)
         {
             this.context = context;
         }
@@ -28,14 +30,17 @@ namespace DataAccessLibrary.Repository
             throw new NotImplementedException();
         }
 
-        public void Create(DalList entity)
+        public int Create(DalList entity)
         {
-            throw new NotImplementedException();
+            Lists l = context.Lists.Add(entity.ToOrmList());
+            return l.ListID;
         }
 
         public void Delete(DalList entity)
         {
-            throw new NotImplementedException();
+            var t = context.Lists.FirstOrDefault(e => e.ListID == entity.ID);
+            if (t != null)
+                context.Lists.Remove(t);
         }
 
         public void DeleteBook(DalList list, DalBook book)
@@ -55,22 +60,27 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalList> GetAll()
         {
-            throw new NotImplementedException();
+            var lists = context.Lists.ToList();
+            return lists.Select(e => e.ToDalList());
         }
 
         public IEnumerable<DalBook> GetBooks(DalList list)
         {
-            throw new NotImplementedException();
+            return context.Lists.FirstOrDefault(e => e.ListID == list.ID)?.Books.Select(e => e.ToDalBook());
         }
 
         public DalList GetById(int key)
         {
-            throw new NotImplementedException();
+            return context.Lists.FirstOrDefault(e => e.ListID == key)?.ToDalList();
         }
 
         public void Update(DalList entity)
         {
-            throw new NotImplementedException();
+            var g = context.Lists.FirstOrDefault(e => e.ListID == entity.ID);
+            if (g != null)
+            {
+                g.Name = entity.Name;
+            }
         }
     }
 }

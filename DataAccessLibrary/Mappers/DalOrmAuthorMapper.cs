@@ -19,7 +19,9 @@ namespace DataAccessLibrary.Mappers
                 Name = author.Name,
                 BirthDate = author.Birth_Date,
                 DeathDate = author.Death_Date,
-                Biography = author.Biography
+                Biography = author.Biography,
+                Photo = author.Photo_Path
+                
             };
         }
 
@@ -31,7 +33,8 @@ namespace DataAccessLibrary.Mappers
                 Name = author.Name,
                 Birth_Date = author.BirthDate,
                 Death_Date = author.DeathDate,
-                Biography = author.Biography
+                Biography = author.Biography,
+                Photo_Path = author.Photo
             };
         }
     }

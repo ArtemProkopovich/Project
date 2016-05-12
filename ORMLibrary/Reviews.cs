@@ -17,7 +17,10 @@ namespace ORMLibrary
         public int ReviewID { get; set; }
         public int UserID { get; set; }
         public int BookID { get; set; }
+        public string Header { get; set; }
         public string Text { get; set; }
+        public int Review_Type { get; set; }
+        public System.DateTime Added_Date { get; set; }
     
         public virtual Books Books { get; set; }
         public virtual Users Users { get; set; }

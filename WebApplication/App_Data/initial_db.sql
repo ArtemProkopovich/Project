@@ -70,6 +70,10 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id('[FK_Files_Books]')
 ALTER TABLE [Files] DROP CONSTRAINT [FK_Files_Books]
 ;
 
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id('[FK_Genres_Genres]') AND OBJECTPROPERTY(id, 'IsForeignKey') = 1) 
+ALTER TABLE [Genres] DROP CONSTRAINT [FK_Genres_Genres]
+;
+
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id('[FK_Likes_Books]') AND OBJECTPROPERTY(id, 'IsForeignKey') = 1) 
 ALTER TABLE [Likes] DROP CONSTRAINT [FK_Likes_Books]
 ;
@@ -200,7 +204,8 @@ CREATE TABLE [Authors]
 	[Name] varchar(100) NOT NULL,
 	[Birth_Date] datetime,
 	[Death_Date] datetime,
-	[Biography] text
+	[Biography] text,
+	[Photo_Path] varchar(255)
 )
 ;
 
@@ -245,7 +250,8 @@ CREATE TABLE [Books]
 	[BookID] int NOT NULL IDENTITY (1, 1),
 	[Name] varchar(200) NOT NULL,
 	[First_Publication] datetime,
-	[Age_Caegory] int
+	[Age_Caegory] int,
+	[Confirmed] int NOT NULL
 )
 ;
 
@@ -272,7 +278,8 @@ CREATE TABLE [Comments]
 	[CommentID] int NOT NULL IDENTITY (1, 1),
 	[UserID] int NOT NULL,
 	[BookID] int NOT NULL,
-	[Text] text NOT NULL
+	[Text] text NOT NULL,
+	[Added_Date] datetime NOT NULL
 )
 ;
 
@@ -289,7 +296,7 @@ CREATE TABLE [Covers]
 (
 	[CoverID] int NOT NULL IDENTITY (1, 1),
 	[BookID] int NOT NULL,
-	[Image] image NOT NULL
+	[Path] varchar(255) NOT NULL
 )
 ;
 
@@ -304,7 +311,8 @@ CREATE TABLE [Files]
 CREATE TABLE [Genres]
 (
 	[GenreID] int NOT NULL IDENTITY (1, 1),
-	[Name] varchar(50) NOT NULL
+	[Name] varchar(50) NOT NULL,
+	[Parent_GenreID] int
 )
 ;
 
@@ -337,7 +345,10 @@ CREATE TABLE [Reviews]
 	[ReviewID] int NOT NULL IDENTITY (1, 1),
 	[UserID] int NOT NULL,
 	[BookID] int NOT NULL,
-	[Text] text NOT NULL
+	[Header] varchar(300) NOT NULL,
+	[Text] text NOT NULL,
+	[Review_Type] int NOT NULL,
+	[Added_Date] datetime NOT NULL
 )
 ;
 
@@ -446,7 +457,7 @@ ALTER TABLE [Likes]
 ;
 
 ALTER TABLE [Likes] 
- ADD CONSTRAINT [UQ_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
+ ADD CONSTRAINT [UQ_Likes_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
 ;
 
 ALTER TABLE [Lists] 
@@ -465,7 +476,7 @@ ALTER TABLE [Reviews]
 ;
 
 ALTER TABLE [Reviews] 
- ADD CONSTRAINT [UQ_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
+ ADD CONSTRAINT [UQ_Reviews_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
 ;
 
 ALTER TABLE [Roles] 
@@ -560,6 +571,10 @@ ALTER TABLE [Files] ADD CONSTRAINT [FK_Files_Books]
 	FOREIGN KEY ([BookID]) REFERENCES [Books] ([BookID]) ON DELETE Cascade ON UPDATE No Action
 ;
 
+ALTER TABLE [Genres] ADD CONSTRAINT [FK_Genres_Genres]
+	FOREIGN KEY ([Parent_GenreID]) REFERENCES [Genres] ([GenreID]) ON DELETE No Action ON UPDATE No Action
+;
+
 ALTER TABLE [Likes] ADD CONSTRAINT [FK_Likes_Books]
 	FOREIGN KEY ([BookID]) REFERENCES [Books] ([BookID]) ON DELETE Cascade ON UPDATE No Action
 ;
@@ -585,7 +600,7 @@ ALTER TABLE [Screenings] ADD CONSTRAINT [FK_Screenings_Books]
 ;
 
 ALTER TABLE [User-Role] ADD CONSTRAINT [FK_User-Role_Roles]
-	FOREIGN KEY ([RoleID]) REFERENCES [Roles] ([RoleID]) ON DELETE Set Default ON UPDATE Cascade
+	FOREIGN KEY ([RoleID]) REFERENCES [Roles] ([RoleID]) ON DELETE No Action ON UPDATE Cascade
 ;
 
 ALTER TABLE [User-Role] ADD CONSTRAINT [FK_User-Role_Users]

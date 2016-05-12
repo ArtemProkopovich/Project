@@ -16,7 +16,7 @@ namespace ORMLibrary
     {
         public int CoverID { get; set; }
         public int BookID { get; set; }
-        public byte[] Image { get; set; }
+        public string Path { get; set; }
     
         public virtual Books Books { get; set; }
     }

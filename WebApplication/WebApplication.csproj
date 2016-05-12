@@ -147,16 +147,32 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Account\LoginController.cs" />
     <Compile Include="Controllers\Account\SignController.cs" />
+    <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
+    <Compile Include="Controllers\GenreController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ListController.cs" />
+    <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\FilePathService.cs" />
+    <Compile Include="Infrastructure\Mappers\AuthorMapper.cs" />
+    <Compile Include="Infrastructure\Mappers\BookMapper.cs" />
+    <Compile Include="Infrastructure\Mappers\GenreMapper.cs" />
+    <Compile Include="Infrastructure\Mappers\ListMapper.cs" />
+    <Compile Include="Infrastructure\Mappers\TagMapper.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\AuthorModels\AuthorCreateModel.cs" />
+    <Compile Include="Models\AuthorModels\AuthorEditModel.cs" />
+    <Compile Include="Models\AuthorModels\AuthorFullModel.cs" />
+    <Compile Include="Models\AuthorModels\AuthorShortModel.cs" />
     <Compile Include="Models\BookModels\BookCreateModel.cs" />
     <Compile Include="Models\BookModels\BookPageModel.cs" />
     <Compile Include="Models\BookModels\BookShortModel.cs" />
-    <Compile Include="Models\BookModels\CreateBookModel.cs" />
+    <Compile Include="Models\GenreModel.cs" />
+    <Compile Include="Models\ListModel.cs" />
+    <Compile Include="Models\TagModel.cs" />
     <Compile Include="Models\UserModels\LoginModel.cs" />
     <Compile Include="Models\UserModels\SignModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -203,8 +219,23 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Books\Index.cshtml" />
     <Content Include="Views\Books\Details.cshtml" />
+    <Content Include="Views\List\Index.cshtml" />
+    <Content Include="Views\List\Create.cshtml" />
+    <Content Include="Views\List\Delete.cshtml" />
+    <Content Include="Views\Genre\Index.cshtml" />
+    <Content Include="Views\Genre\Create.cshtml" />
+    <Content Include="Views\Genre\Delete.cshtml" />
+    <Content Include="Views\Books\Create.cshtml" />
+    <Content Include="Views\Author\Create.cshtml" />
+    <Content Include="Views\Author\Index.cshtml" />
+    <Content Include="Views\Author\Delete.cshtml" />
+    <Content Include="Views\Author\Edit.cshtml" />
+    <Content Include="Views\Books\_BookShortView.cshtml" />
     <None Include="Views\Login\Login.cshtml" />
     <None Include="Views\Sign\Sign.cshtml" />
+    <Content Include="Views\Tag\Index.cshtml" />
+    <Content Include="Views\Tag\Create.cshtml" />
+    <Content Include="Views\Tag\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DependencyResolverLibrary\DependencyResolverLibrary.csproj">
@@ -229,8 +260,9 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Infrastructure\Mappers\" />
-    <Folder Include="Views\Book\" />
+    <Folder Include="App_Data\Uploads\Covers\" />
+    <Folder Include="App_Data\Uploads\Files\" />
+    <Folder Include="Views\Lists\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

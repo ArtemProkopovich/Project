@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Service.Interfacies.Entities;
+using WebApplication.Models;
+
+namespace WebApplication.Infrastructure.Mappers
+{
+    public static class GenreMapper
+    {
+        public static ServiceGenre ToServiceGenre(this GenreModel genre)
+        {
+            return new ServiceGenre
+            {
+                ID = genre.ID,
+                Name = genre.Name
+            };
+        }
+
+        public static GenreModel ToGenreModel(this ServiceGenre genre)
+        {
+            return new GenreModel
+            {
+                ID = genre.ID,
+                Name = genre.Name
+            };
+        }
+    }
+}

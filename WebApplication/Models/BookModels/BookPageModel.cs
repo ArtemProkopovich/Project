@@ -24,5 +24,6 @@ namespace WebApplication.Models.BookModels
         public IEnumerable<ServiceComment> Comments { get; set; }
         public IEnumerable<ServiceScreening> Screening { get; set; }
         public IEnumerable<ServiceContent> Contents { get; set; }
+        public IEnumerable<ServiceList> Lists { get; set; }
     }
 }

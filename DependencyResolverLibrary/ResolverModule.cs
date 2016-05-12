@@ -10,6 +10,7 @@ using Ninject;
 using Ninject.Web.Common;
 using ORMLibrary;
 using Service.Interfacies;
+using Service.Interfacies.Interfacies;
 using ServiceLibrary.Service;
 
 namespace DependencyResolverLibrary
@@ -44,6 +45,7 @@ namespace DependencyResolverLibrary
             kernel.Bind<ICollectionService>().To<CollectionService>();
             kernel.Bind<ICommentService>().To<CommentService>();
             kernel.Bind<IFindService>().To<FindService>();
+            kernel.Bind<IListService>().To<ListService>();
             kernel.Bind<IUserService>().To<UserService>();
             #endregion
             #region repositories 

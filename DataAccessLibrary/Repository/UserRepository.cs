@@ -30,9 +30,10 @@ namespace DataAccessLibrary.Repository
             }
         }
 
-        public void Create(DalUser entity)
+        public int Create(DalUser entity)
         {
-            context.Users.Add(entity.ToOrmUser());
+            Users u = context.Users.Add(entity.ToOrmUser());
+            return u.UserID;
         }
 
         public void Delete(DalUser entity)
@@ -64,7 +65,7 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalUser> GetAll()
         {
-            return context.Users.Select(e => e.ToDalUser());
+            return context.Users.ToList().Select(e => e.ToDalUser());
         }
 
         public DalUser GetById(int key)
