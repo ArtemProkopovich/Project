@@ -25,10 +25,10 @@ namespace WebApplication.Controllers
         }
 
         // GET: Author/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        //public ActionResult Details(int id)
+        //{
+        //    return View();
+        //}
 
         // GET: Author/Create
         public ActionResult Create()

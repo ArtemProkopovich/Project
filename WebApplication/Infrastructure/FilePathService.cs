@@ -12,6 +12,7 @@ namespace WebApplication.Infrastructure
         {
             long ticks = DateTime.Now.Ticks;
             long magicNumber = random.Next() ^ ticks;
+            return "";
         }
     }
 }
