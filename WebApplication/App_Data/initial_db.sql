@@ -201,11 +201,11 @@ DROP TABLE [Users]
 CREATE TABLE [Authors]
 (
 	[AuthorID] int NOT NULL IDENTITY (1, 1),
-	[Name] varchar(100) NOT NULL,
+	[Name] nvarchar(100) NOT NULL,
 	[Birth_Date] datetime,
 	[Death_Date] datetime,
-	[Biography] text,
-	[Photo_Path] varchar(255)
+	[Biography] ntext,
+	[Photo_Path] nvarchar(255)
 )
 ;
 
@@ -248,7 +248,7 @@ CREATE TABLE [Bookmarks]
 CREATE TABLE [Books]
 (
 	[BookID] int NOT NULL IDENTITY (1, 1),
-	[Name] varchar(200) NOT NULL,
+	[Name] nvarchar(200) NOT NULL,
 	[First_Publication] datetime,
 	[Age_Caegory] int,
 	[Confirmed] int NOT NULL
@@ -268,8 +268,8 @@ CREATE TABLE [Collections]
 (
 	[CollectionID] int NOT NULL IDENTITY (1, 1),
 	[UserID] int NOT NULL,
-	[Name] varchar(50) NOT NULL,
-	[Description] varchar(200)
+	[Name] nvarchar(50) NOT NULL,
+	[Description] nvarchar(200)
 )
 ;
 
@@ -278,7 +278,7 @@ CREATE TABLE [Comments]
 	[CommentID] int NOT NULL IDENTITY (1, 1),
 	[UserID] int NOT NULL,
 	[BookID] int NOT NULL,
-	[Text] text NOT NULL,
+	[Text] ntext NOT NULL,
 	[Added_Date] datetime NOT NULL
 )
 ;
@@ -288,7 +288,7 @@ CREATE TABLE [Contents]
 	[ContentID] int NOT NULL IDENTITY (1, 1),
 	[BookID] int NOT NULL,
 	[UserID] int NOT NULL,
-	[Text] text
+	[Text] ntext
 )
 ;
 
@@ -296,7 +296,7 @@ CREATE TABLE [Covers]
 (
 	[CoverID] int NOT NULL IDENTITY (1, 1),
 	[BookID] int NOT NULL,
-	[Path] varchar(255) NOT NULL
+	[Path] nvarchar(255) NOT NULL
 )
 ;
 
@@ -304,14 +304,14 @@ CREATE TABLE [Files]
 (
 	[FileID] int NOT NULL IDENTITY (1, 1),
 	[BookID] int NOT NULL,
-	[Path] varchar(255) NOT NULL
+	[Path] nvarchar(255) NOT NULL
 )
 ;
 
 CREATE TABLE [Genres]
 (
 	[GenreID] int NOT NULL IDENTITY (1, 1),
-	[Name] varchar(50) NOT NULL,
+	[Name] nvarchar(50) NOT NULL,
 	[Parent_GenreID] int
 )
 ;
@@ -328,7 +328,7 @@ CREATE TABLE [Likes]
 CREATE TABLE [Lists]
 (
 	[ListID] int NOT NULL IDENTITY (1, 1),
-	[Name] varchar(100) NOT NULL
+	[Name] nvarchar(100) NOT NULL
 )
 ;
 
@@ -336,7 +336,7 @@ CREATE TABLE [Quotes]
 (
 	[QuoteID] int NOT NULL IDENTITY (1, 1),
 	[Collection_BookID] int NOT NULL,
-	[Text] text NOT NULL
+	[Text] ntext NOT NULL
 )
 ;
 
@@ -345,8 +345,8 @@ CREATE TABLE [Reviews]
 	[ReviewID] int NOT NULL IDENTITY (1, 1),
 	[UserID] int NOT NULL,
 	[BookID] int NOT NULL,
-	[Header] varchar(300) NOT NULL,
-	[Text] text NOT NULL,
+	[Header] nvarchar(300) NOT NULL,
+	[Text] ntext NOT NULL,
 	[Review_Type] int NOT NULL,
 	[Added_Date] datetime NOT NULL
 )
@@ -355,7 +355,7 @@ CREATE TABLE [Reviews]
 CREATE TABLE [Roles]
 (
 	[RoleID] int NOT NULL IDENTITY (1, 1),
-	[Name] varchar(50) NOT NULL,
+	[Name] nvarchar(50) NOT NULL,
 	[Priority] int NOT NULL DEFAULT 0
 )
 ;
@@ -364,16 +364,16 @@ CREATE TABLE [Screenings]
 (
 	[ScreeningID] int NOT NULL IDENTITY (1, 1),
 	[BookID] int NOT NULL,
-	[Film_Name] varchar(200) NOT NULL,
+	[Film_Name] nvarchar(200) NOT NULL,
 	[Year] datetime NOT NULL,
-	[Link] varchar(200)
+	[Link] nvarchar(200)
 )
 ;
 
 CREATE TABLE [Tags]
 (
 	[TagID] int NOT NULL IDENTITY (1, 1),
-	[Name] varchar(50) NOT NULL
+	[Name] nvarchar(50) NOT NULL
 )
 ;
 
@@ -387,12 +387,12 @@ CREATE TABLE [User-Role]
 CREATE TABLE [Users]
 (
 	[UserID] int NOT NULL IDENTITY (1, 1),
-	[Name] varchar(50) NOT NULL,
-	[Surname] varchar(50),
-	[Login] varchar(64) NOT NULL,
-	[Password] varchar(64) NOT NULL,
-	[Email] varchar(50) NOT NULL,
-	[Phone] varchar(50),
+	[Name] nvarchar(50) NOT NULL,
+	[Surname] nvarchar(50),
+	[Login] nvarchar(64) NOT NULL,
+	[Password] nvarchar(64) NOT NULL,
+	[Email] nvarchar(50) NOT NULL,
+	[Phone] nvarchar(50),
 	[Level] int DEFAULT 1
 )
 ;

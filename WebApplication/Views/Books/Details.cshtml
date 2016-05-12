@@ -1,39 +1,55 @@
-﻿@model WebApplication.Models.BookModels.BookPageModel
+﻿@using Service.Interfacies.Entities
+@using WebApplication.Models.BookModels
+@model WebApplication.Models.BookModels.BookPageModel
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>BookPageModel</h4>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-3">
+            <img src=@Model.CoverPath alt="image" />
+        </div>
+        <div class="container col-md-9">
+            <div class="container list-group">
+                <div class="list-group-item">
+                    <div class="control-label col-md-12">@Html.DisplayFor(model => model.Name)</div>
+                </div>
+                <div class="list-group-item">
+                    @Html.LabelFor(model => model.Author, htmlAttributes: new { @class = "control-label col-md-4" })
+                    @Html.ActionLink(Model.Author.Name,"Details","Author", new { id = Model.Author.ID })
+                </div>
+                <div class="list-group-item">
+                    @Html.LabelFor(model => model.PublishDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                    @Html.DisplayFor(model => model.PublishDate)
+                </div>
+                <div class="list-group-item">
+                    @Html.LabelFor(model => model.AgeCategory, htmlAttributes: new { @class = "control-label col-md-4" })
+                    @Html.DisplayFor(model => model.AgeCategory)
+                </div>
+                <div class="list-group-item">
+                    @Html.LabelFor(model => model.Genres, htmlAttributes: new { @class = "control-label col-md-4" })
+                    @foreach (ServiceGenre genre in Model.Genres)
+                    {
+                        @Html.ActionLink(genre.Name, "List", "Genre", new { id = genre.ID }, htmlAttributes: new { @class = "label" })
+                        @Html.Display(". ")
+                    }
+                </div>
+                <div class="list-group-item">
+                    @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label col-md-4" })
+                    @foreach (ServiceTag tag in Model.Tags)
+                    {
+                        @Html.ActionLink(tag.Name, "List", "Tag", new { id = tag.ID }, htmlAttributes: new { @class = "label" })
+                        @Html.Display(", ")
+                    }
+                </div> 
+            </div>
+        </div>
+    </div>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PublishDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PublishDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AgeCategory)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AgeCategory)
-        </dd>
-
-    </dl>
+    <div class="container">
+        
+    </div>
 </div>

@@ -1,0 +1,11 @@
+﻿@model WebApplication.Models.TagBookListModel
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>@Model.Tag.Name</h3>
+<div class="clearfix"></div>
+@Html.Partial("_BookShortViewList", Model.Books);
+

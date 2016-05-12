@@ -28,5 +28,7 @@ namespace Service.Interfacies
         IEnumerable<ServiceBook> GetUserBooks(ServiceUser user);
         ServiceBook RandomBook();
         ServiceBook RandomBook(Func<ServiceBook, bool> func);
+        IEnumerable<ServiceLike> GetBookLikes(ServiceBook book);
+        IEnumerable<ServiceAuthor> GetBookAuthors(ServiceBook book);
     }
 }

@@ -12,7 +12,6 @@ namespace WebApplication.Models.BookModels
     {
         [Required(AllowEmptyStrings =false, ErrorMessage = "Name can't be empty.")]
         public string Name { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Author can't be empty.")]
         public string Author { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Date can't be empty.")]
         [DataType(DataType.Date)]

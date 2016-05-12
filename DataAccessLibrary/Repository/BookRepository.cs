@@ -229,7 +229,7 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalAuthor> GetAuthors(DalBook book)
         {
-            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Authors.Select(e => e.ToDalAuthor());
+            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Authors.ToList().Select(e => e.ToDalAuthor());
         }
 
         public DalBook GetById(int key)

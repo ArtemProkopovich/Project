@@ -22,22 +22,27 @@ namespace ServiceLibrary.Service
         }
         public int AddBook(ServiceBook book)
         {
-            return unit.Books.Create(book.ToDalBook());
+            int ID =  unit.Books.Create(book.ToDalBook());
+            unit.Save();
+            return ID;
         }
 
         public void AddCover(ServiceBook book, ServiceCover cover)
         {
             unit.Books.AddCover(book.ToDalBook(), cover.ToDalCover());
+            unit.Save();
         }
 
         public void AddFile(ServiceBook book, ServiceFile file)
         {
             unit.Books.AddFile(book.ToDalBook(), file.ToDalFile());
+            unit.Save();
         }
 
         public void AddScreening(ServiceBook book, ServiceScreening screening)
         {
             unit.Books.AddScreening(book.ToDalBook(), screening.ToDalScreening());
+            unit.Save();
         }
 
         public IEnumerable<ServiceBook> FindAll(Func<ServiceBook, bool> func)
@@ -50,6 +55,11 @@ namespace ServiceLibrary.Service
             throw new NotImplementedException();
         }
 
+        public IEnumerable<ServiceAuthor> GetBookAuthors(ServiceBook book)
+        {
+            return unit.Books.GetAuthors(book.ToDalBook()).Select(e=>e.ToServiceAuthor());
+        }
+
         public ServiceBook GetBookById(int id)
         {
             return unit.Books.GetById(id)?.ToServiceBook();
@@ -60,6 +70,11 @@ namespace ServiceLibrary.Service
             DalBook book = unit.Books.GetById(file.BookID);
             return new FileStream(unit.Books.GetFiles(book).Single(e => e.ID == file.ID).Path, FileMode.Open,
                 FileAccess.Read);
+        }
+
+        public IEnumerable<ServiceLike> GetBookLikes(ServiceBook book)
+        {
+            return unit.Books.GetLikes(book.ToDalBook()).Select(e => e.ToServiceLike());
         }
 
         public ServiceFullBook GetFullBookInfo(ServiceBook book)
@@ -105,26 +120,31 @@ namespace ServiceLibrary.Service
         public void RemoveBook(ServiceBook book)
         {
             unit.Books.Delete(book.ToDalBook());
+            unit.Save();
         }
 
         public void RemoveCover(ServiceCover cover)
         {
             unit.Books.DeleteCover(cover.ToDalCover());
+            unit.Save();
         }
 
         public void RemoveFile(ServiceFile file)
         {
             unit.Books.DeleteFile(file.ToDalFile());
+            unit.Save();
         }
 
         public void RemoveScreening(ServiceScreening screening)
         {
             unit.Books.DeleteScreening(screening.ToDalScreening());
+            unit.Save();
         }
 
         public void UpdateBook(ServiceBook book)
         {
             unit.Books.Update(book.ToDalBook());
+            unit.Save();
         }
     }
 }

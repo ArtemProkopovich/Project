@@ -4,17 +4,17 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище ProjectDataEntities" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище DatabaseEntities" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Authors">
           <Key>
             <PropertyRef Name="AuthorID" />
           </Key>
           <Property Name="AuthorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Birth_Date" Type="datetime" />
           <Property Name="Death_Date" Type="datetime" />
-          <Property Name="Biography" Type="text" />
-          <Property Name="Photo_Path" Type="varchar" MaxLength="255" />
+          <Property Name="Biography" Type="ntext" />
+          <Property Name="Photo_Path" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "E:\УЧЕБА\EPAM\PROJECT\WEBAPPLICATION\APP_DATA\PROJECT_DB.MDF.dbo.Book-Author" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
@@ -59,7 +59,7 @@
             <PropertyRef Name="BookID" />
           </Key>
           <Property Name="BookID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="First_Publication" Type="datetime" />
           <Property Name="Age_Caegory" Type="int" />
           <Property Name="Confirmed" Type="int" Nullable="false" />
@@ -89,8 +89,8 @@
           </Key>
           <Property Name="CollectionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Description" Type="varchar" MaxLength="200" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Comments">
           <Key>
@@ -99,7 +99,7 @@
           <Property Name="CommentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="BookID" Type="int" Nullable="false" />
-          <Property Name="Text" Type="text" Nullable="false" />
+          <Property Name="Text" Type="ntext" Nullable="false" />
           <Property Name="Added_Date" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Contents">
@@ -109,7 +109,7 @@
           <Property Name="ContentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BookID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
-          <Property Name="Text" Type="text" />
+          <Property Name="Text" Type="ntext" />
         </EntityType>
         <EntityType Name="Covers">
           <Key>
@@ -117,7 +117,7 @@
           </Key>
           <Property Name="CoverID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BookID" Type="int" Nullable="false" />
-          <Property Name="Path" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Path" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Files">
           <Key>
@@ -125,14 +125,14 @@
           </Key>
           <Property Name="FileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BookID" Type="int" Nullable="false" />
-          <Property Name="Path" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Path" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Genres">
           <Key>
             <PropertyRef Name="GenreID" />
           </Key>
           <Property Name="GenreID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Parent_GenreID" Type="int" />
         </EntityType>
         <EntityType Name="Likes">
@@ -149,7 +149,7 @@
             <PropertyRef Name="ListID" />
           </Key>
           <Property Name="ListID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="Quotes">
           <Key>
@@ -157,7 +157,7 @@
           </Key>
           <Property Name="QuoteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Collection_BookID" Type="int" Nullable="false" />
-          <Property Name="Text" Type="text" Nullable="false" />
+          <Property Name="Text" Type="ntext" Nullable="false" />
         </EntityType>
         <EntityType Name="Reviews">
           <Key>
@@ -166,8 +166,8 @@
           <Property Name="ReviewID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="BookID" Type="int" Nullable="false" />
-          <Property Name="Header" Type="varchar" MaxLength="300" Nullable="false" />
-          <Property Name="Text" Type="text" Nullable="false" />
+          <Property Name="Header" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Text" Type="ntext" Nullable="false" />
           <Property Name="Review_Type" Type="int" Nullable="false" />
           <Property Name="Added_Date" Type="datetime" Nullable="false" />
         </EntityType>
@@ -176,7 +176,7 @@
             <PropertyRef Name="RoleID" />
           </Key>
           <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Priority" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Screenings">
@@ -185,16 +185,16 @@
           </Key>
           <Property Name="ScreeningID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BookID" Type="int" Nullable="false" />
-          <Property Name="Film_Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Film_Name" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Year" Type="datetime" Nullable="false" />
-          <Property Name="Link" Type="varchar" MaxLength="200" />
+          <Property Name="Link" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Tags">
           <Key>
             <PropertyRef Name="TagID" />
           </Key>
           <Property Name="TagID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "E:\УЧЕБА\EPAM\PROJECT\WEBAPPLICATION\APP_DATA\PROJECT_DB.MDF.dbo.User-Role" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
@@ -211,12 +211,12 @@
             <PropertyRef Name="UserID" />
           </Key>
           <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Surname" Type="varchar" MaxLength="50" />
-          <Property Name="Login" Type="varchar" MaxLength="64" Nullable="false" />
-          <Property Name="Password" Type="varchar" MaxLength="64" Nullable="false" />
-          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Phone" Type="varchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Login" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
           <Property Name="Level" Type="int" />
         </EntityType>
         <Association Name="FK_Book-Author_Authors">
@@ -589,7 +589,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище ProjectDataEntitiesContainer">
+        <EntityContainer Name="Хранилище DatabaseEntitiesContainer">
           <EntitySet Name="Authors" EntityType="Self.Authors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bookmarks" EntityType="Self.Bookmarks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Books" EntityType="Self.Books" Schema="dbo" store:Type="Tables" />
@@ -751,17 +751,17 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="ProjectDataEntities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="DatabaseEntities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Authors">
           <Key>
             <PropertyRef Name="AuthorID" />
           </Key>
           <Property Name="AuthorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Birth_Date" Type="DateTime" Precision="3" />
           <Property Name="Death_Date" Type="DateTime" Precision="3" />
-          <Property Name="Biography" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Photo_Path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Biography" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Photo_Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Books" Relationship="Self.Book_Author" FromRole="Authors" ToRole="Books" />
         </EntityType>
         <EntityType Name="Bookmarks">
@@ -778,7 +778,7 @@
             <PropertyRef Name="BookID" />
           </Key>
           <Property Name="BookID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="First_Publication" Type="DateTime" Precision="3" />
           <Property Name="Age_Caegory" Type="Int32" />
           <Property Name="Confirmed" Type="Int32" Nullable="false" />
@@ -814,8 +814,8 @@
           </Key>
           <Property Name="CollectionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Collection_Book" Relationship="Self.FK_Collection_Book_Collections" FromRole="Collections" ToRole="Collection_Book" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Collections_Users" FromRole="Collections" ToRole="Users" />
         </EntityType>
@@ -826,7 +826,7 @@
           <Property Name="CommentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="BookID" Type="Int32" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Added_Date" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Books" Relationship="Self.FK_Comments_Books" FromRole="Comments" ToRole="Books" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Comments_Users" FromRole="Comments" ToRole="Users" />
@@ -838,7 +838,7 @@
           <Property Name="ContentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BookID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Books" Relationship="Self.FK_Contents_Books" FromRole="Contents" ToRole="Books" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Contents_Users" FromRole="Contents" ToRole="Users" />
         </EntityType>
@@ -848,7 +848,7 @@
           </Key>
           <Property Name="CoverID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BookID" Type="Int32" Nullable="false" />
-          <Property Name="Path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Books" Relationship="Self.FK_Covers_Books" FromRole="Covers" ToRole="Books" />
         </EntityType>
         <EntityType Name="Files">
@@ -857,7 +857,7 @@
           </Key>
           <Property Name="FileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BookID" Type="Int32" Nullable="false" />
-          <Property Name="Path" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Books" Relationship="Self.FK_Files_Books" FromRole="Files" ToRole="Books" />
         </EntityType>
         <EntityType Name="Genres">
@@ -865,7 +865,7 @@
             <PropertyRef Name="GenreID" />
           </Key>
           <Property Name="GenreID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Parent_GenreID" Type="Int32" />
           <NavigationProperty Name="Genres1" Relationship="Self.FK_Genres_Genres" FromRole="Genres" ToRole="Genres1" />
           <NavigationProperty Name="Genres2" Relationship="Self.FK_Genres_Genres" FromRole="Genres1" ToRole="Genres" />
@@ -887,7 +887,7 @@
             <PropertyRef Name="ListID" />
           </Key>
           <Property Name="ListID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Books" Relationship="Self.Book_List" FromRole="Lists" ToRole="Books" />
         </EntityType>
         <EntityType Name="Quotes">
@@ -896,7 +896,7 @@
           </Key>
           <Property Name="QuoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Collection_BookID" Type="Int32" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Collection_Book" Relationship="Self.FK_Quotes_Collection_Book" FromRole="Quotes" ToRole="Collection_Book" />
         </EntityType>
         <EntityType Name="Reviews">
@@ -906,8 +906,8 @@
           <Property Name="ReviewID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="BookID" Type="Int32" Nullable="false" />
-          <Property Name="Header" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Header" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Review_Type" Type="Int32" Nullable="false" />
           <Property Name="Added_Date" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Books" Relationship="Self.FK_Reviews_Books" FromRole="Reviews" ToRole="Books" />
@@ -918,7 +918,7 @@
             <PropertyRef Name="RoleID" />
           </Key>
           <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Priority" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="Self.User_Role" FromRole="Roles" ToRole="Users" />
         </EntityType>
@@ -928,9 +928,9 @@
           </Key>
           <Property Name="ScreeningID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BookID" Type="Int32" Nullable="false" />
-          <Property Name="Film_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Film_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Year" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Link" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Link" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Books" Relationship="Self.FK_Screenings_Books" FromRole="Screenings" ToRole="Books" />
         </EntityType>
         <EntityType Name="Tags">
@@ -938,7 +938,7 @@
             <PropertyRef Name="TagID" />
           </Key>
           <Property Name="TagID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Books" Relationship="Self.Book_Tag" FromRole="Tags" ToRole="Books" />
         </EntityType>
         <EntityType Name="Users">
@@ -946,12 +946,12 @@
             <PropertyRef Name="UserID" />
           </Key>
           <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Login" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Login" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Level" Type="Int32" />
           <NavigationProperty Name="Collections" Relationship="Self.FK_Collections_Users" FromRole="Users" ToRole="Collections" />
           <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Users" FromRole="Users" ToRole="Comments" />
@@ -1329,9 +1329,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище ProjectDataEntitiesContainer" CdmEntityContainer="project_dbEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище DatabaseEntitiesContainer" CdmEntityContainer="project_dbEntities">
           <EntitySetMapping Name="Authors">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Authors">
+            <EntityTypeMapping TypeName="DatabaseEntities.Authors">
               <MappingFragment StoreEntitySet="Authors">
                 <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1343,7 +1343,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Bookmarks">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Bookmarks">
+            <EntityTypeMapping TypeName="DatabaseEntities.Bookmarks">
               <MappingFragment StoreEntitySet="Bookmarks">
                 <ScalarProperty Name="BookmarkID" ColumnName="BookmarkID" />
                 <ScalarProperty Name="Collection_BookID" ColumnName="Collection_BookID" />
@@ -1352,7 +1352,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Books">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Books">
+            <EntityTypeMapping TypeName="DatabaseEntities.Books">
               <MappingFragment StoreEntitySet="Books">
                 <ScalarProperty Name="BookID" ColumnName="BookID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1363,7 +1363,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Collection_Book">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Collection_Book">
+            <EntityTypeMapping TypeName="DatabaseEntities.Collection_Book">
               <MappingFragment StoreEntitySet="Collection-Book">
                 <ScalarProperty Name="Collection_BookID" ColumnName="Collection_BookID" />
                 <ScalarProperty Name="CollectionID" ColumnName="CollectionID" />
@@ -1373,7 +1373,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Collections">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Collections">
+            <EntityTypeMapping TypeName="DatabaseEntities.Collections">
               <MappingFragment StoreEntitySet="Collections">
                 <ScalarProperty Name="CollectionID" ColumnName="CollectionID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -1383,7 +1383,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Comments">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Comments">
+            <EntityTypeMapping TypeName="DatabaseEntities.Comments">
               <MappingFragment StoreEntitySet="Comments">
                 <ScalarProperty Name="CommentID" ColumnName="CommentID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -1394,7 +1394,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Contents">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Contents">
+            <EntityTypeMapping TypeName="DatabaseEntities.Contents">
               <MappingFragment StoreEntitySet="Contents">
                 <ScalarProperty Name="ContentID" ColumnName="ContentID" />
                 <ScalarProperty Name="BookID" ColumnName="BookID" />
@@ -1404,7 +1404,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Covers">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Covers">
+            <EntityTypeMapping TypeName="DatabaseEntities.Covers">
               <MappingFragment StoreEntitySet="Covers">
                 <ScalarProperty Name="CoverID" ColumnName="CoverID" />
                 <ScalarProperty Name="BookID" ColumnName="BookID" />
@@ -1413,7 +1413,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Files">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Files">
+            <EntityTypeMapping TypeName="DatabaseEntities.Files">
               <MappingFragment StoreEntitySet="Files">
                 <ScalarProperty Name="FileID" ColumnName="FileID" />
                 <ScalarProperty Name="BookID" ColumnName="BookID" />
@@ -1422,7 +1422,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Genres">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Genres">
+            <EntityTypeMapping TypeName="DatabaseEntities.Genres">
               <MappingFragment StoreEntitySet="Genres">
                 <ScalarProperty Name="GenreID" ColumnName="GenreID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1431,7 +1431,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Likes">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Likes">
+            <EntityTypeMapping TypeName="DatabaseEntities.Likes">
               <MappingFragment StoreEntitySet="Likes">
                 <ScalarProperty Name="LikeID" ColumnName="LikeID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -1441,7 +1441,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Lists">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Lists">
+            <EntityTypeMapping TypeName="DatabaseEntities.Lists">
               <MappingFragment StoreEntitySet="Lists">
                 <ScalarProperty Name="ListID" ColumnName="ListID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1449,7 +1449,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Quotes">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Quotes">
+            <EntityTypeMapping TypeName="DatabaseEntities.Quotes">
               <MappingFragment StoreEntitySet="Quotes">
                 <ScalarProperty Name="QuoteID" ColumnName="QuoteID" />
                 <ScalarProperty Name="Collection_BookID" ColumnName="Collection_BookID" />
@@ -1458,7 +1458,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Reviews">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Reviews">
+            <EntityTypeMapping TypeName="DatabaseEntities.Reviews">
               <MappingFragment StoreEntitySet="Reviews">
                 <ScalarProperty Name="ReviewID" ColumnName="ReviewID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -1471,7 +1471,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Roles">
+            <EntityTypeMapping TypeName="DatabaseEntities.Roles">
               <MappingFragment StoreEntitySet="Roles">
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1480,7 +1480,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Screenings">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Screenings">
+            <EntityTypeMapping TypeName="DatabaseEntities.Screenings">
               <MappingFragment StoreEntitySet="Screenings">
                 <ScalarProperty Name="ScreeningID" ColumnName="ScreeningID" />
                 <ScalarProperty Name="BookID" ColumnName="BookID" />
@@ -1491,7 +1491,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tags">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Tags">
+            <EntityTypeMapping TypeName="DatabaseEntities.Tags">
               <MappingFragment StoreEntitySet="Tags">
                 <ScalarProperty Name="TagID" ColumnName="TagID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1499,7 +1499,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="ProjectDataEntities.Users">
+            <EntityTypeMapping TypeName="DatabaseEntities.Users">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1512,7 +1512,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="Book_Author" TypeName="ProjectDataEntities.Book_Author" StoreEntitySet="Book-Author">
+          <AssociationSetMapping Name="Book_Author" TypeName="DatabaseEntities.Book_Author" StoreEntitySet="Book-Author">
             <EndProperty Name="Authors">
               <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
             </EndProperty>
@@ -1520,7 +1520,7 @@
               <ScalarProperty Name="BookID" ColumnName="BookID" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="Book_Genre" TypeName="ProjectDataEntities.Book_Genre" StoreEntitySet="Book-Genre">
+          <AssociationSetMapping Name="Book_Genre" TypeName="DatabaseEntities.Book_Genre" StoreEntitySet="Book-Genre">
             <EndProperty Name="Books">
               <ScalarProperty Name="BookID" ColumnName="BookID" />
             </EndProperty>
@@ -1528,7 +1528,7 @@
               <ScalarProperty Name="GenreID" ColumnName="GenreID" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="Book_List" TypeName="ProjectDataEntities.Book_List" StoreEntitySet="Book-List">
+          <AssociationSetMapping Name="Book_List" TypeName="DatabaseEntities.Book_List" StoreEntitySet="Book-List">
             <EndProperty Name="Books">
               <ScalarProperty Name="BookID" ColumnName="BookID" />
             </EndProperty>
@@ -1536,7 +1536,7 @@
               <ScalarProperty Name="ListID" ColumnName="ListID" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="Book_Tag" TypeName="ProjectDataEntities.Book_Tag" StoreEntitySet="Book-Tag">
+          <AssociationSetMapping Name="Book_Tag" TypeName="DatabaseEntities.Book_Tag" StoreEntitySet="Book-Tag">
             <EndProperty Name="Books">
               <ScalarProperty Name="BookID" ColumnName="BookID" />
             </EndProperty>
@@ -1544,7 +1544,7 @@
               <ScalarProperty Name="TagID" ColumnName="TagID" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="User_Role" TypeName="ProjectDataEntities.User_Role" StoreEntitySet="User-Role">
+          <AssociationSetMapping Name="User_Role" TypeName="DatabaseEntities.User_Role" StoreEntitySet="User-Role">
             <EndProperty Name="Roles">
               <ScalarProperty Name="RoleID" ColumnName="RoleID" />
             </EndProperty>

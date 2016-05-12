@@ -3,20 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Service.Interfacies;
 using Service.Interfacies.Entities;
 using Service.Interfacies.Interfacies;
 using WebApplication.Infrastructure.Mappers;
 using WebApplication.Models;
+using WebApplication.Models.BookModels;
 
 namespace WebApplication.Controllers
 {
     public class GenreController : Controller
     {
         private readonly IListService service;
+        private readonly IBookService bookService;
 
-        public GenreController(IListService service)
+        public GenreController(IListService service, IBookService bookService)
         {
             this.service = service;
+            this.bookService = bookService;
         }
 
         // GET: Genre
@@ -51,6 +55,31 @@ namespace WebApplication.Controllers
                     return RedirectToAction("Index");
                 }
                 return View();
+            }
+            catch
+            {
+                return View("Error");
+            }
+        }
+
+        public ActionResult List(int id)
+        {
+            try
+            {
+                ServiceGenre genre = service.GetGenreById(id);
+                var books = service.GetGenreBooks(genre);
+                List<BookShortModel> list = new List<BookShortModel>();
+                foreach (var book in books)
+                {
+                    BookShortModel bsm = book.ToBookShortModel();
+                    bsm.Author = bookService.GetBookAuthors(book).FirstOrDefault().ToAuthorShortModel();
+                    IEnumerable<ServiceLike> likes = bookService.GetBookLikes(book);
+                    bsm.Likes = likes.Count(e => e.Like);
+                    bsm.Dislikes = likes.Count(e => e.Like);
+                    list.Add(bsm);
+                }
+
+                return View(genre.ToGenreBookListModel(list));
             }
             catch
             {

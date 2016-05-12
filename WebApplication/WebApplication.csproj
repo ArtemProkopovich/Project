@@ -156,6 +156,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\LabelValue.cs" />
     <Compile Include="Infrastructure\FilePathService.cs" />
     <Compile Include="Infrastructure\Mappers\AuthorMapper.cs" />
     <Compile Include="Infrastructure\Mappers\BookMapper.cs" />
@@ -170,8 +171,10 @@
     <Compile Include="Models\BookModels\BookCreateModel.cs" />
     <Compile Include="Models\BookModels\BookPageModel.cs" />
     <Compile Include="Models\BookModels\BookShortModel.cs" />
+    <Compile Include="Models\GenreBookListModel.cs" />
     <Compile Include="Models\GenreModel.cs" />
     <Compile Include="Models\ListModel.cs" />
+    <Compile Include="Models\TagBookListModel.cs" />
     <Compile Include="Models\TagModel.cs" />
     <Compile Include="Models\UserModels\LoginModel.cs" />
     <Compile Include="Models\UserModels\SignModel.cs" />
@@ -230,12 +233,17 @@
     <Content Include="Views\Author\Index.cshtml" />
     <Content Include="Views\Author\Delete.cshtml" />
     <Content Include="Views\Author\Edit.cshtml" />
-    <Content Include="Views\Books\_BookShortView.cshtml" />
+    <Content Include="Views\Shared\_BookShortView.cshtml" />
+    <Content Include="Views\Author\Details.cshtml" />
+    <Content Include="Views\Books\Delete.cshtml" />
+    <Content Include="Views\Genre\List.cshtml" />
     <None Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Shared\_BookShortViewList.cshtml" />
     <None Include="Views\Sign\Sign.cshtml" />
     <Content Include="Views\Tag\Index.cshtml" />
     <Content Include="Views\Tag\Create.cshtml" />
     <Content Include="Views\Tag\Delete.cshtml" />
+    <Content Include="Views\Tag\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DependencyResolverLibrary\DependencyResolverLibrary.csproj">

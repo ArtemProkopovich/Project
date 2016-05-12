@@ -1,0 +1,11 @@
+﻿@using System.Web.Mvc.Html
+@model WebApplication.Models.GenreBookListModel
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>@Model.Genre.Name</h3>
+<div class="clearfix"></div>
+@Html.Partial("_BookShortViewList",Model.Books);

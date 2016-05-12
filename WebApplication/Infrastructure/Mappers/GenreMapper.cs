@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Service.Interfacies.Entities;
 using WebApplication.Models;
+using WebApplication.Models.BookModels;
 
 namespace WebApplication.Infrastructure.Mappers
 {
@@ -24,6 +25,15 @@ namespace WebApplication.Infrastructure.Mappers
             {
                 ID = genre.ID,
                 Name = genre.Name
+            };
+        }
+
+        public static GenreBookListModel ToGenreBookListModel(this ServiceGenre genre, IEnumerable<BookShortModel> books)
+        {
+            return new GenreBookListModel
+            {
+                Genre = genre.ToGenreModel(),
+                Books = books
             };
         }
     }

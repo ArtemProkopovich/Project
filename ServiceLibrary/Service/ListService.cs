@@ -52,6 +52,11 @@ namespace ServiceLibrary.Service
             return unit.Tags.GetAll().Select(e => e.ToServiceTag());
         }
 
+        public IEnumerable<ServiceBook> GetGenreBooks(ServiceGenre genre)
+        {
+            return unit.Genres.GetBooks(genre.ToDalGenre()).Select(e => e.ToServiceBook());
+        }
+
         public ServiceGenre GetGenreById(int id)
         {
             return unit.Genres.GetById(id).ToServiceGenre();
@@ -62,9 +67,19 @@ namespace ServiceLibrary.Service
             return unit.Genres.GetByName(name)?.ToServiceGenre();
         }
 
+        public IEnumerable<ServiceBook> GetListBooks(ServiceList list)
+        {
+            return unit.Lists.GetBooks(list.ToDalList()).Select(e => e.ToServiceBook());
+        }
+
         public ServiceList GetListById(int id)
         {
             return unit.Lists.GetById(id).ToServiceList();
+        }
+
+        public IEnumerable<ServiceBook> GetTagBooks(ServiceTag tag)
+        {
+            return unit.Tags.GetBooks(tag.ToDalTag()).Select(e => e.ToServiceBook());
         }
 
         public ServiceTag GetTagById(int id)

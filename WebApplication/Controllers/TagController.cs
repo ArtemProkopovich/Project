@@ -3,20 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Service.Interfacies;
 using Service.Interfacies.Entities;
 using Service.Interfacies.Interfacies;
 using WebApplication.Infrastructure.Mappers;
 using WebApplication.Models;
+using WebApplication.Models.BookModels;
 
 namespace WebApplication.Controllers
 {
     public class TagController : Controller
     {
         private readonly IListService service;
+        private readonly IBookService bookService;
 
-        public TagController(IListService service)
+        public TagController(IListService service, IBookService bookService)
         {
             this.service = service;
+            this.bookService = bookService;
         }
         // GET: Tag
         public ActionResult Index()
@@ -30,6 +34,31 @@ namespace WebApplication.Controllers
             {
                 return View("Error");
             }          
+        }
+
+        public ActionResult List(int id)
+        {
+            try
+            {
+                ServiceTag tag = service.GetTagById(id);
+                var books = service.GetTagBooks(tag);
+                List<BookShortModel> list = new List<BookShortModel>();
+                foreach (var book in books)
+                {
+                    BookShortModel bsm = book.ToBookShortModel();
+                    bsm.Author = bookService.GetBookAuthors(book).FirstOrDefault().ToAuthorShortModel();
+                    IEnumerable<ServiceLike> likes = bookService.GetBookLikes(book);
+                    bsm.Likes = likes.Count(e => e.Like);
+                    bsm.Dislikes = likes.Count(e => e.Like);
+                    list.Add(bsm);
+                }
+
+                return View(tag.ToTagBookListModel(list));
+            }
+            catch
+            {
+                return View("Error");
+            }
         }
 
         // GET: Tag/Create

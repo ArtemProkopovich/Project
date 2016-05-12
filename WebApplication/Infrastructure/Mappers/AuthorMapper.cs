@@ -20,6 +20,20 @@ namespace WebApplication.Infrastructure.Mappers
             };
         }
 
+        public static AuthorFullModel ToAuthorFullModel(this ServiceFullAuthor author)
+        {
+            return new AuthorFullModel()
+            {
+                ID = author.AuthorData.ID,
+                Name = author.AuthorData.Name,
+                Biography = author.AuthorData.Biography,
+                BirthDate = author.AuthorData.BirthDate ?? new DateTime(),
+                DeathDate = author.AuthorData.DeathDate ?? new DateTime(),
+                PhotoPath = author.AuthorData.Photo ?? "",
+                Books = author.AuthorBooks.Select(e => e.ToBookShortModel())
+            };
+        }
+
         public static AuthorShortModel ToAuthorShortModel(this ServiceAuthor author)
         {
             return new AuthorShortModel()

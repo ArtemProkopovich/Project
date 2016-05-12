@@ -19,7 +19,6 @@ namespace WebApplication.Models.AuthorModels
 
         [DataType(DataType.Date)]
         [Display(Name = "Death date")]
-        [System.ComponentModel.DataAnnotations.Compare(nameof(BirthDate), ErrorMessage = "Date of death can not be less than the birth date")]
         public DateTime DeathDate { get; set; }
         [Display(Name = "Photo")]
         public HttpPostedFileBase Photo { get; set; }

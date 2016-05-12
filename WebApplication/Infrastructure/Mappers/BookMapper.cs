@@ -9,15 +9,26 @@ namespace WebApplication.Infrastructure.Mappers
 {
     public static class BookMapper
     {
+
+        public static BookShortModel ToBookShortModel(this ServiceBook book)
+        {
+            return new BookShortModel()
+            {
+                ID = book.ID,
+                Name = book.Name,
+                Cover = ""
+            };
+        }
+
         public static BookPageModel  ServiceBookToModelBook(this ServiceFullBook sfb)
         {
             BookPageModel model = new BookPageModel
             {
                 AgeCategory = sfb.BookData.AgeCategory,
-                Authors = sfb.Authors,
+                Author = sfb.Authors.FirstOrDefault()?.ToAuthorShortModel(),
                 Comments = sfb.Comments,
                 Contents = sfb.Contents,
-                Covers = sfb.Covers
+                CoverPath = sfb.Covers.FirstOrDefault()?.ImagePath ?? ""
             };
             model.Comments = sfb.Comments;
             model.Genres = sfb.Genres;

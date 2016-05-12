@@ -50,13 +50,18 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalBook> GetBooks(DalAuthor author)
         {
-            return context.Books.Where(e => e.Authors.AsQueryable().Any(t => t.AuthorID == author.ID))
+            return context.Books.Where(e => e.Authors.AsQueryable().Any(t => t.AuthorID == author.ID)).ToList()
                 .Select(r => r.ToDalBook());
         }
 
         public DalAuthor GetById(int key)
         {
             return context.Authors.FirstOrDefault(e => e.AuthorID == key)?.ToDalAuthor();
+        }
+
+        public DalAuthor GetByName(string name)
+        {
+            return context.Authors.FirstOrDefault(e => e.Name == name)?.ToDalAuthor();
         }
 
         public void Update(DalAuthor entity)

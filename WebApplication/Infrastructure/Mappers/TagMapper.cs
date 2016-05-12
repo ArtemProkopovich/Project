@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Service.Interfacies.Entities;
 using WebApplication.Models;
+using WebApplication.Models.BookModels;
 
 namespace WebApplication.Infrastructure.Mappers
 {
@@ -24,6 +25,15 @@ namespace WebApplication.Infrastructure.Mappers
             {
                 ID = tag.ID,
                 Name = tag.Name
+            };
+        }
+
+        public static TagBookListModel ToTagBookListModel(this ServiceTag tag, IEnumerable<BookShortModel> books)
+        {
+            return new TagBookListModel
+            {
+                Tag = tag.ToTagModel(),
+                Books = books
             };
         }
     }

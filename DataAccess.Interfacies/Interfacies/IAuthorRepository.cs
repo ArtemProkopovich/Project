@@ -10,5 +10,6 @@ namespace DataAccess.Interfacies
     public interface IAuthorRepository:IRepository<DalAuthor>
     {
         IEnumerable<DalBook> GetBooks(DalAuthor author);
+        DalAuthor GetByName(string name);
     }
 }
