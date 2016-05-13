@@ -10,7 +10,7 @@
 <div class="jumbotron">
     <div class="row">
         <div class="col-md-3">
-            <img src=@Model.CoverPath alt="image" />
+            <img class="img-thumbnail" src="@Url.Action("GetImage","Books", new {id = Model.ID})" alt="image" />
         </div>
         <div class="container col-md-9">
             <div class="container list-group">
@@ -33,7 +33,7 @@
                     @Html.LabelFor(model => model.Genres, htmlAttributes: new { @class = "control-label col-md-4" })
                     @foreach (ServiceGenre genre in Model.Genres)
                     {
-                        @Html.ActionLink(genre.Name, "List", "Genre", new { id = genre.ID }, htmlAttributes: new { @class = "label" })
+                        @Html.ActionLink(genre.Name, "List", "Genre", new { id = genre.ID }, htmlAttributes: new { @class = "control-label" })
                         @Html.Display(". ")
                     }
                 </div>
@@ -41,7 +41,7 @@
                     @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label col-md-4" })
                     @foreach (ServiceTag tag in Model.Tags)
                     {
-                        @Html.ActionLink(tag.Name, "List", "Tag", new { id = tag.ID }, htmlAttributes: new { @class = "label" })
+                        @Html.ActionLink(tag.Name, "List", "Tag", new { id = tag.ID }, htmlAttributes: new { @class = "control-label" })
                         @Html.Display(", ")
                     }
                 </div> 

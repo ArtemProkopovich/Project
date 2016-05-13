@@ -1,26 +1,26 @@
 ﻿@model WebApplication.Models.BookModels.BookShortModel
 
 <div class="panel">
-    <hr />
     <div class="panel-body">
-        <div class="col-md-3">
-            <img src=@Model.Cover alt="cover image"/>
+        <div class="col-md-offset-0 col-md-3">
+            <img class="img-thumbnail" src="@Url.Action("GetImage","Books", new {id = Model.ID})" alt="cover image"/>
         </div>
-        <div class="form-horizontal col-md-9">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.ActionLink(@Model.Name, "Details", "Books", new { id = Model.ID }, htmlAttributes: new { @class = "control-label col-md-10" })
+        <div class="col-md-9">
+            <div class="">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new {@class = "control-label col-md-3"})
+                @Html.ActionLink(@Model.Name, "Details", "Books", new {id = Model.ID}, htmlAttributes: new {@class = "control-label col-md-9"})
             </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Author, htmlAttributes: new {@class = "control-label col-md-2"})
-                @Html.ActionLink(Model.Author.Name, "Details", "Author", new {id = Model.Author.ID}, htmlAttributes: new {@class = "control-label col-md-10"})
+            <div class="clearfix"></div>
+            <div class="">
+                @Html.LabelFor(model => model.Author, htmlAttributes: new {@class = "control-label col-md-3"})
+                @Html.ActionLink(Model.Author.Name, "Details", "Author", new {id = Model.Author.ID}, htmlAttributes: new {@class = "control-label col-md-9"})
             </div>
-            <div class="form-group">
-                <div class="buttons">
-                    <button>Like <i class="glyphicon-thumbs-up" aria-hidden="true"></i></button>
-                    <button>Dislike <i class="glyphicon-thumbs-down" aria-hidden="true"></i></button>
-                </div>
+            <div class="clearfix"></div>
+            <div class="btn-group btn-group-lg bottom">
+                <button class="btn btn-success"><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i>Like @Model.Likes</button>
+                <button class="btn btn-warning"><i class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></i>Dislike @Model.Dislikes</button>
             </div>
         </div>
     </div>
+    <div class="panel-footer"></div>
 </div>

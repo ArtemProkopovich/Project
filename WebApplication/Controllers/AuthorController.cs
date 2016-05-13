@@ -50,6 +50,7 @@ namespace WebApplication.Controllers
                 BookShortModel bsm = book.ToBookShortModel();
                 bsm.Author = sfa.AuthorData.ToAuthorShortModel();
                 IEnumerable<ServiceLike> likes = bookService.GetBookLikes(book);
+                bsm.Cover = bookService.GetBookCovers(book)?.First().ImagePath;
                 bsm.Likes = likes.Count(e => e.Like);
                 bsm.Dislikes = likes.Count(e => e.Like);
                 list.Add(bsm);
@@ -157,6 +158,14 @@ namespace WebApplication.Controllers
             {
                 return View("Error");
             }
+        }
+
+        public FileResult GetImage(int id)
+        {
+            var author = service.GetById(id);
+            return !string.IsNullOrEmpty(author.Photo)
+                ? new FilePathResult(author.Photo, "image/*")
+                : new FilePathResult(Server.MapPath("~/App_Data/Uploads/Covers/" + "no_author_cover.png"), "image/*");
         }
     }
 }

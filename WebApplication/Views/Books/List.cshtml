@@ -1,0 +1,16 @@
+﻿@model IEnumerable<WebApplication.Models.BookModels.BookShortModel>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List</h2>
+
+<div class="jumbotron">
+    @Html.Partial("_BookShortViewList", Model)
+</div>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>

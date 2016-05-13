@@ -14,7 +14,7 @@ namespace DataAccess.Interfacies
         TEntity GetById(int key);
         TEntity Find(Expression<Func<TEntity, bool>> f);
         IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> f);
-        int Create(TEntity entity);
+        void Create(TEntity entity);
         void Delete(TEntity entity);
         void Update(TEntity entity);
     }

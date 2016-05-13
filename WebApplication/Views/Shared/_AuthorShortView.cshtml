@@ -1,0 +1,11 @@
+﻿@model WebApplication.Models.AuthorModels.AuthorShortModel
+
+<div class="container-authors">
+    <div class="author-poster">
+        <div class="author-poster-header">
+            <div class="author-poster-name"></div>
+            <a href="@Url.Action("Details","Author", new {id = Model.ID})" title="@Model.Name">@Model.Name</a>
+        </div>
+        <img alt="image" src="@Url.Action("GetImage","Author", new {id = Model.ID})" />
+    </div>
+</div>

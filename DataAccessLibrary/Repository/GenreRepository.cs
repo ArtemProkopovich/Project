@@ -19,10 +19,9 @@ namespace DataAccessLibrary.Repository
         {
             this.context = context;
         }
-        public int Create(DalGenre entity)
+        public void Create(DalGenre entity)
         {
-            Genres g = context.Genres.Add(entity.ToOrmGenre());
-            return g.GenreID;
+            context.Genres.Add(entity.ToOrmGenre());
         }
 
         public void Delete(DalGenre entity)

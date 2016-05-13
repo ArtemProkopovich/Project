@@ -9,6 +9,9 @@ namespace DataAccess.Interfacies
 {
     public interface IBookRepository : IRepository<DalBook>
     {
+        DalBook GetRandomBook();
+        DalBook GetByName(string name);
+
         void AddTag(DalBook book, DalTag tag);
         void DeleteTag(DalBook book, DalTag tag);
         IEnumerable<DalTag> GetTags(DalBook book);

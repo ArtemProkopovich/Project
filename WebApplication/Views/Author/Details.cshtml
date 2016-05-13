@@ -9,7 +9,7 @@
 <div class="jumbotron">
     <div class="row">
         <div class="col-md-3">
-            <img src=@Model.PhotoPath alt="image"/>
+            <img class="img-thumbnail" src="@Url.Action("GetImage", new {id = Model.ID})" alt="image"/>
         </div>
         <div class="container col-md-9">
             <div class="container list-group">
@@ -32,10 +32,5 @@
         </div>
     </div>
     <hr/>
-    <div class="container">
-        @foreach (BookShortModel book in Model.Books)
-        {
-            @Html.Partial("_BookShortView", book);
-        }
-    </div>
+    @Html.Partial("_BookShortViewList",Model.Books)
 </div>

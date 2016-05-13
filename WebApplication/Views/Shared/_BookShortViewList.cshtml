@@ -1,7 +1,7 @@
 ﻿@using WebApplication.Models.BookModels
 @model IEnumerable<WebApplication.Models.BookModels.BookShortModel>
 
-<div class="container">
+<div class="container panel-group">
     @foreach (BookShortModel book in Model)
     {
         Html.RenderPartial("_BookShortView", book);

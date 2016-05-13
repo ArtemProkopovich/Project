@@ -20,10 +20,9 @@ namespace DataAccessLibrary.Repository
             this.context = context;
         }
 
-        public int Create(DalAuthor entity)
+        public void Create(DalAuthor entity)
         {
-            Authors author = context.Authors.Add(entity.ToOrmAuthor());
-            return author.AuthorID;
+            context.Authors.Add(entity.ToOrmAuthor());
         }
 
         public void Delete(DalAuthor entity)

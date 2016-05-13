@@ -8,4 +8,6 @@
 
 <h3>@Model.Genre.Name</h3>
 <div class="clearfix"></div>
-@Html.Partial("_BookShortViewList",Model.Books);
+<div class="jumbotron">
+    @Html.Partial("_BookShortViewList", Model.Books)
+</div>

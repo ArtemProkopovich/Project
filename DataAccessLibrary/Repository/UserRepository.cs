@@ -30,10 +30,9 @@ namespace DataAccessLibrary.Repository
             }
         }
 
-        public int Create(DalUser entity)
+        public void Create(DalUser entity)
         {
-            Users u = context.Users.Add(entity.ToOrmUser());
-            return u.UserID;
+            context.Users.Add(entity.ToOrmUser());
         }
 
         public void Delete(DalUser entity)

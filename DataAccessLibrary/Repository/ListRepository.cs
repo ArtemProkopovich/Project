@@ -22,18 +22,21 @@ namespace DataAccessLibrary.Repository
 
         public void AddBook(DalList list, DalBook book)
         {
-            throw new NotImplementedException();
+            var dbList = context.Lists.FirstOrDefault(e => e.ListID == list.ID);
+            var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
+            if (dbList != null && dbBook != null)
+                dbList.Books.Add(dbBook);
         }
 
         public void AddBooks(DalList list, IEnumerable<DalBook> books)
         {
-            throw new NotImplementedException();
+            foreach (var book in books)
+                AddBook(list, book);
         }
 
-        public int Create(DalList entity)
+        public void Create(DalList entity)
         {
-            Lists l = context.Lists.Add(entity.ToOrmList());
-            return l.ListID;
+            context.Lists.Add(entity.ToOrmList());
         }
 
         public void Delete(DalList entity)
@@ -45,7 +48,10 @@ namespace DataAccessLibrary.Repository
 
         public void DeleteBook(DalList list, DalBook book)
         {
-            throw new NotImplementedException();
+            var dbList = context.Lists.FirstOrDefault(e => e.ListID == list.ID);
+            var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
+            if (dbList != null && dbBook != null)
+                dbList.Books.Remove(dbBook);
         }
 
         public DalList Find(Expression<Func<DalList, bool>> f)

@@ -269,7 +269,7 @@ CREATE TABLE [Collections]
 	[CollectionID] int NOT NULL IDENTITY (1, 1),
 	[UserID] int NOT NULL,
 	[Name] nvarchar(50) NOT NULL,
-	[Description] nvarchar(200)
+	[Description] nvarchar(300)
 )
 ;
 
@@ -402,6 +402,26 @@ ALTER TABLE [Authors]
 	PRIMARY KEY CLUSTERED ([AuthorID])
 ;
 
+ALTER TABLE [Book-Author] 
+ ADD CONSTRAINT [PK_Book-Author]
+	PRIMARY KEY CLUSTERED ([BookID],[AuthorID])
+;
+
+ALTER TABLE [Book-Genre] 
+ ADD CONSTRAINT [PK_Book-Genre]
+	PRIMARY KEY CLUSTERED ([BookID],[GenreID])
+;
+
+ALTER TABLE [Book-List] 
+ ADD CONSTRAINT [PK_Book-List]
+	PRIMARY KEY CLUSTERED ([BookID],[ListID])
+;
+
+ALTER TABLE [Book-Tag] 
+ ADD CONSTRAINT [PK_Book-Tag]
+	PRIMARY KEY CLUSTERED ([BookID],[TagID])
+;
+
 ALTER TABLE [Bookmarks] 
  ADD CONSTRAINT [PK_Bookmarks]
 	PRIMARY KEY CLUSTERED ([BookmarkID])
@@ -433,7 +453,7 @@ ALTER TABLE [Contents]
 ;
 
 ALTER TABLE [Contents] 
- ADD CONSTRAINT [UQ_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
+ ADD CONSTRAINT [UQ_Content_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
 ;
 
 ALTER TABLE [Covers] 
@@ -457,7 +477,7 @@ ALTER TABLE [Likes]
 ;
 
 ALTER TABLE [Likes] 
- ADD CONSTRAINT [UQ_Likes_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
+ ADD CONSTRAINT [UQ_Like_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
 ;
 
 ALTER TABLE [Lists] 
@@ -476,7 +496,7 @@ ALTER TABLE [Reviews]
 ;
 
 ALTER TABLE [Reviews] 
- ADD CONSTRAINT [UQ_Reviews_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
+ ADD CONSTRAINT [UQ_Review_User_Book] UNIQUE NONCLUSTERED ([UserID],[BookID])
 ;
 
 ALTER TABLE [Roles] 
@@ -492,6 +512,11 @@ ALTER TABLE [Screenings]
 ALTER TABLE [Tags] 
  ADD CONSTRAINT [PK_Tags]
 	PRIMARY KEY CLUSTERED ([TagID])
+;
+
+ALTER TABLE [User-Role] 
+ ADD CONSTRAINT [PK_User-Role]
+	PRIMARY KEY CLUSTERED ([UserID],[RoleID])
 ;
 
 ALTER TABLE [Users] 

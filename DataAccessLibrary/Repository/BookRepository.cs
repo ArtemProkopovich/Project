@@ -24,8 +24,11 @@ namespace DataAccessLibrary.Repository
         public void AddAuthor(DalBook book, DalAuthor author)
         {
             var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
-            if (dbBook != null)
-                dbBook.Authors.Add(author.ToOrmAuthor());
+            var dbAuthor = context.Authors.FirstOrDefault(e => e.AuthorID == author.ID);
+            if (dbBook != null && dbAuthor!=null)
+            {
+                dbBook.Authors.Add(dbAuthor);
+            }
         }
 
         public void AddComment(DalBook book, DalUser user, DalComment comment)
@@ -73,9 +76,10 @@ namespace DataAccessLibrary.Repository
         public void AddGenre(DalBook book, DalGenre genre)
         {
             var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
-            if (dbBook != null)
+            var dbGenre = context.Genres.FirstOrDefault(e => e.GenreID == genre.ID);
+            if (dbBook != null && dbGenre!=null)
             {
-                dbBook.Genres.Add(genre.ToOrmGenre());
+                dbBook.Genres.Add(dbGenre);
             }
         }
 
@@ -115,16 +119,16 @@ namespace DataAccessLibrary.Repository
         public void AddTag(DalBook book, DalTag tag)
         {
             var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
-            if (dbBook != null)
+            var dbTag = context.Tags.FirstOrDefault(e => e.TagID == tag.ID);
+            if (dbBook != null && dbTag!=null)
             {
-                dbBook.Tags.Add(tag.ToOrmTag());
+                dbBook.Tags.Add(dbTag);
             }
         }
 
-        public int Create(DalBook entity)
+        public void Create(DalBook entity)
         {
-            Books book = context.Books.Add(entity.ToOrmBook());
-            return book.BookID;
+            context.Books.Add(entity.ToOrmBook());
         }
 
         public void Delete(DalBook entity)
@@ -237,6 +241,11 @@ namespace DataAccessLibrary.Repository
             return context.Books.FirstOrDefault(e => e.BookID == key)?.ToDalBook();
         }
 
+        public DalBook GetByName(string name)
+        {
+            return context.Books.FirstOrDefault(e => e.Name == name)?.ToDalBook();
+        }
+
         public IEnumerable<DalComment> GetComments(DalBook book)
         {
             return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Comments.Select(e => e.ToDalComment());
@@ -271,6 +280,20 @@ namespace DataAccessLibrary.Repository
         public IEnumerable<DalLike> GetLikes(DalBook book)
         {
             return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Likes.Select(e => e.ToDalLike());
+        }
+
+        private static Random random = new Random();
+        public DalBook GetRandomBook()
+        {
+            Books b = context.Books.FirstOrDefault();
+            if (b != null)
+            {
+                int count = context.Books.Count();
+                int r = random.Next(b.BookID, count);
+                Books result = context.Books.FirstOrDefault(e => e.BookID > r);
+                return result.ToDalBook();
+            }
+            return null;
         }
 
         public IEnumerable<DalReview> GetReviews(DalBook book)

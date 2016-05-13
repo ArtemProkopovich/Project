@@ -17,7 +17,8 @@ namespace WebApplication.Infrastructure
             long magicNumber = random.Next() ^ ticks;
             unchecked
             {
-                magicNumber = fileName.Aggregate(magicNumber, (current, c) => current ^ (c*random.Next(int.MaxValue)));
+                magicNumber = fileName.Aggregate(magicNumber,
+                    (current, c) => current ^ (c*(long)random.Next(int.MaxValue)*random.Next(int.MaxValue)));
             }
             magicNumber = magicNumber < 0 ? -1*magicNumber : magicNumber;
             return magicNumber + ext;

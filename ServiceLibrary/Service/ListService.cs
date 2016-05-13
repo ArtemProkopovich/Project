@@ -19,6 +19,18 @@ namespace ServiceLibrary.Service
             this.unit = unit;
         }
 
+        public void AddBookGenre(ServiceBook book, ServiceGenre genre)
+        {
+            unit.Books.AddGenre(book.ToDalBook(), genre.ToDalGenre());
+            unit.Save();
+        }
+
+        public void AddBookTag(ServiceBook book, ServiceTag tag)
+        {
+            unit.Books.AddTag(book.ToDalBook(), tag.ToDalTag());
+            unit.Save();
+        }
+
         public void AddGenre(ServiceGenre genre)
         {
             unit.Genres.Create(genre.ToDalGenre());
@@ -28,6 +40,12 @@ namespace ServiceLibrary.Service
         public void AddList(ServiceList list)
         {
             unit.Lists.Create(list.ToDalList());
+            unit.Save();
+        }
+
+        public void AddListBook(ServiceList list, ServiceBook book)
+        {
+            unit.Lists.AddBook(list.ToDalList(), book.ToDalBook());
             unit.Save();
         }
 
@@ -92,6 +110,18 @@ namespace ServiceLibrary.Service
             return unit.Tags.GetByName(name)?.ToServiceTag();
         }
 
+        public void RemoveBookGenre(ServiceBook book, ServiceGenre genre)
+        {
+            unit.Books.DeleteGenre(book.ToDalBook(), genre.ToDalGenre());
+            unit.Save();
+        }
+
+        public void RemoveBookTag(ServiceBook book, ServiceTag tag)
+        {
+            unit.Books.DeleteTag(book.ToDalBook(), tag.ToDalTag());
+            unit.Save();
+        }
+
         public void RemoveGenre(ServiceGenre genre)
         {
             unit.Genres.Delete(genre.ToDalGenre());
@@ -104,9 +134,21 @@ namespace ServiceLibrary.Service
             unit.Save();
         }
 
+        public void RemoveListBook(ServiceList list, ServiceBook book)
+        {
+            unit.Lists.DeleteBook(list.ToDalList(), book.ToDalBook());
+            unit.Save();
+        }
+
         public void RemoveTag(ServiceTag tag)
         {
             unit.Tags.Delete(tag.ToDalTag());
+            unit.Save();
+        }
+
+        public void UpdateList(ServiceList list)
+        {
+            unit.Lists.Update(list.ToDalList());
             unit.Save();
         }
     }

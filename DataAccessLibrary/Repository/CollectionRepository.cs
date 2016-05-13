@@ -58,10 +58,9 @@ namespace DataAccessLibrary.Repository
             context.Collections.Add(collection.ToOrmCollection());
         }
 
-        public int Create(DalCollection entity)
+        public void Create(DalCollection entity)
         {
-            Collections c = context.Collections.Add(entity.ToOrmCollection());
-            return c.CollectionID;
+            context.Collections.Add(entity.ToOrmCollection());
         }
 
         public void Delete(DalCollection entity)

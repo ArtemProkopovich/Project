@@ -20,11 +20,10 @@ namespace ServiceLibrary.Service
         {
             this.unit = unit;
         }
-        public int AddBook(ServiceBook book)
+        public void AddBook(ServiceBook book)
         {
-            int ID =  unit.Books.Create(book.ToDalBook());
+            unit.Books.Create(book.ToDalBook());
             unit.Save();
-            return ID;
         }
 
         public void AddCover(ServiceBook book, ServiceCover cover)
@@ -65,6 +64,16 @@ namespace ServiceLibrary.Service
             return unit.Books.GetById(id)?.ToServiceBook();
         }
 
+        public ServiceBook GetBookByName(string name)
+        {
+            return unit.Books.GetByName(name)?.ToServiceBook();
+        }
+
+        public IEnumerable<ServiceCover> GetBookCovers(ServiceBook book)
+        {
+            return unit.Books.GetCovers(book.ToDalBook())?.Select(e => e.ToServiceCover());
+        }
+
         public Stream GetBookFile(ServiceFile file)
         {
             DalBook book = unit.Books.GetById(file.BookID);
@@ -96,6 +105,15 @@ namespace ServiceLibrary.Service
             return GetFullBookInfo(book);
         }
 
+        public ServiceBook GetRandomBook()
+        {
+            return unit.Books.GetRandomBook()?.ToServiceBook();
+        }
+
+        public IEnumerable<ServiceBook> GetAllBooks()
+        {
+            return unit.Books.GetAll().Select(e => e.ToServiceBook());
+        }
         public IEnumerable<ServiceBook> GetUserBooks(ServiceUser user)
         {
             return

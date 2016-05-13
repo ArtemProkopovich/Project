@@ -149,6 +149,7 @@
     <Compile Include="Controllers\Account\SignController.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
+    <Compile Include="Controllers\FindController.cs" />
     <Compile Include="Controllers\GenreController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ListController.cs" />
@@ -169,13 +170,18 @@
     <Compile Include="Models\AuthorModels\AuthorFullModel.cs" />
     <Compile Include="Models\AuthorModels\AuthorShortModel.cs" />
     <Compile Include="Models\BookModels\BookCreateModel.cs" />
+    <Compile Include="Models\BookModels\BookIndexPageModel.cs" />
     <Compile Include="Models\BookModels\BookPageModel.cs" />
     <Compile Include="Models\BookModels\BookShortModel.cs" />
     <Compile Include="Models\GenreBookListModel.cs" />
+    <Compile Include="Models\GenreFirstModel.cs" />
     <Compile Include="Models\GenreModel.cs" />
+    <Compile Include="Models\ListBookListModel.cs" />
+    <Compile Include="Models\ListFirstModel.cs" />
     <Compile Include="Models\ListModel.cs" />
     <Compile Include="Models\TagBookListModel.cs" />
     <Compile Include="Models\TagModel.cs" />
+    <Compile Include="Models\EditListModel.cs" />
     <Compile Include="Models\UserModels\LoginModel.cs" />
     <Compile Include="Models\UserModels\SignModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -220,7 +226,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Books\Index.cshtml" />
     <Content Include="Views\Books\Details.cshtml" />
     <Content Include="Views\List\Index.cshtml" />
     <Content Include="Views\List\Create.cshtml" />
@@ -237,8 +242,15 @@
     <Content Include="Views\Author\Details.cshtml" />
     <Content Include="Views\Books\Delete.cshtml" />
     <Content Include="Views\Genre\List.cshtml" />
+    <Content Include="Views\List\List.cshtml" />
+    <Content Include="Views\List\Edit.cshtml" />
+    <Content Include="Views\Books\List.cshtml" />
+    <Content Include="Views\Find\Index.cshtml" />
+    <Content Include="Views\Books\Index.cshtml" />
     <None Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Shared\_BookShortViewList.cshtml" />
+    <Content Include="Views\Shared\_AuthorShortView.cshtml" />
+    <Content Include="Views\Shared\_BookShortImageView.cshtml" />
     <None Include="Views\Sign\Sign.cshtml" />
     <Content Include="Views\Tag\Index.cshtml" />
     <Content Include="Views\Tag\Create.cshtml" />
@@ -270,7 +282,6 @@
   <ItemGroup>
     <Folder Include="App_Data\Uploads\Covers\" />
     <Folder Include="App_Data\Uploads\Files\" />
-    <Folder Include="Views\Lists\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

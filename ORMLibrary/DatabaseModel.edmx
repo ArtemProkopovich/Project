@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище DatabaseEntities" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище ProjectDataBaseEntities" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Authors">
           <Key>
             <PropertyRef Name="AuthorID" />
@@ -16,8 +16,6 @@
           <Property Name="Biography" Type="ntext" />
           <Property Name="Photo_Path" Type="nvarchar" MaxLength="255" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "E:\УЧЕБА\EPAM\PROJECT\WEBAPPLICATION\APP_DATA\PROJECT_DB.MDF.dbo.Book-Author" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="Book-Author">
           <Key>
             <PropertyRef Name="BookID" />
@@ -26,8 +24,6 @@
           <Property Name="BookID" Type="int" Nullable="false" />
           <Property Name="AuthorID" Type="int" Nullable="false" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "E:\УЧЕБА\EPAM\PROJECT\WEBAPPLICATION\APP_DATA\PROJECT_DB.MDF.dbo.Book-Genre" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="Book-Genre">
           <Key>
             <PropertyRef Name="BookID" />
@@ -36,8 +32,6 @@
           <Property Name="BookID" Type="int" Nullable="false" />
           <Property Name="GenreID" Type="int" Nullable="false" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "E:\УЧЕБА\EPAM\PROJECT\WEBAPPLICATION\APP_DATA\PROJECT_DB.MDF.dbo.Book-List" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="Book-List">
           <Key>
             <PropertyRef Name="BookID" />
@@ -64,8 +58,6 @@
           <Property Name="Age_Caegory" Type="int" />
           <Property Name="Confirmed" Type="int" Nullable="false" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "E:\УЧЕБА\EPAM\PROJECT\WEBAPPLICATION\APP_DATA\PROJECT_DB.MDF.dbo.Book-Tag" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="Book-Tag">
           <Key>
             <PropertyRef Name="BookID" />
@@ -90,7 +82,7 @@
           <Property Name="CollectionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="Description" Type="nvarchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="Comments">
           <Key>
@@ -196,8 +188,6 @@
           <Property Name="TagID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "E:\УЧЕБА\EPAM\PROJECT\WEBAPPLICATION\APP_DATA\PROJECT_DB.MDF.dbo.User-Role" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="User-Role">
           <Key>
             <PropertyRef Name="UserID" />
@@ -589,10 +579,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище DatabaseEntitiesContainer">
+        <EntityContainer Name="Хранилище ProjectDataBaseEntitiesContainer">
           <EntitySet Name="Authors" EntityType="Self.Authors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Book-Author" EntityType="Self.Book-Author" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Book-Genre" EntityType="Self.Book-Genre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Book-List" EntityType="Self.Book-List" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bookmarks" EntityType="Self.Bookmarks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Books" EntityType="Self.Books" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Book-Tag" EntityType="Self.Book-Tag" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Collection-Book" EntityType="Self.Collection-Book" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Collections" EntityType="Self.Collections" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
@@ -607,37 +601,8 @@
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Screenings" EntityType="Self.Screenings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tags" EntityType="Self.Tags" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User-Role" EntityType="Self.User-Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Book-Author" EntityType="Self.Book-Author" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Book-Author].[BookID] AS [BookID], 
-    [Book-Author].[AuthorID] AS [AuthorID]
-    FROM [dbo].[Book-Author] AS [Book-Author]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="Book-Genre" EntityType="Self.Book-Genre" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Book-Genre].[BookID] AS [BookID], 
-    [Book-Genre].[GenreID] AS [GenreID]
-    FROM [dbo].[Book-Genre] AS [Book-Genre]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="Book-List" EntityType="Self.Book-List" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Book-List].[BookID] AS [BookID], 
-    [Book-List].[ListID] AS [ListID]
-    FROM [dbo].[Book-List] AS [Book-List]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="Book-Tag" EntityType="Self.Book-Tag" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Book-Tag].[BookID] AS [BookID], 
-    [Book-Tag].[TagID] AS [TagID]
-    FROM [dbo].[Book-Tag] AS [Book-Tag]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="User-Role" EntityType="Self.User-Role" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [User-Role].[UserID] AS [UserID], 
-    [User-Role].[RoleID] AS [RoleID]
-    FROM [dbo].[User-Role] AS [User-Role]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Book-Author_Authors" Association="Self.FK_Book-Author_Authors">
             <End Role="Authors" EntitySet="Authors" />
             <End Role="Book-Author" EntitySet="Book-Author" />
@@ -751,7 +716,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="DatabaseEntities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="ProjectDataBaseEntities" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Authors">
           <Key>
             <PropertyRef Name="AuthorID" />
@@ -815,7 +780,7 @@
           <Property Name="CollectionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Collection_Book" Relationship="Self.FK_Collection_Book_Collections" FromRole="Collections" ToRole="Collection_Book" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Collections_Users" FromRole="Collections" ToRole="Users" />
         </EntityType>
@@ -1329,9 +1294,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище DatabaseEntitiesContainer" CdmEntityContainer="project_dbEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ProjectDataBaseEntitiesContainer" CdmEntityContainer="project_dbEntities">
           <EntitySetMapping Name="Authors">
-            <EntityTypeMapping TypeName="DatabaseEntities.Authors">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Authors">
               <MappingFragment StoreEntitySet="Authors">
                 <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1343,7 +1308,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Bookmarks">
-            <EntityTypeMapping TypeName="DatabaseEntities.Bookmarks">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Bookmarks">
               <MappingFragment StoreEntitySet="Bookmarks">
                 <ScalarProperty Name="BookmarkID" ColumnName="BookmarkID" />
                 <ScalarProperty Name="Collection_BookID" ColumnName="Collection_BookID" />
@@ -1352,7 +1317,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Books">
-            <EntityTypeMapping TypeName="DatabaseEntities.Books">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Books">
               <MappingFragment StoreEntitySet="Books">
                 <ScalarProperty Name="BookID" ColumnName="BookID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1363,7 +1328,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Collection_Book">
-            <EntityTypeMapping TypeName="DatabaseEntities.Collection_Book">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Collection_Book">
               <MappingFragment StoreEntitySet="Collection-Book">
                 <ScalarProperty Name="Collection_BookID" ColumnName="Collection_BookID" />
                 <ScalarProperty Name="CollectionID" ColumnName="CollectionID" />
@@ -1373,7 +1338,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Collections">
-            <EntityTypeMapping TypeName="DatabaseEntities.Collections">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Collections">
               <MappingFragment StoreEntitySet="Collections">
                 <ScalarProperty Name="CollectionID" ColumnName="CollectionID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -1383,7 +1348,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Comments">
-            <EntityTypeMapping TypeName="DatabaseEntities.Comments">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Comments">
               <MappingFragment StoreEntitySet="Comments">
                 <ScalarProperty Name="CommentID" ColumnName="CommentID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -1394,7 +1359,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Contents">
-            <EntityTypeMapping TypeName="DatabaseEntities.Contents">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Contents">
               <MappingFragment StoreEntitySet="Contents">
                 <ScalarProperty Name="ContentID" ColumnName="ContentID" />
                 <ScalarProperty Name="BookID" ColumnName="BookID" />
@@ -1404,7 +1369,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Covers">
-            <EntityTypeMapping TypeName="DatabaseEntities.Covers">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Covers">
               <MappingFragment StoreEntitySet="Covers">
                 <ScalarProperty Name="CoverID" ColumnName="CoverID" />
                 <ScalarProperty Name="BookID" ColumnName="BookID" />
@@ -1413,7 +1378,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Files">
-            <EntityTypeMapping TypeName="DatabaseEntities.Files">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Files">
               <MappingFragment StoreEntitySet="Files">
                 <ScalarProperty Name="FileID" ColumnName="FileID" />
                 <ScalarProperty Name="BookID" ColumnName="BookID" />
@@ -1422,7 +1387,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Genres">
-            <EntityTypeMapping TypeName="DatabaseEntities.Genres">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Genres">
               <MappingFragment StoreEntitySet="Genres">
                 <ScalarProperty Name="GenreID" ColumnName="GenreID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1431,7 +1396,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Likes">
-            <EntityTypeMapping TypeName="DatabaseEntities.Likes">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Likes">
               <MappingFragment StoreEntitySet="Likes">
                 <ScalarProperty Name="LikeID" ColumnName="LikeID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -1441,7 +1406,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Lists">
-            <EntityTypeMapping TypeName="DatabaseEntities.Lists">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Lists">
               <MappingFragment StoreEntitySet="Lists">
                 <ScalarProperty Name="ListID" ColumnName="ListID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1449,7 +1414,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Quotes">
-            <EntityTypeMapping TypeName="DatabaseEntities.Quotes">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Quotes">
               <MappingFragment StoreEntitySet="Quotes">
                 <ScalarProperty Name="QuoteID" ColumnName="QuoteID" />
                 <ScalarProperty Name="Collection_BookID" ColumnName="Collection_BookID" />
@@ -1458,7 +1423,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Reviews">
-            <EntityTypeMapping TypeName="DatabaseEntities.Reviews">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Reviews">
               <MappingFragment StoreEntitySet="Reviews">
                 <ScalarProperty Name="ReviewID" ColumnName="ReviewID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -1471,7 +1436,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="DatabaseEntities.Roles">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Roles">
               <MappingFragment StoreEntitySet="Roles">
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1480,7 +1445,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Screenings">
-            <EntityTypeMapping TypeName="DatabaseEntities.Screenings">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Screenings">
               <MappingFragment StoreEntitySet="Screenings">
                 <ScalarProperty Name="ScreeningID" ColumnName="ScreeningID" />
                 <ScalarProperty Name="BookID" ColumnName="BookID" />
@@ -1491,7 +1456,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tags">
-            <EntityTypeMapping TypeName="DatabaseEntities.Tags">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Tags">
               <MappingFragment StoreEntitySet="Tags">
                 <ScalarProperty Name="TagID" ColumnName="TagID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1499,7 +1464,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="DatabaseEntities.Users">
+            <EntityTypeMapping TypeName="ProjectDataBaseEntities.Users">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1512,7 +1477,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="Book_Author" TypeName="DatabaseEntities.Book_Author" StoreEntitySet="Book-Author">
+          <AssociationSetMapping Name="Book_Author" TypeName="ProjectDataBaseEntities.Book_Author" StoreEntitySet="Book-Author">
             <EndProperty Name="Authors">
               <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
             </EndProperty>
@@ -1520,7 +1485,7 @@
               <ScalarProperty Name="BookID" ColumnName="BookID" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="Book_Genre" TypeName="DatabaseEntities.Book_Genre" StoreEntitySet="Book-Genre">
+          <AssociationSetMapping Name="Book_Genre" TypeName="ProjectDataBaseEntities.Book_Genre" StoreEntitySet="Book-Genre">
             <EndProperty Name="Books">
               <ScalarProperty Name="BookID" ColumnName="BookID" />
             </EndProperty>
@@ -1528,7 +1493,7 @@
               <ScalarProperty Name="GenreID" ColumnName="GenreID" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="Book_List" TypeName="DatabaseEntities.Book_List" StoreEntitySet="Book-List">
+          <AssociationSetMapping Name="Book_List" TypeName="ProjectDataBaseEntities.Book_List" StoreEntitySet="Book-List">
             <EndProperty Name="Books">
               <ScalarProperty Name="BookID" ColumnName="BookID" />
             </EndProperty>
@@ -1536,7 +1501,7 @@
               <ScalarProperty Name="ListID" ColumnName="ListID" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="Book_Tag" TypeName="DatabaseEntities.Book_Tag" StoreEntitySet="Book-Tag">
+          <AssociationSetMapping Name="Book_Tag" TypeName="ProjectDataBaseEntities.Book_Tag" StoreEntitySet="Book-Tag">
             <EndProperty Name="Books">
               <ScalarProperty Name="BookID" ColumnName="BookID" />
             </EndProperty>
@@ -1544,7 +1509,7 @@
               <ScalarProperty Name="TagID" ColumnName="TagID" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="User_Role" TypeName="DatabaseEntities.User_Role" StoreEntitySet="User-Role">
+          <AssociationSetMapping Name="User_Role" TypeName="ProjectDataBaseEntities.User_Role" StoreEntitySet="User-Role">
             <EndProperty Name="Roles">
               <ScalarProperty Name="RoleID" ColumnName="RoleID" />
             </EndProperty>

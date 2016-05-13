@@ -22,3 +22,92 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.container-a{
+	background-color: #f8f8f8;
+	padding: 3% 5%;
+}
+
+
+.name{
+		display: block;
+		width: 100%;
+		margin: 0 45%;
+		font-weight: bold;
+		font-size: 22pt;
+	}
+
+.authors-list{
+	padding: 0 6%;
+}
+	.container-authors{
+		display: inline-block;
+		vertical-align: top;
+		width: 150px;
+		margin-bottom: 10px;
+		position: relative;
+		margin-right: 10px;
+		z-index: 0;
+		margin: 2% 3%;
+	}
+	.authors-list  img{
+		min-height: 100%;
+		width: 100%;
+		margin: 0;
+	}
+
+	.author-poster{
+		display: block;
+		width: 100%;
+		height: 210px;
+		vertical-align: top;
+		overflow: hidden;
+		position: relative;
+	}
+	.author-poster-header {
+	    text-align: center;
+		-webkit-transition: all 0.3s ease;
+		-moz-transition: all 0.3s ease;
+		-o-transition: all 0.3s ease;
+	    -ms-transition: all 0.3s ease;
+	    transition: all 0.3s ease;
+		position: absolute;
+		width: 100%;
+	    background-color: #000000;
+	    background-color: rgba(0,0,0,0.8);
+		bottom: 0;
+		padding: 0 0 20px 0;
+		height: 40px;
+	}
+
+.author-poster-header a {
+			color: #fff;
+			text-decoration: none;
+			padding: 0 2%;
+			font-size: 13px;
+			top: 5px;
+			font-family: Tahoma, Sans-Serif;
+			position: absolute;
+			width: 96%;
+			display: block;
+			word-wrap: break-word;
+		}
+			.author-poster:hover .author-poster-header a {
+				height: 100%;
+				padding: 35px 2%;
+			}
+			.author-poster:hover .author-poster-header a {
+				color: #fff;
+			}
+			.author-poster:hover .author-poster-header {
+			    background-color: #000000;
+			    background-color: rgba(0,0,0,0.8);
+				height: 100%;
+			}
+
+.author-poster:hover .author-poster-header {
+			    display: block;
+			    background-color: #000000;
+			    background-color: rgba(0,0,0,0.7);
+			}
+

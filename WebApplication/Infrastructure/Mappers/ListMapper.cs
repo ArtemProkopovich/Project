@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Service.Interfacies.Entities;
 using WebApplication.Models;
+using WebApplication.Models.BookModels;
 
 namespace WebApplication.Infrastructure.Mappers
 {
@@ -24,6 +25,15 @@ namespace WebApplication.Infrastructure.Mappers
             {
                 ID = list.ID,
                 Name = list.Name
+            };
+        }
+
+        public static ListBookListModel ToListBookListModel(this ServiceList list, IEnumerable<BookShortModel> books)
+        {
+            return new ListBookListModel
+            {
+                List = list.ToListModel(),
+                Books = books
             };
         }
     }
