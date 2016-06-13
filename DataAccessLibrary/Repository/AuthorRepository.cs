@@ -14,15 +14,18 @@ namespace DataAccessLibrary.Repository
 {
     public class AuthorRepository : IAuthorRepository
     {
-        private readonly ProjectDataEntities context;
-        public AuthorRepository(ProjectDataEntities context)
+        private readonly DatabaseContext context;
+        public AuthorRepository(DatabaseContext context)
         {
             this.context = context;
         }
 
-        public void Create(DalAuthor entity)
+        public int Create(DalAuthor entity)
         {
-            context.Authors.Add(entity.ToOrmAuthor());
+            var obj = entity.ToOrmAuthor();
+            context.Authors.Add(obj);
+            context.SaveChanges();
+            return obj.AuthorID;
         }
 
         public void Delete(DalAuthor entity)

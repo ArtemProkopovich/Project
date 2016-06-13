@@ -1,22 +1,21 @@
-﻿using DataAccess.Interfacies.Entities;
+﻿using System.Collections.Generic;
+using DataAccess.Interfacies.Entities;
 using Service.Interfacies.Entities;
+using System.Linq;
 
 namespace ServiceLibrary.Mappers
 {
     public static class DalOrmUserMapper
     {
-        public static ServiceUser ToServiceUser(this DalUser user)
+        public static ServiceUser ToServiceUser(this DalUser user, IEnumerable<DalRole> roles)
         {
             return new ServiceUser
             {
                 ID = user.ID,
                 Email = user.Email,
-                Level = user.Level,
                 Login = user.Login,
-                Name = user.Name,
-                Phone = user.Phone,
                 Password = user.Password,
-                Surname = user.Surname
+                Roles = roles.Select(e=>e.ToServiceRole())
             };
         }
 
@@ -26,11 +25,7 @@ namespace ServiceLibrary.Mappers
             {
                 ID = user.ID,
                 Email = user.Email,
-                Level = user.Level,
                 Login = user.Login,
-                Name = user.Name,
-                Surname = user.Surname,
-                Phone = user.Phone,
                 Password = user.Password
             };
         }

@@ -16,12 +16,8 @@ namespace DataAccessLibrary.Mappers
             {
                 UserID = user.ID,
                 Email = user.Email,
-                Level = user.Level,
                 Login = user.Login,
-                Name = user.Name,
-                Phone = user.Phone,
                 Password = user.Password,
-                Surname = user.Surname
             };
         }
 
@@ -31,11 +27,7 @@ namespace DataAccessLibrary.Mappers
             {
                 ID = user.UserID,
                 Email = user.Email,
-                Level = user.Level ?? 0,
                 Login = user.Login,
-                Name = user.Name,
-                Surname = user.Surname,
-                Phone = user.Phone,
                 Password = user.Password
             };
         }

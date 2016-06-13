@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using Service.Interfacies;
 using Service.Interfacies.Entities;
-using Service.Interfacies.Interfacies;
 using WebApplication.Infrastructure.Mappers;
 using WebApplication.Models;
 using WebApplication.Models.BookModels;

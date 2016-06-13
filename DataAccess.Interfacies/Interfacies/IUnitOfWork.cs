@@ -15,6 +15,7 @@ namespace DataAccess.Interfacies
         IGenreRepository Genres { get; }
         IListRepository Lists { get; }
         ITagRepository Tags { get; }
+        IRoleRepository Roles { get; }
         IUserRepository Users { get; }
         void Save();
         Task SaveAsync();

@@ -5,13 +5,13 @@ using System.Web;
 using System.Web.Mvc;
 using Service.Interfacies;
 using Service.Interfacies.Entities;
-using Service.Interfacies.Interfacies;
 using WebApplication.Infrastructure.Mappers;
 using WebApplication.Models;
 using WebApplication.Models.BookModels;
 
 namespace WebApplication.Controllers
 {
+    [Authorize]
     public class GenreController : Controller
     {
         private readonly IListService service;

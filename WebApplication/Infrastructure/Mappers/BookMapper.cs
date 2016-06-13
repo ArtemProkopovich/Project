@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Service.Interfacies.Entities;
+using WebApplication.Models.AuthorModels;
 using WebApplication.Models.BookModels;
 
 namespace WebApplication.Infrastructure.Mappers
@@ -41,6 +42,20 @@ namespace WebApplication.Infrastructure.Mappers
             model.Screening = sfb.Screeninigs;
             model.Tags = sfb.Tags;
             return model;
+        }
+
+        public static BookShortModel ToBookShortModel(this ServiceFullBook sfb)
+        {
+            var author = sfb.Authors.FirstOrDefault();
+            return new BookShortModel()
+            {
+                ID = sfb.BookData.ID,
+                Name = sfb.BookData.Name,
+                Likes = sfb.Likes.Count(e => e.Like),
+                Dislikes = sfb.Likes.Count(e => !e.Like),
+                Cover = sfb.Covers.FirstOrDefault()?.ImagePath,
+                Author = new AuthorShortModel() {ID = author?.ID ?? 0, Name = author?.Name, PhotoPath = author?.Photo}
+            };
         }
 
         public static ServiceBook CreateModelToServiceBook(this BookCreateModel bkm)

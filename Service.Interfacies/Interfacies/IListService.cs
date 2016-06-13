@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Service.Interfacies.Entities;
 
-namespace Service.Interfacies.Interfacies
+namespace Service.Interfacies
 {
     public interface IListService
     {

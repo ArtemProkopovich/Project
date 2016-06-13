@@ -14,14 +14,17 @@ namespace DataAccessLibrary.Repository
 {
     public class TagRepository : ITagRepository
     {
-        private readonly ProjectDataEntities context;
-        public TagRepository(ProjectDataEntities context)
+        private readonly DatabaseContext context;
+        public TagRepository(DatabaseContext context)
         {
             this.context = context;
         }
-        public void Create(DalTag entity)
+        public int Create(DalTag entity)
         {
-            context.Tags.Add(entity.ToOrmTag());
+            var obj = entity.ToOrmTag();
+            context.Tags.Add(obj);
+            context.SaveChanges();
+            return obj.TagID;
         }
 
         public void Delete(DalTag entity)

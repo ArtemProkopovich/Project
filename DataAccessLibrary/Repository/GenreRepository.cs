@@ -14,14 +14,17 @@ namespace DataAccessLibrary.Repository
 {
     public class GenreRepository : IGenreRepository
     {
-        private readonly ProjectDataEntities context;
-        public GenreRepository(ProjectDataEntities context)
+        private readonly DatabaseContext context;
+        public GenreRepository(DatabaseContext context)
         {
             this.context = context;
         }
-        public void Create(DalGenre entity)
+        public int Create(DalGenre entity)
         {
-            context.Genres.Add(entity.ToOrmGenre());
+            var obj = entity.ToOrmGenre();
+            context.Genres.Add(obj);
+            context.SaveChanges();
+            return obj.GenreID;
         }
 
         public void Delete(DalGenre entity)

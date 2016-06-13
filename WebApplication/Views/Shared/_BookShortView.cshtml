@@ -1,11 +1,11 @@
 ﻿@model WebApplication.Models.BookModels.BookShortModel
 
-<div class="panel">
+<div class="panel panel-default">
     <div class="panel-body">
-        <div class="col-md-offset-0 col-md-3">
+        <div class="col-md-3">
             <img class="img-thumbnail" src="@Url.Action("GetImage","Books", new {id = Model.ID})" alt="cover image"/>
         </div>
-        <div class="col-md-9">
+        <div class="row col-md-9">
             <div class="">
                 @Html.LabelFor(model => model.Name, htmlAttributes: new {@class = "control-label col-md-3"})
                 @Html.ActionLink(@Model.Name, "Details", "Books", new {id = Model.ID}, htmlAttributes: new {@class = "control-label col-md-9"})
@@ -16,7 +16,7 @@
                 @Html.ActionLink(Model.Author.Name, "Details", "Author", new {id = Model.Author.ID}, htmlAttributes: new {@class = "control-label col-md-9"})
             </div>
             <div class="clearfix"></div>
-            <div class="btn-group btn-group-lg bottom">
+            <div class="btn-group btn-group-lg btn-group-justified">
                 <button class="btn btn-success"><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i>Like @Model.Likes</button>
                 <button class="btn btn-warning"><i class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></i>Dislike @Model.Dislikes</button>
             </div>

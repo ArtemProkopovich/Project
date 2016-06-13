@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Service.Interfacies.Entities;
+using Service.Interfacies.Entities.Book;
 
 namespace Service.Interfacies
 {

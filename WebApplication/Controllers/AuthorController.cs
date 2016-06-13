@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Service.Interfacies;
-using Service.Interfacies.Interfacies;
 using WebApplication.Infrastructure;
 using WebApplication.Infrastructure.Mappers;
 using WebApplication.Models.AuthorModels;
@@ -110,12 +109,12 @@ namespace WebApplication.Controllers
             {
                 if (model.NewPhoto != null)
                 {
-                    string filepath = Server.MapPath("~/App_Data/Uploads/Covers" +
+                    string filepath = Server.MapPath("~/App_Data/Uploads/Covers/Authors/" +
                                                      FilePathGenerator.GenerateFileName(model.NewPhoto.FileName));
-                    if (!string.IsNullOrEmpty(model.PhothPath) && System.IO.File.Exists(model.PhothPath))
-                        System.IO.File.Delete(model.PhothPath);
+                    if (!string.IsNullOrEmpty(model.PhotoPath) && System.IO.File.Exists(model.PhotoPath))
+                        System.IO.File.Delete(model.PhotoPath);
                     model.NewPhoto.SaveAs(filepath);
-                    model.PhothPath = filepath;
+                    model.PhotoPath = filepath;
 
                 }
                 var author = model.ToServiceAuthor();
@@ -165,7 +164,7 @@ namespace WebApplication.Controllers
             var author = service.GetById(id);
             return !string.IsNullOrEmpty(author.Photo)
                 ? new FilePathResult(author.Photo, "image/*")
-                : new FilePathResult(Server.MapPath("~/App_Data/Uploads/Covers/" + "no_author_cover.png"), "image/*");
+                : new FilePathResult(Server.MapPath("~/App_Data/Uploads/Covers/Authors/" + "no_author_cover.png"), "image/*");
         }
     }
 }

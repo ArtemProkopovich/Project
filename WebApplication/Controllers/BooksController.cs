@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using Service.Interfacies;
 using Service.Interfacies.Entities;
-using Service.Interfacies.Interfacies;
 using ServiceLibrary.Service;
 using WebApplication.Infrastructure;
 using WebApplication.Infrastructure.Mappers;
@@ -50,9 +49,12 @@ namespace WebApplication.Controllers
             foreach (var genre in genres)
             {
                 var book = listService.GetGenreBooks(genre).FirstOrDefault();
-                var smb = book.ToBookShortModel();
-                smb.Cover = service.GetBookCovers(book)?.FirstOrDefault()?.ImagePath;
-                genreList.Add(new GenreFirstModel() {book = smb, genre = genre.ToGenreModel()});
+                if (book != null)
+                {
+                    var smb = book.ToBookShortModel();
+                    smb.Cover = service.GetBookCovers(book)?.FirstOrDefault()?.ImagePath;
+                    genreList.Add(new GenreFirstModel() {book = smb, genre = genre.ToGenreModel()});
+                }
             }
 
             List<ListFirstModel> listList = new List<ListFirstModel>();
@@ -60,9 +62,12 @@ namespace WebApplication.Controllers
             foreach (var list in lists)
             {
                 var book = listService.GetListBooks(list).FirstOrDefault();
-                var smb = book.ToBookShortModel();
-                smb.Cover = service.GetBookCovers(book)?.FirstOrDefault()?.ImagePath;
-                listList.Add(new ListFirstModel() {book = smb, list = list.ToListModel()});
+                if (book != null)
+                {
+                    var smb = book.ToBookShortModel();
+                    smb.Cover = service.GetBookCovers(book)?.FirstOrDefault()?.ImagePath;
+                    listList.Add(new ListFirstModel() {book = smb, list = list.ToListModel()});
+                }
             }
             BookIndexPageModel bipm = new BookIndexPageModel()
             {
@@ -145,7 +150,7 @@ namespace WebApplication.Controllers
                 if (model.Cover != null)
                 {
                     ServiceCover cover = new ServiceCover();
-                    string filepath = Server.MapPath("~/App_Data/Uploads/Covers/" +
+                    string filepath = Server.MapPath("~/App_Data/Uploads/Covers/Books/" +
                                                      FilePathGenerator.GenerateFileName(model.Cover.FileName));
                     model.Cover.SaveAs(filepath);
                     cover.BookID = book.ID;
@@ -171,7 +176,7 @@ namespace WebApplication.Controllers
             }
         }
 
-        public ActionResult List(int id)
+        public ActionResult List()
         {
             try
             {
@@ -231,7 +236,7 @@ namespace WebApplication.Controllers
             ServiceCover cover = service.GetBookCovers(book)?.First();
             return cover != null
                 ? new FilePathResult(cover.ImagePath, "image/*")
-                : new FilePathResult(Server.MapPath("~/App_Data/Uploads/Covers/" + "no_book_cover.jpg"), "image/*");
+                : new FilePathResult(Server.MapPath("~/App_Data/Uploads/Covers/Books/" + "no_book_cover.jpg"), "image/*");
         }
 
     }

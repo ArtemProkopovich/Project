@@ -19,7 +19,7 @@
                 </div>
                 <div class="list-group-item">
                     @Html.LabelFor(model => model.Author, htmlAttributes: new { @class = "control-label col-md-4" })
-                    @Html.ActionLink(Model.Author.Name,"Details","Author", new { id = Model.Author.ID })
+                    @Html.ActionLink(Model.Author.Name,"Details","Author", new { id = Model.Author.ID }, htmlAttributes: new { @class = "control-label" })
                 </div>
                 <div class="list-group-item">
                     @Html.LabelFor(model => model.PublishDate, htmlAttributes: new { @class = "control-label col-md-4" })

@@ -8,12 +8,7 @@ namespace WebApplication.Models.UserModels
 {
     public class SignModel
     {
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Surname can't be empty.")]
-        public string Surname { get; set; }
-
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Name can't be empty.")]
-        public string Name { get; set; }
-
+    
         [Required(AllowEmptyStrings = false, ErrorMessage = "Login can't be empty.")]
         public string Login { get; set; }
 

@@ -14,6 +14,7 @@ namespace WebApplication.Models.BookModels
         [HiddenInput(DisplayValue =false)]
         public int ID { get; set; }
         public string Name { get; set; }
+        [DataType(DataType.Date)]
         public DateTime PublishDate { get; set; }
         public int AgeCategory { get; set; }
         public AuthorShortModel Author { get; set; }

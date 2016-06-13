@@ -67,6 +67,7 @@
     <Compile Include="Entities\DalScreening.cs" />
     <Compile Include="Entities\DalTag.cs" />
     <Compile Include="Entities\DalUser.cs" />
+    <Compile Include="Entities\DalUserProfile.cs" />
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Interfacies\IAuthorRepository.cs" />
     <Compile Include="Interfacies\IBookRepository.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Interfacies\IGenreRepository.cs" />
     <Compile Include="Interfacies\IListRepository.cs" />
     <Compile Include="Interfacies\IRepository.cs" />
+    <Compile Include="Interfacies\IRoleRepository.cs" />
     <Compile Include="Interfacies\ITagRepository.cs" />
     <Compile Include="Interfacies\IUnitOfWork.cs" />
     <Compile Include="Interfacies\IUserRepository.cs" />

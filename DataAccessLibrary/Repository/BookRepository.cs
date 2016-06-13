@@ -15,8 +15,8 @@ namespace DataAccessLibrary.Repository
 {
     public class BookRepository : IBookRepository
     {
-        private readonly ProjectDataEntities context;
-        public BookRepository(ProjectDataEntities context)
+        private readonly DatabaseContext context;
+        public BookRepository(DatabaseContext context)
         {
             this.context = context;
         }
@@ -126,9 +126,12 @@ namespace DataAccessLibrary.Repository
             }
         }
 
-        public void Create(DalBook entity)
+        public int Create(DalBook entity)
         {
-            context.Books.Add(entity.ToOrmBook());
+            var obj = entity.ToOrmBook();
+            context.Books.Add(obj);
+            context.SaveChanges();
+            return obj.BookID;
         }
 
         public void Delete(DalBook entity)
@@ -282,14 +285,14 @@ namespace DataAccessLibrary.Repository
             return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Likes.Select(e => e.ToDalLike());
         }
 
-        private static Random random = new Random();
+        private static readonly Random Random = new Random();
         public DalBook GetRandomBook()
         {
             Books b = context.Books.FirstOrDefault();
             if (b != null)
             {
                 int count = context.Books.Count();
-                int r = random.Next(b.BookID, count);
+                int r = Random.Next(b.BookID, count);
                 Books result = context.Books.FirstOrDefault(e => e.BookID > r);
                 return result.ToDalBook();
             }

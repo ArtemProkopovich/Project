@@ -67,6 +67,7 @@
     <Compile Include="Mappers\DalOrmScreeningMapper.cs" />
     <Compile Include="Mappers\DalOrmTagMapper.cs" />
     <Compile Include="Mappers\DalOrmUserMapper.cs" />
+    <Compile Include="Mappers\DalOrmUserProfileMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AuthorRepository.cs" />
     <Compile Include="Repository\BookRepository.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Repository\EFUnitOfWork.cs" />
     <Compile Include="Repository\GenreRepository.cs" />
     <Compile Include="Repository\ListRepository.cs" />
+    <Compile Include="Repository\RoleRepository.cs" />
     <Compile Include="Repository\TagRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>

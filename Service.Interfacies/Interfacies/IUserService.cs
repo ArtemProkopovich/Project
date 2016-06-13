@@ -9,10 +9,15 @@ namespace Service.Interfacies
 {
     public interface IUserService
     {
-        ServiceUser Login(ServiceEmailAuthorizeUser user);
-        ServiceUser Login(ServiceLoginAuthorizeUser user);
         ServiceUser Sign(ServiceUser user);
-        ServiceRole GetUserRole(ServiceUser user);
-        void Exit(ServiceUser user);
+        ServiceUser GetUserByEmail(string email);
+        ServiceUser GetUserByLogin(string login);
+        ServiceUser GetUserById(int id);
+        ServiceUserProfile GetUserProfile(ServiceUser user);
+        ServiceUserProfile GetUserProfile(int id);
+        void UpdateUserProfile(ServiceUserProfile profile);
+        void AddRole(ServiceRole role);
+        IEnumerable<ServiceRole> GetUserRoles(ServiceUser user);
+        IEnumerable<ServiceRole> GetRoles();
     }
 }

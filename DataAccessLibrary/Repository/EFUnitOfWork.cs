@@ -13,7 +13,7 @@ namespace DataAccessLibrary.Repository
 {
     public class EFUnitOfWork : IUnitOfWork
     {
-        private readonly ProjectDataEntities context;
+        private readonly DatabaseContext context;
         private bool disposed = false;
         private AuthorRepository authorRepository;
         private BookRepository bookRepository;
@@ -21,79 +21,26 @@ namespace DataAccessLibrary.Repository
         private UserRepository userRepository;
         private ListRepository listRepository;
         private TagRepository tagRepository;
+        private RoleRepository roleRepository;
         private GenreRepository genreRepository;
 
-        public IAuthorRepository Authors
-        {
-            get
-            {
-                if (authorRepository == null)
-                    authorRepository = new AuthorRepository(context);
-                return authorRepository;
-            }
-        }
+        public IAuthorRepository Authors => authorRepository ?? (authorRepository = new AuthorRepository(context));
 
-        public IBookRepository Books
-        {
-            get
-            {
-                if (bookRepository == null)
-                    bookRepository = new BookRepository(context);
-                return bookRepository;
-            }
-        }
+        public IBookRepository Books => bookRepository ?? (bookRepository = new BookRepository(context));
 
-        public ICollectionRepository Collections
-        {
-            get
-            {
-                if (collectionRepository == null)
-                    collectionRepository = new CollectionRepository(context);
-                return collectionRepository;
-            }
-        }
+        public ICollectionRepository Collections => collectionRepository ?? (collectionRepository = new CollectionRepository(context));
 
-        public IGenreRepository Genres
-        {
-            get
-            {
-                if (genreRepository == null)
-                    genreRepository = new GenreRepository(context);
-                return genreRepository;
-            }
-        }
+        public IGenreRepository Genres => genreRepository ?? (genreRepository = new GenreRepository(context));
 
-        public IListRepository Lists
-        {
-            get
-            {
-                if (listRepository == null)
-                    listRepository = new ListRepository(context);
-                return listRepository;
-            }
-        }
+        public IListRepository Lists => listRepository ?? (listRepository = new ListRepository(context));
 
-        public ITagRepository Tags
-        {
-            get
-            {
-                if (tagRepository == null)
-                    tagRepository = new TagRepository(context);
-                return tagRepository;
-            }
-        }
+        public ITagRepository Tags => tagRepository ?? (tagRepository = new TagRepository(context));
 
-        public IUserRepository Users
-        {
-            get
-            {
-                if (userRepository == null)
-                    userRepository = new UserRepository(context);
-                return userRepository;
-            }
-        }
+        public IUserRepository Users => userRepository ?? (userRepository = new UserRepository(context));
 
-        public EFUnitOfWork(ProjectDataEntities context)
+        public IRoleRepository Roles => roleRepository ?? (roleRepository = new RoleRepository(context));
+
+        public EFUnitOfWork(DatabaseContext context)
         {
             this.context = context;
         }

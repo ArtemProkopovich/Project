@@ -22,7 +22,7 @@ namespace WebApplication.Models.AuthorModels
         [DataType(DataType.Date)]
         [Display(Name = "Death date")]
         public DateTime DeathDate { get; set; }
-        public string PhothPath { get; set; }
+        public string PhotoPath { get; set; }
 
         [Display(Name = "Upload new photo")]
         public HttpPostedFileBase NewPhoto { get; set; }

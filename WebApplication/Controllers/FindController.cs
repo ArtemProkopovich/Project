@@ -16,9 +16,9 @@ namespace WebApplication.Controllers
             this.service = service;
         }
         // GET: Find
-        public ActionResult Index(string query)
+        public ActionResult Index(string text)
         {
-            ViewBag.Query = query;
+            ViewBag.Query = text;
             return View();
         }
     }

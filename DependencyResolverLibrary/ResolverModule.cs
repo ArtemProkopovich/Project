@@ -10,7 +10,6 @@ using Ninject;
 using Ninject.Web.Common;
 using ORMLibrary;
 using Service.Interfacies;
-using Service.Interfacies.Interfacies;
 using ServiceLibrary.Service;
 
 namespace DependencyResolverLibrary
@@ -32,12 +31,14 @@ namespace DependencyResolverLibrary
             if (isWeb)
             {
                 kernel.Bind<IUnitOfWork>().To<EFUnitOfWork>().InRequestScope();
-                kernel.Bind<ProjectDataEntities>().To<ProjectDataEntities>().InRequestScope();
+                kernel.Bind<DatabaseContext>().To<DatabaseContext>().InRequestScope();
+                kernel.Bind<IServiceManager>().To<ServiceManager>().InRequestScope();
             }
             else
             {
                 kernel.Bind<IUnitOfWork>().To<EFUnitOfWork>().InSingletonScope();
-                kernel.Bind<ProjectDataEntities>().To<ProjectDataEntities>().InSingletonScope();
+                kernel.Bind<DatabaseContext>().To<DatabaseContext>().InSingletonScope();
+                kernel.Bind<IServiceManager>().To<ServiceManager>().InSingletonScope();
             }
             #region services
             kernel.Bind<IAuthorService>().To<AuthorService>();

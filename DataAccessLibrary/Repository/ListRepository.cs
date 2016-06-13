@@ -14,8 +14,8 @@ namespace DataAccessLibrary.Repository
 {
     public class ListRepository : IListRepository
     {
-        private readonly ProjectDataEntities context;
-        public ListRepository(ProjectDataEntities context)
+        private readonly DatabaseContext context;
+        public ListRepository(DatabaseContext context)
         {
             this.context = context;
         }
@@ -34,9 +34,12 @@ namespace DataAccessLibrary.Repository
                 AddBook(list, book);
         }
 
-        public void Create(DalList entity)
+        public int Create(DalList entity)
         {
-            context.Lists.Add(entity.ToOrmList());
+            var obj = entity.ToOrmList();
+            context.Lists.Add(obj);
+            context.SaveChanges();
+            return obj.ListID;
         }
 
         public void Delete(DalList entity)

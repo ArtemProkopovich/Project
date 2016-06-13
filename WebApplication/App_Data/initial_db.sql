@@ -106,6 +106,10 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id('[FK_User-Role_User
 ALTER TABLE [User-Role] DROP CONSTRAINT [FK_User-Role_Users]
 ;
 
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id('[FK_UserProfiles_Users]') AND OBJECTPROPERTY(id, 'IsForeignKey') = 1) 
+ALTER TABLE [UserProfiles] DROP CONSTRAINT [FK_UserProfiles_Users]
+;
+
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id('[Authors]') AND OBJECTPROPERTY(id, 'IsUserTable') = 1) 
 DROP TABLE [Authors]
 ;
@@ -194,6 +198,10 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id('[User-Role]') AND 
 DROP TABLE [User-Role]
 ;
 
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id('[UserProfiles]') AND OBJECTPROPERTY(id, 'IsUserTable') = 1) 
+DROP TABLE [UserProfiles]
+;
+
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id('[Users]') AND OBJECTPROPERTY(id, 'IsUserTable') = 1) 
 DROP TABLE [Users]
 ;
@@ -249,7 +257,7 @@ CREATE TABLE [Books]
 (
 	[BookID] int NOT NULL IDENTITY (1, 1),
 	[Name] nvarchar(200) NOT NULL,
-	[First_Publication] datetime,
+	[First_Publication] datetime2(7),
 	[Age_Caegory] int,
 	[Confirmed] int NOT NULL
 )
@@ -304,7 +312,8 @@ CREATE TABLE [Files]
 (
 	[FileID] int NOT NULL IDENTITY (1, 1),
 	[BookID] int NOT NULL,
-	[Path] nvarchar(255) NOT NULL
+	[Path] nvarchar(255) NOT NULL,
+	[Format] nvarchar(5) NOT NULL
 )
 ;
 
@@ -384,16 +393,23 @@ CREATE TABLE [User-Role]
 )
 ;
 
+CREATE TABLE [UserProfiles]
+(
+	[UserID] int NOT NULL,
+	[Name] nvarchar(50),
+	[Surname] nvarchar(50),
+	[Photo_Path] nvarchar(255),
+	[Points] int,
+	[Level] int
+)
+;
+
 CREATE TABLE [Users]
 (
 	[UserID] int NOT NULL IDENTITY (1, 1),
-	[Name] nvarchar(50) NOT NULL,
-	[Surname] nvarchar(50),
 	[Login] nvarchar(64) NOT NULL,
-	[Password] nvarchar(64) NOT NULL,
-	[Email] nvarchar(50) NOT NULL,
-	[Phone] nvarchar(50),
-	[Level] int DEFAULT 1
+	[Password] nvarchar(128) NOT NULL,
+	[Email] nvarchar(64) NOT NULL
 )
 ;
 
@@ -519,6 +535,11 @@ ALTER TABLE [User-Role]
 	PRIMARY KEY CLUSTERED ([UserID],[RoleID])
 ;
 
+ALTER TABLE [UserProfiles] 
+ ADD CONSTRAINT [PK_UserProfiles]
+	PRIMARY KEY CLUSTERED ([UserID])
+;
+
 ALTER TABLE [Users] 
  ADD CONSTRAINT [PK_Users]
 	PRIMARY KEY CLUSTERED ([UserID])
@@ -597,7 +618,7 @@ ALTER TABLE [Files] ADD CONSTRAINT [FK_Files_Books]
 ;
 
 ALTER TABLE [Genres] ADD CONSTRAINT [FK_Genres_Genres]
-	FOREIGN KEY ([Parent_GenreID]) REFERENCES [Genres] ([GenreID]) ON DELETE No Action ON UPDATE No Action
+	FOREIGN KEY ([Parent_GenreID]) REFERENCES [Genres] ([GenreID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
 ALTER TABLE [Likes] ADD CONSTRAINT [FK_Likes_Books]
@@ -625,9 +646,13 @@ ALTER TABLE [Screenings] ADD CONSTRAINT [FK_Screenings_Books]
 ;
 
 ALTER TABLE [User-Role] ADD CONSTRAINT [FK_User-Role_Roles]
-	FOREIGN KEY ([RoleID]) REFERENCES [Roles] ([RoleID]) ON DELETE No Action ON UPDATE Cascade
+	FOREIGN KEY ([RoleID]) REFERENCES [Roles] ([RoleID]) ON DELETE CASCADE ON UPDATE Cascade
 ;
 
 ALTER TABLE [User-Role] ADD CONSTRAINT [FK_User-Role_Users]
 	FOREIGN KEY ([UserID]) REFERENCES [Users] ([UserID]) ON DELETE Cascade ON UPDATE No Action
+;
+
+ALTER TABLE [UserProfiles] ADD CONSTRAINT [FK_UserProfiles_Users]
+	FOREIGN KEY ([UserID]) REFERENCES [Users] ([UserID]) ON DELETE Cascade ON UPDATE Cascade
 ;

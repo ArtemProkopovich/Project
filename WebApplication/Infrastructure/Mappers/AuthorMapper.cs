@@ -53,7 +53,7 @@ namespace WebApplication.Infrastructure.Mappers
                 BirthDate = author.BirthDate ?? new DateTime(),
                 DeathDate = author.DeathDate ?? new DateTime(),
                 Biography = author.Biography,
-                PhothPath = author.Photo
+                PhotoPath = author.Photo
             };
         }
 
@@ -90,7 +90,7 @@ namespace WebApplication.Infrastructure.Mappers
                 BirthDate = author.BirthDate,
                 DeathDate = author.DeathDate,
                 Biography = author.Biography,
-                Photo = author.PhothPath
+                Photo = author.PhotoPath
             };
         }
     }

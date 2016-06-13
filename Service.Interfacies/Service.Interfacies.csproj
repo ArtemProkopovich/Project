@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Entities\Author\ServiceAuthor.cs" />
     <Compile Include="Entities\Book\ServiceBook.cs" />
+    <Compile Include="Entities\Book\ServiceShortBook.cs" />
     <Compile Include="Entities\ServiceBookmark.cs" />
     <Compile Include="Entities\ServiceCollection.cs" />
     <Compile Include="Entities\ServiceCollectionBook.cs" />
@@ -59,8 +60,7 @@
     <Compile Include="Entities\ServiceRole.cs" />
     <Compile Include="Entities\ServiceScreening.cs" />
     <Compile Include="Entities\ServiceTag.cs" />
-    <Compile Include="Entities\User\ServiceEmailAuthorizeUser.cs" />
-    <Compile Include="Entities\User\ServiceLoginAuthorizeUser.cs" />
+    <Compile Include="Entities\User\ServiceUserProfile.cs" />
     <Compile Include="Entities\User\ServiceUser.cs" />
     <Compile Include="Interfacies\IAuthorService.cs" />
     <Compile Include="Interfacies\ICommentService.cs" />
@@ -68,6 +68,7 @@
     <Compile Include="Interfacies\ICollectionService.cs" />
     <Compile Include="Interfacies\IBookService.cs" />
     <Compile Include="Interfacies\IListService.cs" />
+    <Compile Include="Interfacies\IServiceManager.cs" />
     <Compile Include="Interfacies\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceException.cs" />

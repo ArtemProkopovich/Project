@@ -14,8 +14,8 @@ namespace DataAccessLibrary.Repository
 {
     public class CollectionRepository : ICollectionRepository
     {
-        private readonly ProjectDataEntities context;
-        public CollectionRepository(ProjectDataEntities context)
+        private readonly DatabaseContext context;
+        public CollectionRepository(DatabaseContext context)
         {
             this.context = context;
         }
@@ -52,15 +52,17 @@ namespace DataAccessLibrary.Repository
             }
         }
 
-        public void AddUserCollection(DalUser user, DalCollection collection)
+        public void AddUserCollection(DalCollection collection)
         {
-            collection.UserID = user.ID;
             context.Collections.Add(collection.ToOrmCollection());
         }
 
-        public void Create(DalCollection entity)
+        public int Create(DalCollection entity)
         {
-            context.Collections.Add(entity.ToOrmCollection());
+            var obj = entity.ToOrmCollection();
+            context.Collections.Add(obj);
+            context.SaveChanges();
+            return obj.CollectionID;
         }
 
         public void Delete(DalCollection entity)
@@ -70,10 +72,10 @@ namespace DataAccessLibrary.Repository
                 context.Collections.Remove(cl);
         }
 
-        public void DeleteBook(DalCollection collection, DalCollectionBook book)
+        public void DeleteBook( DalCollectionBook book)
         {
             var dbBook = context.Collection_Book.FirstOrDefault(e => e.Collection_BookID == book.ID);
-            var dbCl = context.Collections.FirstOrDefault(e => e.CollectionID == collection.ID);
+            var dbCl = context.Collections.FirstOrDefault(e => e.CollectionID == book.CollectionID);
             if (dbBook != null && dbCl != null)
             {
                 dbCl.Collection_Book.Remove(dbBook);
@@ -126,6 +128,11 @@ namespace DataAccessLibrary.Repository
                 .Collection_Book.Select(e => e.Books.ToDalBook());
         }
 
+        public DalCollectionBook GetCollectionBook(int id)
+        {
+            return context.Collection_Book.FirstOrDefault(e => e.Collection_BookID == id)?.ToDalCollectionBook();
+        }
+
         public IEnumerable<DalCollectionBook> GetCollectionBooks(DalCollection collection)
         {
             return context.Collections.FirstOrDefault(e => e.CollectionID == collection.ID)?
@@ -134,7 +141,16 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalCollection> GetUserCollections(DalUser user)
         {
-            return context.Collections.Where(e => e.UserID == user.ID).Select(e => e.ToDalCollection());
+            return context.Collections.Where(e => e.UserID == user.ID).ToList().Select(e => e.ToDalCollection());
+        }
+
+        public void MoveBook(DalCollectionBook book, DalCollection collection)
+        {
+            var dbBook = context.Collection_Book.FirstOrDefault(e => e.Collection_BookID == book.ID);
+            if (dbBook != null)
+            {
+                book.CollectionID = collection.ID;
+            }
         }
 
         public void Update(DalCollection entity)

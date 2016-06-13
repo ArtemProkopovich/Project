@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Interfacies;
+using Service.Interfacies;
 using Service.Interfacies.Entities;
-using Service.Interfacies.Interfacies;
 using ServiceLibrary.Mappers;
 
 namespace ServiceLibrary.Service

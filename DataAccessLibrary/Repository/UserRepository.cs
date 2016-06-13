@@ -14,8 +14,8 @@ namespace DataAccessLibrary.Repository
 {
     public class UserRepository : IUserRepository
     {
-        private readonly ProjectDataEntities context;
-        public UserRepository(ProjectDataEntities context)
+        private readonly DatabaseContext context;
+        public UserRepository(DatabaseContext context)
         {
             this.context = context;
         }
@@ -30,9 +30,18 @@ namespace DataAccessLibrary.Repository
             }
         }
 
-        public void Create(DalUser entity)
+        public void AddUserRoles(DalUser user, IEnumerable<DalRole> roles)
         {
-            context.Users.Add(entity.ToOrmUser());
+            foreach (var role in roles)
+                AddUserRole(user, role);
+        }
+
+        public int Create(DalUser entity)
+        {
+            var obj = entity.ToOrmUser();
+            context.Users.Add(obj);
+            context.SaveChanges();
+            return obj.UserID;
         }
 
         public void Delete(DalUser entity)
@@ -72,6 +81,21 @@ namespace DataAccessLibrary.Repository
             return context.Users.FirstOrDefault(e => e.UserID == key)?.ToDalUser();
         }
 
+        public DalUser GetUserByEmail(string email)
+        {
+            return context.Users.FirstOrDefault(e => e.Email == email)?.ToDalUser();
+        }
+
+        public DalUser GetUserByLogin(string login)
+        {
+            return context.Users.FirstOrDefault(e => e.Login == login)?.ToDalUser();
+        }
+
+        public DalUserProfile GetUserProfile(DalUser user)
+        {
+            return context.UserProfiles.FirstOrDefault(e => e.UserID == user.ID)?.ToDalUserProfile();
+        }
+
         public IEnumerable<DalRole> GetUserRoles(DalUser user)
         {
             var dbUser = context.Users.FirstOrDefault(e => e.UserID == user.ID);
@@ -87,14 +111,29 @@ namespace DataAccessLibrary.Repository
             var u = context.Users.FirstOrDefault(e => e.UserID == entity.ID);
             if (u != null)
             {
-                u.Name = entity.Name;
                 u.Email = entity.Email;
-                u.Level = entity.Level;
                 u.Login = entity.Login;
-                u.Name = entity.Name;
                 u.Password = entity.Password;
-                u.Phone = entity.Phone;
-                u.Surname = entity.Surname;
+            }
+        }
+
+        public void UpdateUserProfile(DalUserProfile profile)
+        {
+            var dbProfile = context.UserProfiles.FirstOrDefault(e => e.UserID == profile.ID);
+            var dbUser = context.Users.FirstOrDefault(e => e.UserID == profile.ID);
+            if (dbUser == null)
+                return;
+            if (dbProfile == null)
+                context.UserProfiles.Add(profile.ToOrmUserProfile());
+            else
+            {
+                dbProfile.BirthDate = profile.BirthDate;
+                dbProfile.Level = profile.Level;
+                dbProfile.Male = profile.Male;
+                dbProfile.Name = profile.Name;
+                dbProfile.Photo_Path = profile.PhotoPath;
+                dbProfile.Points = profile.Points;
+                dbProfile.Surname = profile.Surname;
             }
         }
     }
