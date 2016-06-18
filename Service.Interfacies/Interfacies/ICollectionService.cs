@@ -11,6 +11,7 @@ namespace Service.Interfacies
     {
         void AddUserCollection(ServiceCollection collection);
         void RemoveCollection(ServiceCollection collection);
+        void UpdateCollection(ServiceCollection collection);
         void ClearCollection(ServiceCollection collection);
         void AddBook(ServiceCollection collection, ServiceBook book);
         void RemoveBook(ServiceCollectionBook book);

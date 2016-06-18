@@ -14,7 +14,7 @@
                 @foreach (var cl in Model.Collections)
                 {
                     <li>
-                        <a href="#@cl.collection.Name@cl.collection.ID">@cl.collection.Name</a>
+                        <a href="#@cl.collection.ID">@cl.collection.Name</a>
                     </li>
                 }
                 <li><a href="@Url.Action("Create")">Create new</a></li>
@@ -32,12 +32,12 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#@cl.collection.Name@cl.collection.ID">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#@cl.collection.ID">
                             @cl.collection.Name
                         </a>
                     </h4>
                 </div>
-                <div id="@cl.collection.Name@cl.collection.ID" class="panel-collapse collapse">
+                <div id="@cl.collection.ID" class="panel-collapse collapse">
                     <div class="panel-body">
                         <h4 class="text-info">
                             @cl.collection.Description

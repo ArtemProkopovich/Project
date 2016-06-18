@@ -36,10 +36,11 @@ namespace WebApplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        public ActionResult Edit()
         {
             try
             {
+                int id = (int)HttpContext.Profile["ID"];
                 var profile = userService.GetUserProfile(id) ?? new ServiceUserProfile() {ID = id};
                 return View(profile.ToUserProfileModel());
             }
@@ -77,6 +78,7 @@ namespace WebApplication.Controllers
             }
         }
 
+        [AllowAnonymous]
         public FileResult GetImage(int id)
         {
             var profile = userService.GetUserProfile(id) ?? new ServiceUserProfile() {ID = id};

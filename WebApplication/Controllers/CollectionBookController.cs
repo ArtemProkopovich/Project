@@ -24,6 +24,25 @@ namespace WebApplication.Controllers
             return View();
         }
 
+        public ActionResult Add(int bookID, int clID, string returnUrl)
+        {
+            try
+            {
+                var dbBook = manager.bookService.GetBookById(bookID);
+                var dbCl = manager.collectionService.GetCollectionById(clID);
+                manager.collectionService.AddBook(dbCl, dbBook);
+                if (Url.IsLocalUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+                return RedirectToAction("Index", "Collection");
+            }
+            catch
+            {
+                return View("Error");
+            }
+        }
+
         public ActionResult Move(int ID, int clID)
         {
             try

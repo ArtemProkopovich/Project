@@ -19,24 +19,28 @@ namespace ServiceLibrary.Service
             this.unit = unit;
         }
 
-        public void AddComment(ServiceUser user, ServiceBook book, ServiceComment comment)
+        public void AddComment(ServiceComment comment)
         {
-            unit.Books.AddComment(book.ToDalBook(), user.ToDalUser(), comment.ToDalComment());
+            unit.Books.AddComment(comment.ToDalComment());
+            unit.Save();
         }
 
-        public void AddContent(ServiceUser user, ServiceBook book, ServiceContent content)
+        public void AddContent(ServiceContent content)
         {
-            unit.Books.AddContent(book.ToDalBook(), user.ToDalUser(), content.ToDalContent());
+            unit.Books.AddContent(content.ToDalContent());
+            unit.Save();
         }
 
-        public void AddLike(ServiceUser user, ServiceBook book, ServiceLike like)
+        public void AddLike(ServiceLike like)
         {
-            unit.Books.AddLike(book.ToDalBook(), user.ToDalUser(), like.ToDalLike());
+            unit.Books.AddLike(like.ToDalLike());
+            unit.Save();
         }
 
-        public void AddReview(ServiceUser user, ServiceBook book, ServiceReview review)
+        public void AddReview(ServiceReview review)
         {
-            unit.Books.AddReview(book.ToDalBook(), user.ToDalUser(), review.ToDalReview());
+            unit.Books.AddReview(review.ToDalReview());
+            unit.Save();
         }
 
         public IEnumerable<ServiceComment> GetBookComments(ServiceBook book)
@@ -57,6 +61,21 @@ namespace ServiceLibrary.Service
         public IEnumerable<ServiceReview> GetBookReviews(ServiceBook book)
         {
             return unit.Books.GetReviews(book.ToDalBook()).Select(e => e.ToServiceReview());
+        }
+
+        public IEnumerable<ServiceComment> GetUserComments(ServiceUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ServiceContent> GetUserContents(ServiceUser user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ServiceReview> GetUserReviews(ServiceUser user)
+        {
+            throw new NotImplementedException();
         }
 
         public void RemoveComment(ServiceComment comment)

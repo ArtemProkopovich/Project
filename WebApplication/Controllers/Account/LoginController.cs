@@ -28,7 +28,7 @@ namespace WebApplication.Controllers.Account
                 if (Membership.ValidateUser(model.Login, model.Password))
                 //Проверяет учетные данные пользователя и управляет параметрами пользователей
                 {
-                    FormsAuthentication.SetAuthCookie(model.Login, true);
+                    FormsAuthentication.SetAuthCookie(Membership.GetUser(model.Login, true)?.UserName, true);
                     //Управляет службами проверки подлинности с помощью форм для веб-приложений
                     if (Url.IsLocalUrl(returnUrl))
                     {

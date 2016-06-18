@@ -14,6 +14,7 @@ namespace DataAccessLibrary.Mappers
         {
             return new Comments
             {
+                Added_Date = comment.PublishTime,
                 CommentID = comment.ID,
                 BookID = comment.BookID,
                 UserID = comment.UserID,
@@ -28,7 +29,8 @@ namespace DataAccessLibrary.Mappers
                 ID = comment.CommentID, 
                 BookID = comment.BookID,
                 UserID = comment.UserID,
-                Text = comment.Text
+                Text = comment.Text,
+                PublishTime = comment.Added_Date
             };
         }
     }

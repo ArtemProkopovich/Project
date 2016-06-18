@@ -105,5 +105,11 @@ namespace ServiceLibrary.Service
             unit.Collections.DeleteQuote(quote.ToDalQuote());
             unit.Save();
         }
+
+        public void UpdateCollection(ServiceCollection collection)
+        {
+            unit.Collections.Update(collection.ToDalCollection());
+            unit.Save();
+        }
     }
 }

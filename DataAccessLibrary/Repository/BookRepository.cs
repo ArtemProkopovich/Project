@@ -31,26 +31,22 @@ namespace DataAccessLibrary.Repository
             }
         }
 
-        public void AddComment(DalBook book, DalUser user, DalComment comment)
+        public void AddComment(DalComment comment)
         {
-            var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
-            var dbUser = context.Users.FirstOrDefault(e => e.UserID == user.ID);
+            var dbBook = context.Books.FirstOrDefault(e => e.BookID == comment.BookID);
+            var dbUser = context.Users.FirstOrDefault(e => e.UserID == comment.UserID);
             if (dbBook != null && dbUser != null)
             {
-                comment.BookID = book.ID;
-                comment.UserID = user.ID;
                 context.Comments.Add(comment.ToOrmComment());
             }
         }
 
-        public void AddContent(DalBook book, DalUser user, DalContent content)
+        public void AddContent(DalContent content)
         {
-            var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
-            var dbUser = context.Users.FirstOrDefault(e => e.UserID == user.ID);
+            var dbBook = context.Books.FirstOrDefault(e => e.BookID == content.BookID);
+            var dbUser = context.Users.FirstOrDefault(e => e.UserID == content.UserID);
             if (dbBook != null && dbUser != null)
             {
-                content.BookID = book.ID;
-                content.UserID = user.ID;
                 context.Contents.Add(content.ToOrmContent());
             }
         }
@@ -83,26 +79,22 @@ namespace DataAccessLibrary.Repository
             }
         }
 
-        public void AddLike(DalBook book, DalUser user, DalLike like)
+        public void AddLike(DalLike like)
         {
-            var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
-            var dbUser = context.Users.FirstOrDefault(e => e.UserID == user.ID);
+            var dbBook = context.Books.FirstOrDefault(e => e.BookID == like.BookID);
+            var dbUser = context.Users.FirstOrDefault(e => e.UserID == like.UserID);
             if (dbBook != null && dbUser != null)
             {
-                like.BookID = book.ID;
-                like.UserID = user.ID;
                 context.Likes.Add(like.ToOrmLike());
             }
         }
 
-        public void AddReview(DalBook book, DalUser user, DalReview review)
+        public void AddReview(DalReview review)
         {
-            var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
-            var dbUser = context.Users.FirstOrDefault(e => e.UserID == user.ID);
+            var dbBook = context.Books.FirstOrDefault(e => e.BookID == review.BookID);
+            var dbUser = context.Users.FirstOrDefault(e => e.UserID == review.UserID);
             if (dbBook != null && dbUser != null)
             {
-                review.BookID = book.ID;
-                review.UserID = user.ID;
                 context.Reviews.Add(review.ToOrmReview());
             }
         }
@@ -236,7 +228,9 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalAuthor> GetAuthors(DalBook book)
         {
-            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Authors.ToList().Select(e => e.ToDalAuthor());
+            return
+                context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Authors.ToList().Select(e => e.ToDalAuthor()) ??
+                new List<DalAuthor>();
         }
 
         public DalBook GetById(int key)
@@ -251,12 +245,12 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalComment> GetComments(DalBook book)
         {
-            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Comments.Select(e => e.ToDalComment());
+            return context.Comments.Where(e => e.BookID == book.ID).ToList().Select(e => e.ToDalComment());
         }
 
         public IEnumerable<DalContent> GetContents(DalBook book)
         {
-            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Contents.Select(e => e.ToDalContent());
+            return context.Contents.Where(e => e.BookID == book.ID).ToList().Select(e => e.ToDalContent());
         }
 
         public IEnumerable<DalCover> GetCovers(DalBook book)
@@ -277,12 +271,13 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalGenre> GetGenres(DalBook book)
         {
-            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Genres.Select(e => e.ToDalGenre());
+            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Genres.Select(e => e.ToDalGenre()) ??
+                   new List<DalGenre>();
         }
 
         public IEnumerable<DalLike> GetLikes(DalBook book)
         {
-            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Likes.Select(e => e.ToDalLike());
+            return context.Likes.Where(e => e.BookID == book.ID).ToList().Select(e => e.ToDalLike());
         }
 
         private static readonly Random Random = new Random();
@@ -301,7 +296,7 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalReview> GetReviews(DalBook book)
         {
-            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Reviews.Select(e => e.ToDalReview());
+            return context.Reviews.Where(e => e.BookID == book.ID).ToList().Select(e => e.ToDalReview());
         }
 
         public IEnumerable<DalScreening> GetScreenings(DalBook book)
@@ -314,7 +309,8 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalTag> GetTags(DalBook book)
         {
-            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Tags.Select(e => e.ToDalTag());
+            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Tags.Select(e => e.ToDalTag()) ??
+                   new List<DalTag>();
         }
 
         public void Update(DalBook entity)
@@ -326,6 +322,12 @@ namespace DataAccessLibrary.Repository
                 a.First_Publication = entity.FirstPublication;
                 a.Name = entity.Name;
             }
+        }
+
+        public IEnumerable<DalList> GetLists(DalBook book)
+        {
+            return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Lists.Select(e => e.ToDalList()) ??
+                   new List<DalList>();
         }
     }
 }

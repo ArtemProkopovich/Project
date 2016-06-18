@@ -51,13 +51,13 @@ namespace DataAccessLibrary.Repository
         }
         public void Dispose()
         {
-            if (!disposed)
+            /*if (!disposed)
             {
                 context.Dispose();
                 GC.SuppressFinalize(this);
             }
             else
-                throw new ObjectDisposedException(nameof(EFUnitOfWork), "Object was disposed yet.");
+                throw new ObjectDisposedException(nameof(EFUnitOfWork), "Object was disposed yet.");*/
         }
 
         public void Save()

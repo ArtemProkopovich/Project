@@ -1,0 +1,31 @@
+﻿@using WebApplication.Models.ContentModels
+@model WebApplication.Models.ContentModels.ReviewModel
+
+<div class="">
+    <div class="col-md-1 thumbnail">
+        <img class="" src="@Url.Action("GetImage", "User", new {id = Model.ID})"/>
+    </div>
+    @{
+        string type = "panel-success";
+        if (ReviewType.Neutral == Model.Type)
+        {
+            type = "panel-defualt";
+        }
+        else if (ReviewType.Negative == Model.Type)
+        {
+            type = "panel-danger";
+        }
+
+    }
+    <div class="col-md-11">
+        <div class="panel @type panel-comment">
+            <div class="panel-heading">
+                <strong>@Model.User.Name @Model.User.Surname</strong> <span class="text-muted">posted on @Html.DisplayFor(m => m.PublishTime, "{0:dd/MM/yy}")</span>
+            </div>
+            <div class="panel-body">
+                <h2>@Model.Header</h2>
+                <p>@Model.Text</p>
+            </div>
+        </div>
+    </div>
+</div>

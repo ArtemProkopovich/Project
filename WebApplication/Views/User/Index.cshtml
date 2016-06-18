@@ -1,54 +1,97 @@
-﻿@model WebApplication.Models.UserModels.UserProfileModel
+﻿@model WebApplication.Models.ViewModels.UserModels.UserIndexModel
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <div class="jumbotron">
     <div class="row">
         <div class="col-md-3">
-            <img class="img-thumbnail" src="@Url.Action("GetImage", new {id = Model.ID})" alt="image"/>
-            <div class="btn-group btn-group-justified" style="padding-top:2.6em">
-                <a class="btn btn-primary" href="@Url.Action("Edit", new {id = Model.ID})">Edit</a>
+            <img class="img-thumbnail" src="@Url.Action("GetImage", new {id = Model.Profile.ID})" alt="image"/>
+            <div class="btn-group btn-group-justified" style="padding-top: 10px">
+                <a class="btn btn-primary" href="@Url.Action("Edit")">Edit</a>
             </div>
         </div>
-        <div class="container col-md-9">
-            <div class="container list-group">
-                <div class="list-group-item">
-                    <p class="control-label col-md-12">Your profile</p>
+        <div class="container col-md-9 row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <p>Your profile</p>
                 </div>
-                <div class="list-group-item">
-                    @Html.LabelFor(model => model.Name, htmlAttributes: new {@class = "control-label col-md-4"})
-                    @Html.DisplayFor(model => model.Name)
-                </div>
-                <div class="list-group-item">
-                    @Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "control-label col-md-4" })
-                    @Html.DisplayFor(model => model.Surname)
-                </div>
-                <div class="list-group-item">
-                    @Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-4" })
-                    @Html.DisplayFor(model => model.BirthDate)
-                </div>
-                <div class="list-group-item">
-                    @Html.LabelFor(model => model.Male, htmlAttributes: new { @class = "control-label col-md-4" })
-                    @{
-                        if (Model.Male==true)
-                        {
-                            <text>Male</text>
+                <div class="panel-body list-group">
+                    <div class="list-group-item">
+                        @Html.LabelFor(model => model.Profile.Name, htmlAttributes: new {@class = "control-label col-md-4"})
+                        @{
+                            if (string.IsNullOrEmpty(Model.Profile.Name))
+                            {
+                                <text>No specified</text>
+                            }
+                            else
+                            {
+                                <text>@Model.Profile.Name</text>
+                            }
                         }
-                        else if (Model.Male == false)
-                        {
-                            <text>Female</text>
+                    </div>
+                    <div class="list-group-item">
+                        @Html.LabelFor(model => model.Profile.Surname, htmlAttributes: new {@class = "control-label col-md-4"})
+                        @{
+                            if (string.IsNullOrEmpty(Model.Profile.Surname))
+                            {
+                                <text>No specified</text>
+                            }
+                            else
+                            {
+                                <text>@Model.Profile.Surname</text>
+                            }
                         }
-                        else
-                        {
-                            <text>Not selected</text>
+                    </div>
+                    <div class="list-group-item">
+                        @Html.LabelFor(model => model.Profile.BirthDate, htmlAttributes: new {@class = "control-label col-md-4"})
+                        @{
+                            if (DateTime.MinValue == Model.Profile.BirthDate)
+                            {
+                                <text>No specified</text>
+                            }
+                            else
+                            {
+                                <text>@Html.DisplayFor(e => e.Profile.BirthDate)</text>
+                            }
                         }
-                    }
+                    </div>
+                    <div class="list-group-item">
+                        @Html.LabelFor(model => model.Profile.Male, htmlAttributes: new {@class = "control-label col-md-4"})
+                        @{
+                            if (Model.Profile.Male == true)
+                            {
+                                <text>Male</text>
+                            }
+                            else if (Model.Profile.Male == false)
+                            {
+                                <text>Female</text>
+                            }
+                            else
+                            {
+                                <text>Not selected</text>
+                            }
+                        }
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="container">
+        <h2>Created content</h2>
+        <div class="col-md-3">
+            <a class="btn btn-success btn-lg">
+                
+            </a>
+        </div>
+        <div class="col-md-offset-2 col-md-3">
+
+        </div>
+        <div class="col-md-offset-2 col-md-3">
+            
+        </div>
+    </div>
 </div>
+

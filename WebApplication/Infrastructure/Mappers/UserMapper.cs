@@ -24,6 +24,17 @@ namespace WebApplication.Infrastructure.Mappers
             };
         }
 
+        public static UserShortModel ToUserShortModel(this ServiceUserProfile profile)
+        {
+            return new UserShortModel()
+            {
+                ID = profile.ID,
+                Name = string.IsNullOrEmpty(profile.Name) ? "Anonym" : profile.Name,
+                Surname = string.IsNullOrEmpty(profile.Surname) ? "Anonymus" : profile.Surname,
+                PhotoPath = profile.PhotoPath
+            };
+        }
+
         public static ServiceUserProfile ToServiceUserProfile(this UserProfileModel model)
         {
             return new ServiceUserProfile()

@@ -12,5 +12,6 @@ namespace DataAccess.Interfacies.Entities
         public int UserID { get; set; }
         public int BookID { get; set; }
         public string Text { get; set; }
+        public DateTime PublishTime { get; set; }
     }
 }

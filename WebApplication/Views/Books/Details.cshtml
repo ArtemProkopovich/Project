@@ -1,5 +1,9 @@
 ﻿@using Service.Interfacies.Entities
+@using WebApplication.Models
+@using WebApplication.Models.AuthorModels
 @using WebApplication.Models.BookModels
+@using WebApplication.Models.ContentModels
+@using WebApplication.Models.UserModels
 @model WebApplication.Models.BookModels.BookPageModel
 
 @{
@@ -9,47 +13,204 @@
 
 <div class="jumbotron">
     <div class="row">
-        <div class="col-md-3">
-            <img class="img-thumbnail" src="@Url.Action("GetImage","Books", new {id = Model.ID})" alt="image" />
+        <div class="col-md-3 row" style="margin-right:5px">
+            <div class="">
+                <img class="img-thumbnail" src="@Url.Action("GetImage", "Books", new {id = Model.ID})" alt="image"/>
+            </div>
+            <div class="" style="padding-top: 10px">
+                <div class="btn-group btn-group-sm btn-group-justified">
+                    <a class="btn btn-sm btn-success"><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i>Like</a>
+                    <a class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></i>Dislike</a>
+                </div>
+                <div class="progress" style="padding-top:2px">
+                    @{ int likePercent = Model.LikeCount != 0 ? Model.Like/Model.LikeCount : 50; }
+                    <div class="progress-bar progress-bar-success" style="width: @likePercent%">
+                        <span class="sr-only">@likePercent likes</span>
+                    </div>
+                    @{ int dislikePercent = Model.LikeCount != 0 ? Model.Dislike/Model.LikeCount : 50; }
+                    <div class="progress-bar progress-bar-danger" style="width: @dislikePercent%">
+                        <span class="sr-only">@dislikePercent dislikes</span>
+                    </div>
+                </div>
+                <div class="" style="padding-top: 10px">
+                    <div class="btn-group btn-group-sm btn-group-justified">
+                        <a class="btn btn-info" href="@Url.Action("Add", "CollectionBook", new {bookID = Model.ID, clID = 0})"><i class="glyphicon glyphicon-saved" aria-hidden="true"></i>Add book to collection</a>
+                    </div>
+                </div>
+                <div class="" style="padding-top: 10px">
+                    <div class="btn-group btn-group-sm btn-group-justified">
+                        <a class="btn btn-warning" href="@Url.Action("Edit", "Books", new {bookID = Model.ID})"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i>Edit book</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="container col-md-9">
-            <div class="container list-group">
-                <div class="list-group-item">
-                    <div class="control-label col-md-12">@Html.DisplayFor(model => model.Name)</div>
+        <div class="col-md-9 row">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                     <h2>@Model.Name</h2>
                 </div>
-                <div class="list-group-item">
-                    @Html.LabelFor(model => model.Author, htmlAttributes: new { @class = "control-label col-md-4" })
-                    @Html.ActionLink(Model.Author.Name,"Details","Author", new { id = Model.Author.ID }, htmlAttributes: new { @class = "control-label" })
+                <div class="panel-body list-group">
+                    <div class="list-group-item">
+                        @Html.LabelFor(model => model.Authors, htmlAttributes: new {@class = "control-label col-md-4"})
+                        @foreach (AuthorShortModel author in Model.Authors)
+                        {
+                            @Html.ActionLink(author.Name, "Details", "Author", new { id = author.ID }, htmlAttributes: new { @class = "control-label" })
+                            @Html.Display(". ")
+                        }
+                    </div>
+                    <div class="list-group-item">
+                        @Html.LabelFor(model => model.PublishDate, htmlAttributes: new {@class = "control-label col-md-4"})
+                        @Html.DisplayFor(model => model.PublishDate)
+                    </div>
+                    <div class="list-group-item">
+                        @Html.LabelFor(model => model.AgeCategory, htmlAttributes: new {@class = "control-label col-md-4"})
+                        @Html.DisplayFor(model => model.AgeCategory)
+                    </div>
+                    <div class="list-group-item">
+                        @Html.LabelFor(model => model.Genres, htmlAttributes: new {@class = "control-label col-md-4"})
+                        @foreach (GenreModel genre in Model.Genres)
+                        {
+                            @Html.ActionLink(genre.Name, "List", "Genre", new {id = genre.ID}, htmlAttributes: new {@class = "control-label"})
+                            @Html.Display(". ")
+                        }
+                    </div>
+                    <div class="list-group-item">
+                        @Html.LabelFor(model => model.Tags, htmlAttributes: new {@class = "control-label col-md-4"})
+                        @foreach (TagModel tag in Model.Tags)
+                        {
+                            @Html.ActionLink(tag.Name, "List", "Tag", new {id = tag.ID}, htmlAttributes: new {@class = "control-label"})
+                            @Html.Display(", ")
+                        }
+                    </div>
                 </div>
-                <div class="list-group-item">
-                    @Html.LabelFor(model => model.PublishDate, htmlAttributes: new { @class = "control-label col-md-4" })
-                    @Html.DisplayFor(model => model.PublishDate)
-                </div>
-                <div class="list-group-item">
-                    @Html.LabelFor(model => model.AgeCategory, htmlAttributes: new { @class = "control-label col-md-4" })
-                    @Html.DisplayFor(model => model.AgeCategory)
-                </div>
-                <div class="list-group-item">
-                    @Html.LabelFor(model => model.Genres, htmlAttributes: new { @class = "control-label col-md-4" })
-                    @foreach (ServiceGenre genre in Model.Genres)
-                    {
-                        @Html.ActionLink(genre.Name, "List", "Genre", new { id = genre.ID }, htmlAttributes: new { @class = "control-label" })
-                        @Html.Display(". ")
-                    }
-                </div>
-                <div class="list-group-item">
-                    @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label col-md-4" })
-                    @foreach (ServiceTag tag in Model.Tags)
-                    {
-                        @Html.ActionLink(tag.Name, "List", "Tag", new { id = tag.ID }, htmlAttributes: new { @class = "control-label" })
-                        @Html.Display(", ")
-                    }
-                </div> 
             </div>
         </div>
     </div>
     <hr />
     <div class="container">
-        
+        <div class="col-md-8">
+            <div class="row">
+                <div class=""></div>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#comments">Comments</a></li>
+                    <li><a data-toggle="tab" href="#contents">Contents</a></li>
+                    <li><a data-toggle="tab" href="#reviews">Reviews</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="comments" class="tab-pane fade in active">
+                        <h3>Comments</h3>
+                        <div class="row">
+                            @foreach (var comment in Model.Comments)
+                            {
+                                @Html.Partial("_CommentView", comment)
+                            }
+                        </div>
+                        @using (Html.BeginForm("CreateComment", "Comment", FormMethod.Post))
+                        {
+                            CommentModel comment = new CommentModel();
+                            comment.BookID = Model.ID;
+                            comment.User = new UserShortModel();
+                            comment.Text = "";
+                            @Html.AntiForgeryToken()
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                                @Html.HiddenFor(e=>comment.BookID)
+                                <div class="form-group">
+                                    @Html.LabelFor(e => comment.Text, htmlAttributes: new {@class = "control-label col-md-2"})
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(e => comment.Text, 10, 50, new {htmlAttributes = new {@class = "form-control"}})
+                                        @Html.ValidationMessageFor(e => comment.Text, "", new {@class = "text-danger"})
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Comment" class="btn btn-default"/>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div id="contents" class="tab-pane fade">
+                        <h3>Contents</h3>
+                        <div class="row">
+                            @foreach (var content in Model.Contents)
+                            {
+                                @Html.Partial("_ContentView", content)
+                            }
+                            @using (Html.BeginForm("CreateContent", "Comment", FormMethod.Post))
+                            {
+                                ContentModel content = new ContentModel();
+                                content.BookID = Model.ID;
+                                content.Text = "";
+                                @Html.AntiForgeryToken()                          
+                                <div class="form-horizontal">
+                                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                                    @Html.HiddenFor(e => content.BookID)
+                                    <div class="form-group">
+                                        @Html.LabelFor(e => content.Text, htmlAttributes: new {@class = "control-label col-md-2"})
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(e => content.Text, 10, 50, new {htmlAttributes = new {@class = "form-control"}})
+                                            @Html.ValidationMessageFor(e => content.Text, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Add content" class="btn btn-default"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div id="reviews" class="tab-pane fade">
+                        <h3>Reviews</h3>
+                        <div class="row">
+                            @foreach (var review in Model.Reviews)
+                            {
+                                @Html.Partial("_ReviewView", review)
+                            }
+                            @using (Html.BeginForm("CreateReview", "Comment", FormMethod.Post))
+                            {
+                                ReviewModel review = new ReviewModel();
+                                review.Header = "";
+                                review.BookID = Model.ID;
+                                review.Text = "";
+                                review.Type = ReviewType.Negative;
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(e => review.BookID)
+                                <div class="form-horizontal">
+                                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                                    <div class="form-group">
+                                        @Html.LabelFor(e => review.Header, htmlAttributes: new {@class = "control-label col-md-2"})
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(e => review.Header, new {htmlAttributes = new {@class = "form-control"}})
+                                            @Html.ValidationMessageFor(e => review.Header, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(e => review.Text, htmlAttributes: new {@class = "control-label col-md-2"})
+                                        <div class="col-md-10">
+                                            @Html.TextAreaFor(e => review.Text, 10, 50, new {htmlAttributes = new {@class = "form-control"}})
+                                            @Html.ValidationMessageFor(e => review.Text, "", new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Add review" class="btn btn-default"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+
+            </div>
+        </div>
     </div>
 </div>

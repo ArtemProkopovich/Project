@@ -88,14 +88,22 @@ namespace ServiceLibrary.Service
 
         public ServiceFullBook GetFullBookInfo(ServiceBook book)
         {
-            ServiceFullBook fBook = new ServiceFullBook();
-            fBook.BookData = book;
-            fBook.Authors = unit.Books.GetAuthors(book.ToDalBook()).Select(e => e.ToServiceAuthor());
-            fBook.Covers = unit.Books.GetCovers(book.ToDalBook()).Select(e => e.ToServiceCover());
-            fBook.Files = unit.Books.GetFiles(book.ToDalBook()).Select(e => e.ToServiceFile());
-            fBook.Genres = unit.Books.GetGenres(book.ToDalBook()).Select(e => e.ToServiceGenre());
-            fBook.Screeninigs = unit.Books.GetScreenings(book.ToDalBook()).Select(e => e.ToServiceScreening());
-            fBook.Tags = unit.Books.GetTags(book.ToDalBook()).Select(e => e.ToServiceTag());
+            var dalBook = book.ToDalBook();
+            ServiceFullBook fBook = new ServiceFullBook
+            {
+                BookData = book,
+                Authors = unit.Books.GetAuthors(dalBook).Select(e => e.ToServiceAuthor()),
+                Comments = unit.Books.GetComments(dalBook).Select(e => e.ToServiceComment()),
+                Contents = unit.Books.GetContents(dalBook).Select(e=>e.ToServiceContent()),
+                Likes = unit.Books.GetLikes(dalBook).Select(e=>e.ToServiceLike()),
+                Lists = unit.Books.GetLists(dalBook).Select(e=>e.ToServiceList()),
+                Review = unit.Books.GetReviews(dalBook).Select(e=>e.ToServiceReview()),
+                Covers = unit.Books.GetCovers(dalBook).Select(e => e.ToServiceCover()),
+                Files = unit.Books.GetFiles(dalBook).Select(e => e.ToServiceFile()),
+                Genres = unit.Books.GetGenres(dalBook).Select(e => e.ToServiceGenre()),
+                Screeninigs = unit.Books.GetScreenings(dalBook).Select(e => e.ToServiceScreening()),
+                Tags = unit.Books.GetTags(dalBook).Select(e => e.ToServiceTag())
+            };
             return fBook;
         }
 

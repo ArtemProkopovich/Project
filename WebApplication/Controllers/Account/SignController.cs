@@ -51,7 +51,7 @@ namespace WebApplication.Controllers.Account
 
                 if (membershipUser != null)
                 {
-                    FormsAuthentication.SetAuthCookie(model.Email, false);
+                    FormsAuthentication.SetAuthCookie(model.Login, false);
                     return RedirectToAction("Index", "Home");
                 }
                 else

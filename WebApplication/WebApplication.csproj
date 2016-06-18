@@ -152,6 +152,7 @@
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\CollectionBookController.cs" />
     <Compile Include="Controllers\CollectionController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\FindController.cs" />
     <Compile Include="Controllers\GenreController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -167,38 +168,63 @@
     <Compile Include="Infrastructure\Mappers\BookMapper.cs" />
     <Compile Include="Infrastructure\Mappers\CollectionBookMapper.cs" />
     <Compile Include="Infrastructure\Mappers\CollectionMappers.cs" />
+    <Compile Include="Infrastructure\Mappers\CommentMapper.cs" />
+    <Compile Include="Infrastructure\Mappers\ContentMapper.cs" />
+    <Compile Include="Infrastructure\Mappers\CoverMapper.cs" />
     <Compile Include="Infrastructure\Mappers\GenreMapper.cs" />
     <Compile Include="Infrastructure\Mappers\ListMapper.cs" />
+    <Compile Include="Infrastructure\Mappers\ReviewMapper.cs" />
     <Compile Include="Infrastructure\Mappers\TagMapper.cs" />
     <Compile Include="Infrastructure\Mappers\UserMapper.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
-    <Compile Include="Models\AuthorModels\AuthorCreateModel.cs" />
-    <Compile Include="Models\AuthorModels\AuthorEditModel.cs" />
-    <Compile Include="Models\AuthorModels\AuthorFullModel.cs" />
-    <Compile Include="Models\AuthorModels\AuthorShortModel.cs" />
-    <Compile Include="Models\BookModels\BookCreateModel.cs" />
-    <Compile Include="Models\BookModels\BookIndexPageModel.cs" />
-    <Compile Include="Models\BookModels\BookPageModel.cs" />
-    <Compile Include="Models\BookModels\BookShortModel.cs" />
-    <Compile Include="Models\CollectionBookModels\CollectionBookModel.cs" />
-    <Compile Include="Models\CollectionModels\CollectionBookListModel.cs" />
-    <Compile Include="Models\CollectionModels\CollectionListModel.cs" />
-    <Compile Include="Models\CollectionModels\CollectionModel.cs" />
-    <Compile Include="Models\GenreModels\GenreBookListModel.cs" />
-    <Compile Include="Models\GenreModels\GenreFirstModel.cs" />
-    <Compile Include="Models\GenreModels\GenreModel.cs" />
-    <Compile Include="Models\ListModels\ListBookListModel.cs" />
-    <Compile Include="Models\ListModels\ListFirstModel.cs" />
-    <Compile Include="Models\ListModels\ListModel.cs" />
-    <Compile Include="Models\Shared\_UserProfileModel.cs" />
-    <Compile Include="Models\TagModels\TagBookListModel.cs" />
-    <Compile Include="Models\TagModels\TagModel.cs" />
-    <Compile Include="Models\ListModels\EditListModel.cs" />
-    <Compile Include="Models\UserModels\LoginModel.cs" />
-    <Compile Include="Models\UserModels\SignModel.cs" />
-    <Compile Include="Models\UserModels\UserProfileModel.cs" />
+    <Compile Include="Infrastructure\Mappers\ScreeningMapper.cs" />
+    <Compile Include="Models\DataModels\Author.cs" />
+    <Compile Include="Models\DataModels\Book.cs" />
+    <Compile Include="Models\DataModels\Collection.cs" />
+    <Compile Include="Models\DataModels\CollectionBook.cs" />
+    <Compile Include="Models\DataModels\Comment.cs" />
+    <Compile Include="Models\DataModels\Content.cs" />
+    <Compile Include="Models\DataModels\Genre.cs" />
+    <Compile Include="Models\DataModels\Like.cs" />
+    <Compile Include="Models\DataModels\List.cs" />
+    <Compile Include="Models\DataModels\Review.cs" />
+    <Compile Include="Models\DataModels\Tag.cs" />
+    <Compile Include="Models\DataModels\User.cs" />
+    <Compile Include="Models\ViewModels\AuthorModels\AuthorCreateModel.cs" />
+    <Compile Include="Models\ViewModels\AuthorModels\AuthorEditModel.cs" />
+    <Compile Include="Models\ViewModels\AuthorModels\AuthorFullModel.cs" />
+    <Compile Include="Models\ViewModels\AuthorModels\AuthorShortModel.cs" />
+    <Compile Include="Models\ViewModels\BookModels\BookCreateModel.cs" />
+    <Compile Include="Models\ViewModels\BookModels\BookIndexPageModel.cs" />
+    <Compile Include="Models\ViewModels\BookModels\BookPageModel.cs" />
+    <Compile Include="Models\ViewModels\BookModels\BookShortModel.cs" />
+    <Compile Include="Models\ViewModels\CollectionBookModels\CollectionBookModel.cs" />
+    <Compile Include="Models\ViewModels\CollectionModels\CollectionBookListModel.cs" />
+    <Compile Include="Models\ViewModels\CollectionModels\CollectionListModel.cs" />
+    <Compile Include="Models\ViewModels\CollectionModels\CollectionModel.cs" />
+    <Compile Include="Models\ViewModels\ContentModels\CommentModel.cs" />
+    <Compile Include="Models\ViewModels\ContentModels\ContentModel.cs" />
+    <Compile Include="Models\ViewModels\ContentModels\CoverModel.cs" />
+    <Compile Include="Models\ViewModels\ContentModels\ReviewModel.cs" />
+    <Compile Include="Models\ViewModels\ContentModels\ScreeningModel.cs" />
+    <Compile Include="Models\ViewModels\GenreModels\GenreBookListModel.cs" />
+    <Compile Include="Models\ViewModels\GenreModels\GenreFirstModel.cs" />
+    <Compile Include="Models\ViewModels\GenreModels\GenreModel.cs" />
+    <Compile Include="Models\ViewModels\ListModels\ListBookListModel.cs" />
+    <Compile Include="Models\ViewModels\ListModels\ListFirstModel.cs" />
+    <Compile Include="Models\ViewModels\ListModels\ListModel.cs" />
+    <Compile Include="Models\ViewModels\Shared\_UserProfileModel.cs" />
+    <Compile Include="Models\ViewModels\TagModels\TagBookListModel.cs" />
+    <Compile Include="Models\ViewModels\TagModels\TagModel.cs" />
+    <Compile Include="Models\ViewModels\ListModels\EditListModel.cs" />
+    <Compile Include="Models\ViewModels\UserModels\LoginModel.cs" />
+    <Compile Include="Models\ViewModels\UserModels\SignModel.cs" />
+    <Compile Include="Models\ViewModels\UserModels\UserIndexModel.cs" />
+    <Compile Include="Models\ViewModels\UserModels\UserProfileModel.cs" />
+    <Compile Include="Models\ViewModels\UserModels\UserShortModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\CustomMembershipProvider.cs" />
+    <Compile Include="Providers\CustomProfileProvider.cs" />
     <Compile Include="Providers\CustomRoleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -207,15 +233,25 @@
     <Content Include="App_Data\project_db_log.ldf">
       <DependentUpon>project_db.mdf</DependentUpon>
     </Content>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -267,18 +303,22 @@
     <Content Include="Views\Collection\Clear.cshtml" />
     <Content Include="Views\Collection\Delete.cshtml" />
     <Content Include="Views\CollectionBook\Delete.cshtml" />
+    <Content Include="Views\Collection\Edit.cshtml" />
     <None Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Shared\_BookShortViewList.cshtml" />
     <Content Include="Views\Shared\_AuthorShortView.cshtml" />
     <Content Include="Views\Shared\_BookShortImageView.cshtml" />
     <Content Include="Views\Shared\_ProfileLayout.cshtml" />
+    <Content Include="Views\Shared\_CommentView.cshtml" />
+    <Content Include="Views\Shared\_ContentView.cshtml" />
+    <Content Include="Views\Shared\_ReviewView.cshtml" />
     <None Include="Views\Sign\Sign.cshtml" />
     <Content Include="Views\Tag\Index.cshtml" />
     <Content Include="Views\Tag\Create.cshtml" />
     <Content Include="Views\Tag\Delete.cshtml" />
     <Content Include="Views\Tag\List.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DependencyResolverLibrary\DependencyResolverLibrary.csproj">
@@ -295,9 +335,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
@@ -307,6 +344,7 @@
     <Folder Include="App_Data\Uploads\Covers\Books\" />
     <Folder Include="App_Data\Uploads\Covers\Users\" />
     <Folder Include="App_Data\Uploads\Files\" />
+    <Folder Include="Views\Comment\" />
     <Folder Include="Views\Logout\" />
   </ItemGroup>
   <PropertyGroup>

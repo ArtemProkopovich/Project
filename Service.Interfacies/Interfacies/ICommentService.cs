@@ -9,17 +9,20 @@ namespace Service.Interfacies
 {
     public interface ICommentService
     {
-        void AddLike(ServiceUser user , ServiceBook book, ServiceLike like);
+        void AddLike(ServiceLike like);
         void RemoveLike(ServiceLike like);
         IEnumerable<ServiceLike> GetBookLikes(ServiceBook book);
-        void AddComment(ServiceUser user, ServiceBook book, ServiceComment comment);
+        void AddComment(ServiceComment comment);
         void RemoveComment(ServiceComment comment);
         IEnumerable<ServiceComment> GetBookComments(ServiceBook book);
-        void AddReview(ServiceUser user, ServiceBook book, ServiceReview review);
+        IEnumerable<ServiceComment> GetUserComments(ServiceUser user);
+        void AddReview(ServiceReview review);
         void RemoveReview(ServiceReview review);
         IEnumerable<ServiceReview> GetBookReviews(ServiceBook book);
-        void AddContent(ServiceUser user, ServiceBook book, ServiceContent content);
+        IEnumerable<ServiceReview> GetUserReviews(ServiceUser user);
+        void AddContent(ServiceContent content);
         void RemoveContent(ServiceContent content);
         IEnumerable<ServiceContent> GetBookContents(ServiceBook book);
+        IEnumerable<ServiceContent> GetUserContents(ServiceUser user);
     }
 }

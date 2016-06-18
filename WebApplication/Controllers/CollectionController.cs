@@ -100,6 +100,39 @@ namespace WebApplication.Controllers
                 return View("Error");
             }
         }
+
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            try
+            {
+                var cl = manager.collectionService.GetCollectionById(id);
+                return View(cl.ToCollectionModel());
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Edit(CollectionModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    manager.collectionService.UpdateCollection(model.ToServiceCollection());
+                    return RedirectToAction("Index");
+                }
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        }
+
         [HttpGet]
         public ActionResult Delete(int id)
         {

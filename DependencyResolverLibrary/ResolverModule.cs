@@ -30,9 +30,9 @@ namespace DependencyResolverLibrary
         {
             if (isWeb)
             {
-                kernel.Bind<IUnitOfWork>().To<EFUnitOfWork>().InRequestScope();
-                kernel.Bind<DatabaseContext>().To<DatabaseContext>().InRequestScope();
-                kernel.Bind<IServiceManager>().To<ServiceManager>().InRequestScope();
+                kernel.Bind<DatabaseContext>().To<DatabaseContext>();
+                kernel.Bind<IUnitOfWork>().To<EFUnitOfWork>();
+                kernel.Bind<IServiceManager>().To<ServiceManager>();
             }
             else
             {

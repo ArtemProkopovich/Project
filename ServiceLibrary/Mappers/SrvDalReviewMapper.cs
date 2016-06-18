@@ -12,7 +12,10 @@ namespace ServiceLibrary.Mappers
                 ID = review.ID,
                 BookID = review.BookID,
                 UserID = review.UserID,
-                Text = review.Text
+                Header = review.Header,
+                Type = review.Type,
+                Text = review.Text,
+                PublishTime = review.PublishTime,
             };
         }
 
@@ -23,7 +26,10 @@ namespace ServiceLibrary.Mappers
                 ID = review.ID,
                 BookID = review.BookID,
                 UserID = review.UserID,
-                Text = review.Text
+                Header = review.Header,
+                Type = review.Type,
+                Text = review.Text,
+                PublishTime = review.PublishTime,
             };
         }
     }

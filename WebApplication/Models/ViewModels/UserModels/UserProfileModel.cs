@@ -12,9 +12,11 @@ namespace WebApplication.Models.UserModels
         [HiddenInput(DisplayValue = false)]
         public int ID { get; set; }
 
+        [Display(Name ="Name")]
         [Required(ErrorMessage = "Name can't be empty.")]
         public string Name { get; set; } = "";
 
+        [Display(Name ="Surname")]
         [Required(ErrorMessage = "Surname can't be empty.")]
         public string Surname { get; set; } = "";
 

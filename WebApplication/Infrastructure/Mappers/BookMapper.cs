@@ -5,6 +5,7 @@ using System.Web;
 using Service.Interfacies.Entities;
 using WebApplication.Models.AuthorModels;
 using WebApplication.Models.BookModels;
+using WebApplication.Models.DataModels;
 
 namespace WebApplication.Infrastructure.Mappers
 {
@@ -25,22 +26,11 @@ namespace WebApplication.Infrastructure.Mappers
         {
             BookPageModel model = new BookPageModel
             {
+                ID = sfb.BookData.ID,
+                Name = sfb.BookData.Name,
+                PublishDate = sfb.BookData.FirstPublication ?? new DateTime(),
                 AgeCategory = sfb.BookData.AgeCategory,
-                Author = sfb.Authors.FirstOrDefault()?.ToAuthorShortModel(),
-                Comments = sfb.Comments,
-                Contents = sfb.Contents,
-                CoverPath = sfb.Covers.FirstOrDefault()?.ImagePath ?? ""
             };
-            model.Comments = sfb.Comments;
-            model.Genres = sfb.Genres;
-            model.ID = sfb.BookData.ID;
-            model.Likes = sfb.Likes;
-            model.Lists = sfb.Lists;
-            model.Name = sfb.BookData.Name;
-            model.PublishDate = sfb.BookData.FirstPublication ?? new DateTime();
-            model.Reviews = sfb.Review;
-            model.Screening = sfb.Screeninigs;
-            model.Tags = sfb.Tags;
             return model;
         }
 
@@ -51,8 +41,8 @@ namespace WebApplication.Infrastructure.Mappers
             {
                 ID = sfb.BookData.ID,
                 Name = sfb.BookData.Name,
-                Likes = sfb.Likes.Count(e => e.Like),
-                Dislikes = sfb.Likes.Count(e => !e.Like),
+                Likes = sfb.Likes?.Count(e => e.Like) ?? 0,
+                Dislikes = sfb.Likes?.Count(e => !e.Like) ?? 0,
                 Cover = sfb.Covers.FirstOrDefault()?.ImagePath,
                 Author = new AuthorShortModel() {ID = author?.ID ?? 0, Name = author?.Name, PhotoPath = author?.Photo}
             };

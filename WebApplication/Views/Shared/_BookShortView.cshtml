@@ -16,9 +16,9 @@
                 @Html.ActionLink(Model.Author.Name, "Details", "Author", new {id = Model.Author.ID}, htmlAttributes: new {@class = "control-label col-md-9"})
             </div>
             <div class="clearfix"></div>
-            <div class="btn-group btn-group-lg btn-group-justified">
+            <div class="btn-group btn-group-sm">
                 <button class="btn btn-success"><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i>Like @Model.Likes</button>
-                <button class="btn btn-warning"><i class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></i>Dislike @Model.Dislikes</button>
+                <button class="btn btn-danger"><i class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></i>Dislike @Model.Dislikes</button>
             </div>
         </div>
     </div>

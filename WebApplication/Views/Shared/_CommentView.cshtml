@@ -1,0 +1,18 @@
+﻿@model WebApplication.Models.ContentModels.CommentModel
+
+<div class="">
+    <div class="col-md-1 thumbnail">
+        <img class="" src="@Url.Action("GetImage", "User", new {id = Model.User.ID})"/>
+    </div>
+    <div class="col-md-11">
+        <div class="panel panel-default panel-comment">
+            <div class="panel-heading">
+                <strong>@Model.User.Name @Model.User.Surname</strong> <span class="text-muted">commented on @Html.DisplayFor(m => m.PublishTime, "{0:dd/MM/yy}")</span>
+            </div>
+            <div class="panel-body">
+                @Model.Text
+            </div>
+        </div>
+    </div>
+</div>
+

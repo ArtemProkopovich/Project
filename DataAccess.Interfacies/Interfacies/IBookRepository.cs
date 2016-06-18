@@ -22,16 +22,18 @@ namespace DataAccess.Interfacies
         void DeleteAuthor(DalBook book, DalAuthor author);
         IEnumerable<DalAuthor> GetAuthors(DalBook book);
 
-        void AddLike(DalBook book, DalUser user, DalLike like);
+        IEnumerable<DalList> GetLists(DalBook book);
+
+        void AddLike(DalLike like);
         void DeleteLike(DalLike like);
         IEnumerable<DalLike> GetLikes(DalBook book);
-        void AddComment(DalBook book, DalUser user, DalComment comment);
+        void AddComment(DalComment comment);
         void DeleteComment(DalComment comment);
         IEnumerable<DalComment> GetComments(DalBook book);
-        void AddReview(DalBook book, DalUser user, DalReview review);
+        void AddReview(DalReview review);
         void DeleteReview(DalReview reivew);
         IEnumerable<DalReview> GetReviews(DalBook book);
-        void AddContent(DalBook book, DalUser user, DalContent content);
+        void AddContent(DalContent content);
         void DeleteContent(DalContent content);
         IEnumerable<DalContent> GetContents(DalBook book);
 

@@ -8,11 +8,12 @@ namespace ServiceLibrary.Mappers
         public static ServiceComment ToServiceComment(this DalComment comment)
         {
             return new ServiceComment
-            {
+            {              
                 ID = comment.ID,
                 BookID = comment.BookID,
                 UserID = comment.UserID,
-                Text = comment.Text
+                Text = comment.Text,
+                PublishTime = comment.PublishTime,
             };
         }
 
@@ -23,7 +24,8 @@ namespace ServiceLibrary.Mappers
                 ID = comment.ID, 
                 BookID = comment.BookID,
                 UserID = comment.UserID,
-                Text = comment.Text
+                Text = comment.Text,
+                PublishTime = comment.PublishTime,
             };
         }
     }
