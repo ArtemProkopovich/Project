@@ -1,0 +1,88 @@
+﻿@model WebApplication.Models.ViewModels.CollectionBookModels.CollectionBookPageModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_ProfileLayout.cshtml";
+}
+
+@section Navigation{
+
+}
+
+@section Content{
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-md-3">
+                    <img class="img-thumbnail" src="@Url.Action("GetImage", "Books", new {id = Model.Book.book.ID})" alt="cover image"/>
+                </div>
+                <div class="row col-md-9">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Book.book.Name, htmlAttributes: new {@class = "control-label col-md-3"})
+                        @Html.ActionLink(@Model.Book.book.Name, "Details", "Books", new {id = Model.Book.book.ID}, htmlAttributes: new {@class = "control-label col-md-9"})
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Book.book.Author, htmlAttributes: new {@class = "control-label col-md-3"})
+                        @Html.ActionLink(Model.Book.book.Author.Name, "Details", "Author", new {id = Model.Book.book.Author.ID}, htmlAttributes: new {@class = "control-label col-md-9"})
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <p>There is book from collection <strong>@Model.Book.collection.Name</strong>
+                </p>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="dropdown">
+                <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button"><i class="glyphicon glyphicon-cloud-download" aria-hidden="true"></i> Download file format <span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu">
+                    @foreach (var file in Model.Files)
+                    {
+                        <li><a href="@Url.Action("Download", "Books", new {id = file.BookID, fileID=file.ID })">@file.Format</a></li>
+                    }
+                </ul>
+            </div>
+
+        </div>
+        <div class="col-md-12">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#quotes">Quotes</a></li>
+                <li><a data-toggle="tab" href="#bookmarks">Bookmarks</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="quotes" class="tab-pane fade in active">
+                    <h3>Quotes</h3>
+                    <div class="panel-group">
+                        @foreach (var quote in Model.Quotes)
+                        {
+                            <div class="panel">
+                                <div class="panel-body">
+                                    <h2><i class="glyphicon glyphicon-hand-right"></i> @quote.Text</h2>
+                                    <h4>Delete</h4>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div id="bookmarks" class="tab-pane fade in active">
+                    <div class="panel-group">
+                        @foreach (var bookmark in Model.Bookmarks)
+                        {
+                            <div class="panel">
+                                <div class="panel-body">
+                                    <h2><a href="@Url.Action("Read",new {id = Model.Book.ID})">from <strong>@bookmark.Page</strong></a></h2>
+                                    <h4>Delete</h4>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

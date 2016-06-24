@@ -16,7 +16,8 @@ namespace DataAccessLibrary.Mappers
             {
                 FileID = file.ID,
                 BookID = file.BookID,
-                Path = file.Path
+                Path = file.Path,
+                Format = file.Format,
             };
         }
 
@@ -26,7 +27,8 @@ namespace DataAccessLibrary.Mappers
             {
                 ID = file.FileID,
                 BookID = file.BookID,
-                Path = file.Path
+                Path = file.Path,
+                Format = file.Format,
             };
         }
     }

@@ -1,0 +1,18 @@
+﻿@model WebApplication.Models.ContentModels.ContentModel
+
+<div class="">
+    <div class="col-md-1 thumbnail">
+        <img class="" src="@Url.Action("GetImage", "Books", new {id = Model.Book.ID})" />
+    </div>
+    <div class="col-md-11">
+        <div class="panel panel-default panel-comment">
+            <div class="panel-heading">
+                You content for <strong>@Model.Book.Name</strong>
+                <a class="right btn" href="@Url.Action("DeleteContent","Comment",new {id=Model.ID})"><span><i class="glyphicon glyphicon-remove"></i></span></a>
+            </div>
+            <div class="panel-body">
+                @Model.Text
+            </div>
+        </div>
+    </div>
+</div>

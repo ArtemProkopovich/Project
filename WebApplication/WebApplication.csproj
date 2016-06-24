@@ -166,6 +166,7 @@
     <Compile Include="Infrastructure\FilePathService.cs" />
     <Compile Include="Infrastructure\Mappers\AuthorMapper.cs" />
     <Compile Include="Infrastructure\Mappers\BookMapper.cs" />
+    <Compile Include="Infrastructure\Mappers\BookmarkMapper.cs" />
     <Compile Include="Infrastructure\Mappers\CollectionBookMapper.cs" />
     <Compile Include="Infrastructure\Mappers\CollectionMappers.cs" />
     <Compile Include="Infrastructure\Mappers\CommentMapper.cs" />
@@ -173,6 +174,7 @@
     <Compile Include="Infrastructure\Mappers\CoverMapper.cs" />
     <Compile Include="Infrastructure\Mappers\GenreMapper.cs" />
     <Compile Include="Infrastructure\Mappers\ListMapper.cs" />
+    <Compile Include="Infrastructure\Mappers\QuoteMapper.cs" />
     <Compile Include="Infrastructure\Mappers\ReviewMapper.cs" />
     <Compile Include="Infrastructure\Mappers\TagMapper.cs" />
     <Compile Include="Infrastructure\Mappers\UserMapper.cs" />
@@ -180,6 +182,7 @@
     <Compile Include="Infrastructure\Mappers\ScreeningMapper.cs" />
     <Compile Include="Models\DataModels\Author.cs" />
     <Compile Include="Models\DataModels\Book.cs" />
+    <Compile Include="Models\DataModels\Bookmark.cs" />
     <Compile Include="Models\DataModels\Collection.cs" />
     <Compile Include="Models\DataModels\CollectionBook.cs" />
     <Compile Include="Models\DataModels\Comment.cs" />
@@ -187,6 +190,7 @@
     <Compile Include="Models\DataModels\Genre.cs" />
     <Compile Include="Models\DataModels\Like.cs" />
     <Compile Include="Models\DataModels\List.cs" />
+    <Compile Include="Models\DataModels\Quote.cs" />
     <Compile Include="Models\DataModels\Review.cs" />
     <Compile Include="Models\DataModels\Tag.cs" />
     <Compile Include="Models\DataModels\User.cs" />
@@ -199,12 +203,16 @@
     <Compile Include="Models\ViewModels\BookModels\BookPageModel.cs" />
     <Compile Include="Models\ViewModels\BookModels\BookShortModel.cs" />
     <Compile Include="Models\ViewModels\CollectionBookModels\CollectionBookModel.cs" />
+    <Compile Include="Models\ViewModels\CollectionBookModels\CollectionBookPageModel.cs" />
+    <Compile Include="Models\ViewModels\CollectionBookModels\ReadBookModel.cs" />
     <Compile Include="Models\ViewModels\CollectionModels\CollectionBookListModel.cs" />
     <Compile Include="Models\ViewModels\CollectionModels\CollectionListModel.cs" />
     <Compile Include="Models\ViewModels\CollectionModels\CollectionModel.cs" />
+    <Compile Include="Models\ViewModels\ContentModels\BookmarkModel.cs" />
     <Compile Include="Models\ViewModels\ContentModels\CommentModel.cs" />
     <Compile Include="Models\ViewModels\ContentModels\ContentModel.cs" />
     <Compile Include="Models\ViewModels\ContentModels\CoverModel.cs" />
+    <Compile Include="Models\ViewModels\ContentModels\QuoteModel.cs" />
     <Compile Include="Models\ViewModels\ContentModels\ReviewModel.cs" />
     <Compile Include="Models\ViewModels\ContentModels\ScreeningModel.cs" />
     <Compile Include="Models\ViewModels\GenreModels\GenreBookListModel.cs" />
@@ -219,6 +227,7 @@
     <Compile Include="Models\ViewModels\ListModels\EditListModel.cs" />
     <Compile Include="Models\ViewModels\UserModels\LoginModel.cs" />
     <Compile Include="Models\ViewModels\UserModels\SignModel.cs" />
+    <Compile Include="Models\ViewModels\UserModels\UserContentDetailsModel.cs" />
     <Compile Include="Models\ViewModels\UserModels\UserIndexModel.cs" />
     <Compile Include="Models\ViewModels\UserModels\UserProfileModel.cs" />
     <Compile Include="Models\ViewModels\UserModels\UserShortModel.cs" />
@@ -304,6 +313,8 @@
     <Content Include="Views\Collection\Delete.cshtml" />
     <Content Include="Views\CollectionBook\Delete.cshtml" />
     <Content Include="Views\Collection\Edit.cshtml" />
+    <Content Include="Views\CollectionBook\Read.cshtml" />
+    <Content Include="Views\CollectionBook\Details.cshtml" />
     <None Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Shared\_BookShortViewList.cshtml" />
     <Content Include="Views\Shared\_AuthorShortView.cshtml" />
@@ -312,6 +323,9 @@
     <Content Include="Views\Shared\_CommentView.cshtml" />
     <Content Include="Views\Shared\_ContentView.cshtml" />
     <Content Include="Views\Shared\_ReviewView.cshtml" />
+    <Content Include="Views\Shared\_CommentUserView.cshtml" />
+    <Content Include="Views\Shared\_ContentUserView.cshtml" />
+    <Content Include="Views\Shared\_ReviewUserView.cshtml" />
     <None Include="Views\Sign\Sign.cshtml" />
     <Content Include="Views\Tag\Index.cshtml" />
     <Content Include="Views\Tag\Create.cshtml" />
@@ -319,6 +333,7 @@
     <Content Include="Views\Tag\List.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\ContentDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DependencyResolverLibrary\DependencyResolverLibrary.csproj">

@@ -14,32 +14,73 @@
 <div class="jumbotron">
     <div class="row">
         <div class="col-md-3 row" style="margin-right:5px">
-            <div class="">
+            <div class="text-center">
                 <img class="img-thumbnail" src="@Url.Action("GetImage", "Books", new {id = Model.ID})" alt="image"/>
             </div>
+            @{
+                string buttonLikeStyle = "btn-default";
+                string buttonDislikeStyle = "btn-default";
+                bool? buttonLikeValue = true;
+                bool? buttonDislikeValue = false;
+                if (Model.UserLike != null)
+                {
+                    if (Model.UserLike.Like)
+                    {
+                        buttonLikeValue = null;
+                        buttonLikeStyle = "btn-success";
+                    }
+                    else
+                    {
+                        buttonDislikeValue = null;
+                        buttonDislikeStyle = "btn-danger";
+                    }
+                }
+            }
             <div class="" style="padding-top: 10px">
                 <div class="btn-group btn-group-sm btn-group-justified">
-                    <a class="btn btn-sm btn-success"><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i>Like</a>
-                    <a class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></i>Dislike</a>
+                    <a class="btn btn-sm @buttonLikeStyle" href="@Url.Action("UpdateLike","Comment",new {bookID=Model.ID,like=buttonLikeValue, returnUrl=Url.Action("Details","Books",new {id=Model.ID}) })"><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i> Like</a>
+                    <a class="btn btn-sm @buttonDislikeStyle"  href="@Url.Action("UpdateLike","Comment",new {bookID=Model.ID,like=buttonDislikeValue, returnUrl=Url.Action("Details","Books",new {id=Model.ID}) })"><i class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></i> Dislike</a>
                 </div>
                 <div class="progress" style="padding-top:2px">
-                    @{ int likePercent = Model.LikeCount != 0 ? Model.Like/Model.LikeCount : 50; }
+                    @{ int likePercent = Model.LikeCount != 0 ? Model.Like*100/Model.LikeCount : 50; }
                     <div class="progress-bar progress-bar-success" style="width: @likePercent%">
                         <span class="sr-only">@likePercent likes</span>
                     </div>
-                    @{ int dislikePercent = Model.LikeCount != 0 ? Model.Dislike/Model.LikeCount : 50; }
+                    @{ int dislikePercent = Model.LikeCount != 0 ? Model.Dislike*100/Model.LikeCount : 50; }
                     <div class="progress-bar progress-bar-danger" style="width: @dislikePercent%">
                         <span class="sr-only">@dislikePercent dislikes</span>
                     </div>
                 </div>
                 <div class="" style="padding-top: 10px">
-                    <div class="btn-group btn-group-sm btn-group-justified">
-                        <a class="btn btn-info" href="@Url.Action("Add", "CollectionBook", new {bookID = Model.ID, clID = 0})"><i class="glyphicon glyphicon-saved" aria-hidden="true"></i>Add book to collection</a>
-                    </div>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="dropdown">
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button"><i class="glyphicon glyphicon-bookmark" aria-hidden="true"></i> Add book to collection <span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li class="dropdown-header">Already in</li>
+                                @foreach (var clc in Model.CollectionsWithBook)
+                                {
+                                    <li><a href="@Url.Action("DeleteFromCollection", "CollectionBook", new {bookID = Model.ID, clID = clc.ID, returnUrl = Url.Action("Details", "Books", new {id = Model.ID})})">@clc.Name<span><i class="glyphicon glyphicon-remove"></i></span></a></li>
+                                }
+                                <li class="divider"></li>
+                                <li class="dropdown-header">Add to</li>
+                                @foreach (var clc in Model.CollectionWithoutBook)
+                                {
+                                    <li><a href="@Url.Action("Add", "CollectionBook", new {bookID = Model.ID, clID = clc.ID, returnUrl = Url.Action("Details", "Books", new {id = Model.ID})})">@clc.Name<span><i class="glyphicon glyphicon-saved"></i></span></a></li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="btn-group btn-group-sm btn-group-justified">
+                            <a class="btn btn-info" href="@Url.Action("Login", "Login", new {returnUrl = Url.Action("Details", "Books", new {Id = Model.ID})})">Login to add books to the collection</a>
+                        </div>
+                    }
                 </div>
                 <div class="" style="padding-top: 10px">
                     <div class="btn-group btn-group-sm btn-group-justified">
-                        <a class="btn btn-warning" href="@Url.Action("Edit", "Books", new {bookID = Model.ID})"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i>Edit book</a>
+                        <a class="btn btn-default" href="@Url.Action("Edit", "Books", new {bookID = Model.ID})"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i>Edit book</a>
                     </div>
                 </div>
             </div>
@@ -109,13 +150,13 @@
                         @using (Html.BeginForm("CreateComment", "Comment", FormMethod.Post))
                         {
                             CommentModel comment = new CommentModel();
-                            comment.BookID = Model.ID;
+                            comment.Book = new BookShortModel() { ID = Model.ID };
                             comment.User = new UserShortModel();
                             comment.Text = "";
                             @Html.AntiForgeryToken()
                             <div class="form-horizontal">
                                 @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-                                @Html.HiddenFor(e=>comment.BookID)
+                                @Html.HiddenFor(e=>comment.Book.ID)
                                 <div class="form-group">
                                     @Html.LabelFor(e => comment.Text, htmlAttributes: new {@class = "control-label col-md-2"})
                                     <div class="col-md-10">
@@ -141,12 +182,12 @@
                             @using (Html.BeginForm("CreateContent", "Comment", FormMethod.Post))
                             {
                                 ContentModel content = new ContentModel();
-                                content.BookID = Model.ID;
+                                content.Book = new BookShortModel() { ID = Model.ID };
                                 content.Text = "";
                                 @Html.AntiForgeryToken()                          
                                 <div class="form-horizontal">
                                     @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-                                    @Html.HiddenFor(e => content.BookID)
+                                    @Html.HiddenFor(e => content.Book.ID)
                                     <div class="form-group">
                                         @Html.LabelFor(e => content.Text, htmlAttributes: new {@class = "control-label col-md-2"})
                                         <div class="col-md-10">
@@ -174,11 +215,11 @@
                             {
                                 ReviewModel review = new ReviewModel();
                                 review.Header = "";
-                                review.BookID = Model.ID;
+                                review.Book = new BookShortModel() {ID = Model.ID};
                                 review.Text = "";
                                 review.Type = ReviewType.Negative;
                                 @Html.AntiForgeryToken()
-                                @Html.HiddenFor(e => review.BookID)
+                                @Html.HiddenFor(e => review.Book.ID)
                                 <div class="form-horizontal">
                                     @Html.ValidationSummary(true, "", new {@class = "text-danger"})
                                     <div class="form-group">

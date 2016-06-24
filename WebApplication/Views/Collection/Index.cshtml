@@ -18,7 +18,7 @@
                     </li>
                 }
                 <li><a href="@Url.Action("Create")">Create new</a></li>
-                <li><a href="#accordion">Go up.</a></li>
+                <li><a href="#up">Go up.</a></li>
             </ul>
         </div>
     </div>
@@ -26,7 +26,10 @@
 }
 
 @section Content{
-    <div class="panel-group" id="accordion">
+    <div class="panel-group" id="up">
+        @{
+            string inactive = "in active";
+        }
         @foreach (var cl in Model.Collections)
         {
             <div class="panel panel-default">
@@ -37,13 +40,14 @@
                         </a>
                     </h4>
                 </div>
-                <div id="@cl.collection.ID" class="panel-collapse collapse">
+                <div id="@cl.collection.ID" class="panel-collapse collapse @inactive">
+                    @{ inactive = ""; }
                     <div class="panel-body">
                         <h4 class="text-info">
                             @cl.collection.Description
                         </h4>
                         <hr/>
-                        <div class="container panel-group">
+                        <div class="panel-group">
                             @foreach (CollectionBookModel book in cl.books)
                             {
                                 <div class="panel panel-default">
@@ -65,14 +69,16 @@
                                                 <a class="btn btn-success" href="@Url.Action("Read", "CollectionBook", new {id = book.ID})"><i class="glyphicon glyphicon-book" aria-hidden="true"></i>Read</a>
                                                 <a class="btn btn-success" href="@Url.Action("Download", "CollectionBook", new {id = book.ID})"><i class="glyphicon glyphicon-download" aria-hidden="true"></i>Download</a>
                                                 <a class="btn btn-success" href="@Url.Action("Index", "CollectionBook", new {id = book.ID})"><i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>Watch more</a>
-                                                <a data-toggle="dropdown" class="btn btn-warning dropdown-toggle" href="#"><i class="glyphicon glyphicon-bookmark" aria-hidden="true"></i>Move to</a>
+                                                <a class="btn btn-danger" href="@Url.Action("Delete", "CollectionBook", new {id = book.ID})"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i>Delete</a>
+                                            </div>
+                                            <div class="col-md-offset-2" style="padding-top: 10px">
+                                                <button data-toggle="dropdown" class="btn btn-warning=dropdown-toggle" href="#"><i class="glyphicon glyphicon-bookmark" aria-hidden="true"></i> Move to <span class="caret"></span></button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     @foreach (var clc in Model.Collections)
                                                     {
-                                                        <li><a href="@Url.Action("Move", "CollectionBook", new {ID = book.ID, newClID = clc.collection.ID})"></a>Move to @clc.collection.Name</li>
+                                                        <li><a href="@Url.Action("Move", "CollectionBook", new {ID = book.ID, newClID = clc.collection.ID})">Move to @clc.collection.Name</a></li>
                                                     }
                                                 </ul>
-                                                <a class="btn btn-danger" href="@Url.Action("Delete", "CollectionBook", new {id = book.ID})"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i>Delete</a>
                                             </div>
                                         </div>
                                     </div>
@@ -88,7 +94,7 @@
                             {
                                 <a class="btn btn-danger" href="@Url.Action("Delete", "Collection", new {id = cl.collection.ID})">Delete collection</a>
                             }
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>

@@ -74,7 +74,7 @@ namespace WebApplication.Controllers
                 BookPageModel model = manager.bookService.GetFullBookInfo(book.ID).ServiceBookToModelBook();
                 return View("Details", model);
             }
-            catch (ServiceException ex)
+            catch (Exception ex)
             {
                 return View("Error");
             }
@@ -84,10 +84,15 @@ namespace WebApplication.Controllers
         {
             try
             {
-                BookPageModel model = Book.GetBookPageModel(id);
+                int userID = 0;
+                if (User.Identity.IsAuthenticated)
+                {
+                    userID = (int) Profile["ID"];
+                }
+                BookPageModel model = Book.GetBookPageModel(id, userID);
                 return View(model);
             }
-            catch (ServiceException ex)
+            catch (Exception ex)
             {
                 return View("Error");
             }
@@ -246,5 +251,14 @@ namespace WebApplication.Controllers
                 : new FilePathResult(Server.MapPath("~/App_Data/Uploads/Covers/Books/" + "no_book_cover.jpg"), "image/*");
         }
 
+        [Authorize]
+        public ActionResult DownloadFile(int id, int fileID)
+        {
+            var book = manager.bookService.GetBookById(id);
+            var file = manager.bookService.GetBookFiles(book).FirstOrDefault(e => e.ID == fileID);
+            if (file != null)
+                return new FilePathResult(file.Path, "");
+            return View("Error");
+        }
     }
 }

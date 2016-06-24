@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Service.Interfacies.Entities;
+using WebApplication.Models.Shared;
 using WebApplication.Models.UserModels;
 
 namespace WebApplication.Infrastructure.Mappers
@@ -21,6 +22,17 @@ namespace WebApplication.Infrastructure.Mappers
                 Surname = profile.Surname,
                 PhotoPath = profile.PhotoPath,
                 Points = profile.Points
+            };
+        }
+
+        public static _UserProfileModel To_UserProfileModel(this ServiceUserProfile profile)
+        {
+            return new _UserProfileModel()
+            {
+                ID = profile.ID,
+                Name = profile.Name,
+                Surname = profile.Surname,
+                PhotoPath = profile.PhotoPath,
             };
         }
 

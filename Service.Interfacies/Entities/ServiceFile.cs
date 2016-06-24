@@ -11,5 +11,6 @@ namespace Service.Interfacies.Entities
         public int ID { get; set; }
         public int BookID { get; set; }
         public string Path { get; set; }
+        public string Format { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Service.Interfacies;
 using Service.Interfacies.Entities;
 using WebApplication.Infrastructure.Mappers;
+using WebApplication.Models.BookModels;
 using WebApplication.Models.ContentModels;
 using WebApplication.Models.UserModels;
 
@@ -19,7 +20,7 @@ namespace WebApplication.Models.DataModels
         {
             UserShortModel user = manager.userService.GetUserProfile(comment.UserID)?.ToUserShortModel() ??
                                   new ServiceUserProfile() {ID = comment.UserID}.ToUserShortModel();
-            return comment.ToCommentModel(user);
+            return comment.ToCommentModel(user, Book.GetBookShortModel(comment.BookID));
         }
 
         public static ServiceComment GetServiceComment(CommentModel model)

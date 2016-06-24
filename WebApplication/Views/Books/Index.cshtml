@@ -5,10 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Books main page</h2>
-
 <div class="jumbotron">
-    <div class="container container-a">
+    <h2>Books main page</h2>
+    <div class="col-md-12">
         <div class="row">
             <div class="name"><a href="@Url.Action("List")">Most popular books:</a>
             </div>
@@ -21,7 +20,7 @@
         </div>
     </div>
     <div class="clearfix"></div>
-    <div class="container container-a">
+    <div class="col-md-12">
         <div class="row">
             <div class="name"><a href="@Url.Action("Index", "Author")">Most popular authors: </a>
             </div>
@@ -34,7 +33,7 @@
         </div>
     </div>
     <div class="clearfix"></div>
-    <div class="container container-a">
+    <div class="col-md-12">
         <div class="row">
             <div class="name"><a href="@Url.Action("Index", "Genre")">Most popular genres:</a>
             </div>
@@ -48,7 +47,7 @@
         </div>
     </div>
     <div class="clearfix"></div>
-    <div class="container container-a">
+    <div class="col-md-12">
         <div class="row">
             <div class="name"><a href="@Url.Action("Index", "List")">"List of top books:</a>
             </div>

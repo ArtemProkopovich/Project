@@ -10,6 +10,7 @@ namespace DataAccess.Interfacies.Entities
     {
         public int ID { get; set; }
         public int BookID { get; set; }
+        public string Format { get; set; }
         public string Path { get; set; }
     }
 }

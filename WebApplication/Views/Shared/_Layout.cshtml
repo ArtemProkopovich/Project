@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title – приложение ASP.NET</title>
+    <title>Booker - @ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -45,12 +45,13 @@
         if (User.Identity.IsAuthenticated)
         {
             <text>
-                <ul class="nav navbar-nav navbar-right" style="padding-right: 5em">
+                <ul class="nav navbar-nav navbar-right" style="padding-right: 30px">
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">Hello, @User.Identity.Name <b class="caret"></b></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="@Url.Action("Index", "User")">Your profile</a></li>
                             <li><a href="@Url.Action("Index", "Collection")">Your book collections</a></li>
+                            <li><a href="@Url.Action("ContentDetails", "User")">Your comments</a></li>
                             <li><a href="#">Your bookmarks</a></li>
                             <li class="divider"></li>
                             <li><a href="@Url.Action("Logout", "Logout")">Log out</a></li>
@@ -62,7 +63,7 @@
         else
         {
             <text>
-                <ul class="nav navbar-nav navbar-right" style="padding-right: 5em">
+                <ul class="nav navbar-nav navbar-right" style="padding-right: 30px">
                     <li>@Html.ActionLink("Login", "Login", "Login")</li>
                     <li>@Html.ActionLink("Sign", "Sign", "Sign")</li>
                 </ul>

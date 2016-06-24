@@ -1,0 +1,61 @@
+﻿@model WebApplication.Models.ViewModels.UserModels.UserContentDetailsModel
+
+@{
+    ViewBag.Title = "ContentDetails";
+    Layout = "~/Views/Shared/_ProfileLayout.cshtml";
+}
+
+@section Navigation{
+    <div class="col-md-12 col-xs-6">
+        <div class="profile-sidebar hidden-print affix" style="width:inherit; position: fixed; border-radius: 5px; padding: 10px 0px; background: aliceblue;">
+            <ul class="nav">
+                <li><a href="#up">Go up</a></li>
+            </ul>
+        </div>
+    </div>
+
+}
+
+@section Content{
+    <div class="col-md-12" id="up">
+        <h1>Created content</h1>
+        <div class="row">
+            <div class=""></div>
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#comments">Comments</a></li>
+                <li><a data-toggle="tab" href="#contents">Contents</a></li>
+                <li><a data-toggle="tab" href="#reviews">Reviews</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="comments" class="tab-pane fade in active">
+                    <h3>Comments</h3>
+                    <div class="row">
+                        @foreach (var comment in Model.Comments)
+                        {
+                            @Html.Partial("_CommentUserView", comment)
+                        }
+                    </div>
+                </div>
+                <div id="contents" class="tab-pane fade">
+                    <h3>Contents</h3>
+                    <div class="row">
+                        @foreach (var content in Model.Contents)
+                        {
+                            @Html.Partial("_ContentUserView", content)
+                        }
+                    </div>
+                </div>
+                <div id="reviews" class="tab-pane fade">
+                    <h3>Reviews</h3>
+                    <div class="row">
+                        @foreach (var review in Model.Reviews)
+                        {
+                            @Html.Partial("_ReviewUserView", review)
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

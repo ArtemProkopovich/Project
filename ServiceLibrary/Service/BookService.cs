@@ -74,16 +74,14 @@ namespace ServiceLibrary.Service
             return unit.Books.GetCovers(book.ToDalBook())?.Select(e => e.ToServiceCover());
         }
 
-        public Stream GetBookFile(ServiceFile file)
+        public IEnumerable<ServiceFile> GetBookFiles(ServiceBook book)
         {
-            DalBook book = unit.Books.GetById(file.BookID);
-            return new FileStream(unit.Books.GetFiles(book).Single(e => e.ID == file.ID).Path, FileMode.Open,
-                FileAccess.Read);
+            return unit.Books.GetFiles(book.ToDalBook())?.Select(e => e.ToServiceFile());
         }
 
         public IEnumerable<ServiceLike> GetBookLikes(ServiceBook book)
         {
-            return unit.Books.GetLikes(book.ToDalBook()).Select(e => e.ToServiceLike());
+            return unit.Likes.FindAll(e => e.BookID == book.ID).Select(e => e.ToServiceLike());
         }
 
         public ServiceFullBook GetFullBookInfo(ServiceBook book)
@@ -93,11 +91,11 @@ namespace ServiceLibrary.Service
             {
                 BookData = book,
                 Authors = unit.Books.GetAuthors(dalBook).Select(e => e.ToServiceAuthor()),
-                Comments = unit.Books.GetComments(dalBook).Select(e => e.ToServiceComment()),
-                Contents = unit.Books.GetContents(dalBook).Select(e=>e.ToServiceContent()),
-                Likes = unit.Books.GetLikes(dalBook).Select(e=>e.ToServiceLike()),
-                Lists = unit.Books.GetLists(dalBook).Select(e=>e.ToServiceList()),
-                Review = unit.Books.GetReviews(dalBook).Select(e=>e.ToServiceReview()),
+                Comments = unit.Comments.FindAll(e => e.BookID == dalBook.ID).Select(e => e.ToServiceComment()),
+                Contents = unit.Contents.FindAll(e => e.BookID == dalBook.ID).Select(e => e.ToServiceContent()),
+                Likes = unit.Likes.FindAll(e => e.BookID == dalBook.ID).Select(e => e.ToServiceLike()),
+                Lists = unit.Books.GetLists(dalBook).Select(e => e.ToServiceList()),
+                Review = unit.Reviews.FindAll(e => e.BookID == dalBook.ID).Select(e => e.ToServiceReview()),
                 Covers = unit.Books.GetCovers(dalBook).Select(e => e.ToServiceCover()),
                 Files = unit.Books.GetFiles(dalBook).Select(e => e.ToServiceFile()),
                 Genres = unit.Books.GetGenres(dalBook).Select(e => e.ToServiceGenre()),

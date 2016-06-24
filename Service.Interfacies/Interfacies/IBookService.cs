@@ -18,7 +18,7 @@ namespace Service.Interfacies
         ServiceBook GetBookByName(string name);
         ServiceFullBook GetFullBookInfo(int id);
         ServiceFullBook GetFullBookInfo(ServiceBook book);
-        Stream GetBookFile(ServiceFile file);
+        IEnumerable<ServiceFile> GetBookFiles(ServiceBook book);
         void UpdateBook(ServiceBook book);
         void AddCover(ServiceBook book, ServiceCover cover);
         void RemoveCover(ServiceCover cover);

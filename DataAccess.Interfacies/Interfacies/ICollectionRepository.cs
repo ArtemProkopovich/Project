@@ -17,9 +17,11 @@ namespace DataAccess.Interfacies
         void AddBook(DalCollection collection, DalBook book);
         void DeleteBook(DalCollectionBook book);
         void MoveBook(DalCollectionBook book, DalCollection collection);
-        void AddBookmark(DalCollectionBook collectionBook, DalBookmark bookmark);
+        void AddBookmark(DalBookmark bookmark);
         void DeleteBookmark(DalBookmark bookmark);
-        void AddQuote(DalCollectionBook collectionBook, DalQuote quote);
+        IEnumerable<DalBookmark> GetBookmarks(DalCollectionBook cb);
+        void AddQuote(DalQuote quote);
         void DeleteQuote(DalQuote quote);
+        IEnumerable<DalQuote> GetQuotes(DalCollectionBook cb);
     }
 }

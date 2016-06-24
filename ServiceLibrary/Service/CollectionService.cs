@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Interfacies;
+using DataAccess.Interfacies.Entities;
 using Service.Interfacies;
 using Service.Interfacies.Entities;
 using ServiceLibrary.Mappers;
@@ -25,13 +26,13 @@ namespace ServiceLibrary.Service
 
         public void AddBookmark(ServiceCollectionBook book, ServiceBookmark bookmark)
         {
-            unit.Collections.AddBookmark(book.ToDalCollectionBook(), bookmark.ToDalBookmark());
+            unit.Collections.AddBookmark(bookmark.ToDalBookmark());
             unit.Save();
         }
 
         public void AddQuote(ServiceCollectionBook book, ServiceQuote quote)
         {
-            unit.Collections.AddQuote(book.ToDalCollectionBook(), quote.ToDalQuote());
+            unit.Collections.AddQuote(quote.ToDalQuote());
             unit.Save();
         }
 
@@ -56,6 +57,11 @@ namespace ServiceLibrary.Service
             throw new NotImplementedException();
         }
 
+        public IEnumerable<ServiceBookmark> GetBookmarks(ServiceCollectionBook cb)
+        {
+            return unit.Collections.GetBookmarks(cb.ToDalCollectionBook()).Select(e => e.ToServiceBookmark());
+        }
+
         public ServiceCollectionBook GetCollectionBookById(int id)
         {
             return unit.Collections.GetCollectionBook(id)?.ToServiceCollectionBook();
@@ -71,9 +77,26 @@ namespace ServiceLibrary.Service
             return unit.Collections.GetById(id)?.ToServiceCollection();
         }
 
+        public IEnumerable<ServiceQuote> GetQuotes(ServiceCollectionBook cb)
+        {
+            return unit.Collections.GetQuotes(cb.ToDalCollectionBook()).Select(e => e.ToServiceQuote());
+        }
+
         public IEnumerable<ServiceCollection> GetUserCollections(ServiceUser user)
         {
-            return unit.Collections.GetUserCollections(user.ToDalUser()).Select(e=>e.ToServiceCollection());
+            var collections = unit.Collections.GetUserCollections(user.ToDalUser()).Select(e => e.ToServiceCollection());
+            if (!collections.Any())
+            {
+                DalCollection cl = new DalCollection()
+                {
+                    Name = "Favorite",
+                    Description = "There is all you favorite books.",
+                    UserID = user.ID
+                };
+                unit.Collections.AddUserCollection(cl);
+                unit.Save();
+            }
+            return unit.Collections.GetUserCollections(user.ToDalUser()).Select(e => e.ToServiceCollection());
         }
 
         public void MoveBook(ServiceCollectionBook book, ServiceCollection collection)
@@ -96,8 +119,11 @@ namespace ServiceLibrary.Service
 
         public void RemoveCollection(ServiceCollection collection)
         {
-            unit.Collections.Delete(collection.ToDalCollection());
-            unit.Save();
+            if (collection.Name != "Favorite")
+            {
+                unit.Collections.Delete(collection.ToDalCollection());
+                unit.Save();
+            }
         }
 
         public void RemoveQuote(ServiceQuote quote)

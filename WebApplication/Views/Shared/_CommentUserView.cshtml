@@ -1,0 +1,19 @@
+﻿@model WebApplication.Models.ContentModels.CommentModel
+    
+<div class="">
+    <div class="col-md-1 thumbnail">
+        <img class="" src="@Url.Action("GetImage", "Books", new {id = Model.Book.ID})" alt=""/>
+    </div>
+    <div class="col-md-11">
+        <div class="panel panel-default panel-comment">
+            <div class="panel-heading">
+                You comment for <strong>@Model.Book.Name</strong> <span class="text-muted">created on @Html.DisplayFor(m => m.PublishTime, "{0:dd/MM/yy}")</span>
+                <a class="right btn" href="@Url.Action("DeleteComment","Comment",new {id=Model.ID})"><span><i class="glyphicon glyphicon-remove"></i></span></a>
+            </div>
+            <div class="panel-body">
+                @Model.Text
+            </div>
+        </div>
+    </div>
+</div>
+

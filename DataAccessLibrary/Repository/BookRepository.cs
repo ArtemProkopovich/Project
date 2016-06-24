@@ -31,26 +31,6 @@ namespace DataAccessLibrary.Repository
             }
         }
 
-        public void AddComment(DalComment comment)
-        {
-            var dbBook = context.Books.FirstOrDefault(e => e.BookID == comment.BookID);
-            var dbUser = context.Users.FirstOrDefault(e => e.UserID == comment.UserID);
-            if (dbBook != null && dbUser != null)
-            {
-                context.Comments.Add(comment.ToOrmComment());
-            }
-        }
-
-        public void AddContent(DalContent content)
-        {
-            var dbBook = context.Books.FirstOrDefault(e => e.BookID == content.BookID);
-            var dbUser = context.Users.FirstOrDefault(e => e.UserID == content.UserID);
-            if (dbBook != null && dbUser != null)
-            {
-                context.Contents.Add(content.ToOrmContent());
-            }
-        }
-
         public void AddCover(DalBook book, DalCover cover)
         {
             var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
@@ -76,26 +56,6 @@ namespace DataAccessLibrary.Repository
             if (dbBook != null && dbGenre!=null)
             {
                 dbBook.Genres.Add(dbGenre);
-            }
-        }
-
-        public void AddLike(DalLike like)
-        {
-            var dbBook = context.Books.FirstOrDefault(e => e.BookID == like.BookID);
-            var dbUser = context.Users.FirstOrDefault(e => e.UserID == like.UserID);
-            if (dbBook != null && dbUser != null)
-            {
-                context.Likes.Add(like.ToOrmLike());
-            }
-        }
-
-        public void AddReview(DalReview review)
-        {
-            var dbBook = context.Books.FirstOrDefault(e => e.BookID == review.BookID);
-            var dbUser = context.Users.FirstOrDefault(e => e.UserID == review.UserID);
-            if (dbBook != null && dbUser != null)
-            {
-                context.Reviews.Add(review.ToOrmReview());
             }
         }
 
@@ -141,21 +101,6 @@ namespace DataAccessLibrary.Repository
                 dbBook.Authors.Remove(dbAuthor);
         }
 
-        public void DeleteComment(DalComment comment)
-        {
-            var dbComment = context.Comments.FirstOrDefault(e => e.CommentID == comment.ID);
-            if (dbComment != null)
-                context.Comments.Remove(dbComment);
-
-        }
-
-        public void DeleteContent(DalContent content)
-        {
-            var dbContent = context.Contents.FirstOrDefault(e => e.ContentID == content.ID);
-            if (dbContent != null)
-                context.Contents.Remove(dbContent);
-        }
-
         public void DeleteCover(DalCover cover)
         {
             var dbCover = context.Covers.FirstOrDefault(e => e.CoverID == cover.ID);
@@ -180,20 +125,6 @@ namespace DataAccessLibrary.Repository
             var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
             if (dbBook != null && dbGenre != null)
                 dbBook.Genres.Remove(dbGenre);
-        }
-
-        public void DeleteLike(DalLike like)
-        {
-            var dbLike = context.Likes.FirstOrDefault(e => e.LikeID == like.ID);
-            if (dbLike != null)
-                context.Likes.Remove(dbLike);
-        }
-
-        public void DeleteReview(DalReview reivew)
-        {
-            var dbReview = context.Reviews.FirstOrDefault(e => e.ReviewID == reivew.ID);
-            if (dbReview != null)
-                context.Reviews.Remove(dbReview);
         }
 
         public void DeleteScreening(DalScreening screening)
@@ -243,16 +174,6 @@ namespace DataAccessLibrary.Repository
             return context.Books.FirstOrDefault(e => e.Name == name)?.ToDalBook();
         }
 
-        public IEnumerable<DalComment> GetComments(DalBook book)
-        {
-            return context.Comments.Where(e => e.BookID == book.ID).ToList().Select(e => e.ToDalComment());
-        }
-
-        public IEnumerable<DalContent> GetContents(DalBook book)
-        {
-            return context.Contents.Where(e => e.BookID == book.ID).ToList().Select(e => e.ToDalContent());
-        }
-
         public IEnumerable<DalCover> GetCovers(DalBook book)
         {
             var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
@@ -275,10 +196,6 @@ namespace DataAccessLibrary.Repository
                    new List<DalGenre>();
         }
 
-        public IEnumerable<DalLike> GetLikes(DalBook book)
-        {
-            return context.Likes.Where(e => e.BookID == book.ID).ToList().Select(e => e.ToDalLike());
-        }
 
         private static readonly Random Random = new Random();
         public DalBook GetRandomBook()
@@ -292,11 +209,6 @@ namespace DataAccessLibrary.Repository
                 return result.ToDalBook();
             }
             return null;
-        }
-
-        public IEnumerable<DalReview> GetReviews(DalBook book)
-        {
-            return context.Reviews.Where(e => e.BookID == book.ID).ToList().Select(e => e.ToDalReview());
         }
 
         public IEnumerable<DalScreening> GetScreenings(DalBook book)

@@ -11,6 +11,7 @@ namespace Service.Interfacies
     {
         void AddLike(ServiceLike like);
         void RemoveLike(ServiceLike like);
+        void UpdateLike(ServiceLike like);
         IEnumerable<ServiceLike> GetBookLikes(ServiceBook book);
         void AddComment(ServiceComment comment);
         void RemoveComment(ServiceComment comment);

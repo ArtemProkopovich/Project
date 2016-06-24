@@ -1,0 +1,8 @@
+﻿@model WebApplication.Models.ViewModels.CollectionBookModels.ReadBookModel
+
+<div class="jumbotron">
+    <div class="row">
+        <object data="@Url.Action("GetFile", new {id = Model.ID})" type="application/pdf"></object>
+    </div>
+</div>
+

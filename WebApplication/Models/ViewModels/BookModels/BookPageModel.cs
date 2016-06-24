@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Service.Interfacies.Entities;
 using WebApplication.Models.AuthorModels;
+using WebApplication.Models.CollectionModels;
 using WebApplication.Models.ContentModels;
 using WebApplication.Models.ViewModels.ContentModels;
 
@@ -21,9 +22,12 @@ namespace WebApplication.Models.BookModels
         public int AgeCategory { get; set; }
         public IEnumerable<AuthorShortModel> Authors { get; set; }
         public IEnumerable<ServiceLike> Likes { get; set; }
+        public ServiceLike UserLike { get; set; }
         public int Like { get; set; }
         public int Dislike { get; set; }
         public int LikeCount { get; set; }
+        public IEnumerable<CollectionModel> CollectionsWithBook { get; set; }
+        public IEnumerable<CollectionModel> CollectionWithoutBook { get; set; }
         public IEnumerable<CoverModel> Covers { get; set; }
         public IEnumerable<GenreModel> Genres { get; set; }
         public IEnumerable<TagModel> Tags { get; set; }

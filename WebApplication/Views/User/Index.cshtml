@@ -80,17 +80,28 @@
         </div>
     </div>
     <div class="container">
-        <h2>Created content</h2>
-        <div class="col-md-3">
-            <a class="btn btn-success btn-lg">
-                
-            </a>
-        </div>
-        <div class="col-md-offset-2 col-md-3">
-
-        </div>
-        <div class="col-md-offset-2 col-md-3">
-            
+        <div class="row">
+            <h1>Created content</h1>
+            <div class="btn-group btn-group-lg btn-group-justified">
+                <a href="@Url.Action("ContentDetails","User")#comments" class="btn btn-success">
+                    <h2>Comments</h2>
+                    <p>@Model.CommentCount</p>
+                </a>
+                <a href="@Url.Action("ContentDetails","User")#contents" class="btn btn-success">
+                    <h2>Contents</h2>
+                    <p>@Model.ContentCount</p>
+                </a>
+                <a href="@Url.Action("ContentDetails","User")#reviews" class="btn btn-success">
+                    <h2>Reviews</h2>
+                    <p>@Model.ReviewCount</p>
+                </a>
+            </div>
+            <h1>Your collections</h1>
+            <div class="col-md-6 btn-group btn-group-lg btn-group-justified">
+                <a href="@Url.Action("Index","Collection")" class="btn btn-danger">
+                    <h3>You have @Model.CollectionCount collections with @Model.BookCount different books</h3>
+                </a>
+            </div>
         </div>
     </div>
 </div>

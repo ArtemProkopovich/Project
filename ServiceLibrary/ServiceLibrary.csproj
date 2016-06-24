@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomExpressionVisitor.cs" />
     <Compile Include="Mappers\SrvDalAuthorMapper.cs" />
     <Compile Include="Mappers\SrvDalBookMapper.cs" />
     <Compile Include="Mappers\SrvDalBookmarkMapper.cs" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Service.Interfacies;
+using Service.Interfacies.Entities;
 using WebApplication.Models.ContentModels;
 using WebApplication.Models.DataModels;
 using WebApplication.Models.UserModels;
@@ -19,6 +20,47 @@ namespace WebApplication.Controllers
             this.manager = manager;
         }
 
+        [HttpGet]
+        public ActionResult UpdateLike(int bookId, bool? like, string returnUrl)
+        {
+            try
+            {
+                int userID = (int) Profile["ID"];
+                var book = manager.bookService.GetBookById(bookId);
+                var dbLike = manager.commentService.GetBookLikes(book).FirstOrDefault(e => e.UserID == userID);
+                if (dbLike != null)
+                {
+                    if (like == null)
+                    {
+                        manager.commentService.RemoveLike(dbLike);
+                    }
+                    else
+                    {
+                        dbLike.Like = (bool)like;
+                        manager.commentService.UpdateLike(dbLike);
+                    }
+                }
+                else if(like!=null)
+                {
+                    manager.commentService.AddLike(new ServiceLike()
+                    {
+                        BookID = bookId,
+                        UserID = userID,
+                        Like = (bool) like
+                    });
+                }
+                if (Url.IsLocalUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+                return RedirectToAction("Details", "Books", new {id = bookId});
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        } 
+
         // GET: Comment
         [HttpPost]
         public ActionResult CreateComment(CommentModel comment)
@@ -30,7 +72,7 @@ namespace WebApplication.Controllers
                 comment.PublishTime = DateTime.Now;
                 var serviceComment = Comment.GetServiceComment(comment);
                 manager.commentService.AddComment(serviceComment);
-                return RedirectToAction("Details", "Books", new {id = comment.BookID});
+                return RedirectToAction("Details", "Books", new {id = comment.Book.ID});
             }
             catch (Exception ex)
             {
@@ -47,7 +89,7 @@ namespace WebApplication.Controllers
                 content.User.ID = (int)HttpContext.Profile["ID"];
                 var serviceContent = Models.DataModels.Content.GetServiceContent(content);
                 manager.commentService.AddContent(serviceContent);
-                return RedirectToAction("Details", "Books", new { id = content.BookID });
+                return RedirectToAction("Details", "Books", new { id = content.Book.ID });
             }
             catch (Exception ex)
             {
@@ -64,7 +106,7 @@ namespace WebApplication.Controllers
                 review.PublishTime = DateTime.Now;
                 var serviceReview = Review.GetServiceReview(review);
                 manager.commentService.AddReview(serviceReview);
-                return RedirectToAction("Details", "Books", new { id = review.BookID });
+                return RedirectToAction("Details", "Books", new { id = review.Book.ID });
             }
             catch (Exception ex)
             {
@@ -72,5 +114,54 @@ namespace WebApplication.Controllers
             }
         }
 
+        public ActionResult DeleteComment(int id)
+        {
+            try
+            {
+                var user = manager.userService.GetUserById((int)HttpContext.Profile["ID"]);
+                var comment = manager.commentService.GetUserComments(user).FirstOrDefault(e => e.UserID == user.ID);
+                if (comment != null)
+                {
+                    manager.commentService.RemoveComment(comment);
+                    return RedirectToAction("ContentDetails", "User");
+                }
+                return RedirectToAction("Login", "Login");
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        }
+
+        public ActionResult DeleteContent(int id)
+        {
+            try
+            {
+                var user = manager.userService.GetUserById((int)HttpContext.Profile["ID"]);
+                var content = manager.commentService.GetUserContents(user).FirstOrDefault(e => e.UserID == user.ID);
+                if (content != null)
+                {
+                    manager.commentService.RemoveContent(content);
+                    return RedirectToAction("ContentDetails", "User");
+                }
+                return RedirectToAction("Login", "Login");
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        }
+
+        public ActionResult DeleteReview(int id)
+        {
+            var user = manager.userService.GetUserById((int)HttpContext.Profile["ID"]);
+            var review = manager.commentService.GetUserReviews(user).FirstOrDefault(e => e.UserID == user.ID);
+            if (review != null)
+            {
+                manager.commentService.RemoveReview(review);
+                return RedirectToAction("ContentDetails", "User");
+            }
+            return RedirectToAction("Login", "Login");
+        }
     }
 }

@@ -72,9 +72,13 @@
     <Compile Include="Interfacies\IAuthorRepository.cs" />
     <Compile Include="Interfacies\IBookRepository.cs" />
     <Compile Include="Interfacies\ICollectionRepository.cs" />
+    <Compile Include="Interfacies\ICommentRepository.cs" />
+    <Compile Include="Interfacies\IContentRepository.cs" />
     <Compile Include="Interfacies\IGenreRepository.cs" />
+    <Compile Include="Interfacies\ILikeRepository.cs" />
     <Compile Include="Interfacies\IListRepository.cs" />
     <Compile Include="Interfacies\IRepository.cs" />
+    <Compile Include="Interfacies\IReviewRepository.cs" />
     <Compile Include="Interfacies\IRoleRepository.cs" />
     <Compile Include="Interfacies\ITagRepository.cs" />
     <Compile Include="Interfacies\IUnitOfWork.cs" />

@@ -24,19 +24,6 @@ namespace DataAccess.Interfacies
 
         IEnumerable<DalList> GetLists(DalBook book);
 
-        void AddLike(DalLike like);
-        void DeleteLike(DalLike like);
-        IEnumerable<DalLike> GetLikes(DalBook book);
-        void AddComment(DalComment comment);
-        void DeleteComment(DalComment comment);
-        IEnumerable<DalComment> GetComments(DalBook book);
-        void AddReview(DalReview review);
-        void DeleteReview(DalReview reivew);
-        IEnumerable<DalReview> GetReviews(DalBook book);
-        void AddContent(DalContent content);
-        void DeleteContent(DalContent content);
-        IEnumerable<DalContent> GetContents(DalBook book);
-
         IEnumerable<DalFile> GetFiles(DalBook book);
         IEnumerable<DalCover> GetCovers(DalBook book);
         IEnumerable<DalScreening> GetScreenings(DalBook book);

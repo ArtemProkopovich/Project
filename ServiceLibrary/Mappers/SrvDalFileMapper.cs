@@ -11,7 +11,8 @@ namespace ServiceLibrary.Mappers
             {
                 ID = file.ID,
                 BookID = file.BookID,
-                Path = file.Path
+                Path = file.Path,
+                Format = file.Format,
             };
         }
 
@@ -21,7 +22,8 @@ namespace ServiceLibrary.Mappers
             {
                 ID = file.ID,
                 BookID = file.BookID,
-                Path = file.Path
+                Path = file.Path,
+                Format = file.Format,
             };
         }
     }

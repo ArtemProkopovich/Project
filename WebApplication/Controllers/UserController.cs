@@ -25,9 +25,21 @@ namespace WebApplication.Controllers
         {
             try
             {
-                var user = userService.GetUserByLogin(User.Identity.Name);
-                var profile = userService.GetUserProfile(user) ?? new ServiceUserProfile() {ID = user.ID};
-                return View(profile.ToUserProfileModel());
+                int id = (int)HttpContext.Profile["ID"];
+                return View(Models.DataModels.User.GetUserIndexModel(id));
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        }
+
+        public ActionResult ContentDetails()
+        {
+            try
+            {
+                int id = (int)HttpContext.Profile["ID"];
+                return View(Models.DataModels.User.GetUserContentDetailsModel(id));
             }
             catch (Exception ex)
             {
@@ -41,8 +53,7 @@ namespace WebApplication.Controllers
             try
             {
                 int id = (int)HttpContext.Profile["ID"];
-                var profile = userService.GetUserProfile(id) ?? new ServiceUserProfile() {ID = id};
-                return View(profile.ToUserProfileModel());
+                return View(Models.DataModels.User.GetUserProfileModel(id));
             }
             catch (Exception ex)
             {

@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Additional\ExpressionTranslator.cs" />
+    <Compile Include="Additional\SimpleExpressionVisitor.cs" />
     <Compile Include="Mappers\DalOrmContentMapper.cs" />
     <Compile Include="Mappers\DalOrmCoverMapper.cs" />
     <Compile Include="Mappers\DalOrmFileMapper.cs" />
@@ -72,9 +74,13 @@
     <Compile Include="Repository\AuthorRepository.cs" />
     <Compile Include="Repository\BookRepository.cs" />
     <Compile Include="Repository\CollectionRepository.cs" />
+    <Compile Include="Repository\CommentRepository.cs" />
+    <Compile Include="Repository\ContentRepository.cs" />
     <Compile Include="Repository\EFUnitOfWork.cs" />
     <Compile Include="Repository\GenreRepository.cs" />
+    <Compile Include="Repository\LikeRepository.cs" />
     <Compile Include="Repository\ListRepository.cs" />
+    <Compile Include="Repository\ReviewRepository.cs" />
     <Compile Include="Repository\RoleRepository.cs" />
     <Compile Include="Repository\TagRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />

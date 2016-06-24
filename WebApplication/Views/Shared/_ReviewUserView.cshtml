@@ -1,0 +1,32 @@
+﻿@using WebApplication.Models.ContentModels
+@model WebApplication.Models.ContentModels.ReviewModel
+
+<div class="">
+    <div class="col-md-1 thumbnail">
+        <img class="" src="@Url.Action("GetImage", "Books", new {id = Model.Book.ID})" />
+    </div>
+    @{
+        string type = "panel-success";
+        if (ReviewType.Neutral == Model.Type)
+        {
+            type = "panel-defualt";
+        }
+        else if (ReviewType.Negative == Model.Type)
+        {
+            type = "panel-danger";
+        }
+
+    }
+    <div class="col-md-11">
+        <div class="panel @type panel-comment">
+            <div class="panel-heading">
+                You review for <strong>@Model.Book.Name</strong> <span class="text-muted">created on @Html.DisplayFor(m => m.PublishTime, "{0:dd/MM/yy}")</span>
+                <a class="right btn" href="@Url.Action("DeleteReview","Comment",new {id=Model.ID})"><span><i class="glyphicon glyphicon-remove"></i></span></a>
+            </div>
+            <div class="panel-body">
+                <h2>@Model.Header</h2>
+                <p>@Model.Text</p>
+            </div>
+        </div>
+    </div>
+</div>

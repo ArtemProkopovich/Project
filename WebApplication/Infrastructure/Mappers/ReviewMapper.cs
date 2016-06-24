@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Service.Interfacies.Entities;
+using WebApplication.Models.BookModels;
 using WebApplication.Models.ContentModels;
 using WebApplication.Models.UserModels;
 
@@ -10,12 +11,12 @@ namespace WebApplication.Infrastructure.Mappers
 {
     public static class ReviewMapper
     {
-        public static ReviewModel ToReviewModel(this ServiceReview review, UserShortModel user)
+        public static ReviewModel ToReviewModel(this ServiceReview review, UserShortModel user, BookShortModel book)
         {
             return new ReviewModel()
             {
                 ID = review.ID,
-                BookID = review.BookID,
+                Book = book,
                 Header = review.Header,
                 PublishTime = review.PublishTime,
                 Text = review.Text,
@@ -32,7 +33,7 @@ namespace WebApplication.Infrastructure.Mappers
             return new ServiceReview()
             {
                 ID = review.ID,
-                BookID = review.BookID,
+                BookID = review.Book.ID,
                 Header = review.Header,
                 PublishTime = review.PublishTime,
                 Text = review.Text,

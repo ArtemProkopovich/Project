@@ -21,81 +21,91 @@ namespace ServiceLibrary.Service
 
         public void AddComment(ServiceComment comment)
         {
-            unit.Books.AddComment(comment.ToDalComment());
+            unit.Comments.Create(comment.ToDalComment());
             unit.Save();
         }
 
         public void AddContent(ServiceContent content)
         {
-            unit.Books.AddContent(content.ToDalContent());
+            unit.Contents.Create(content.ToDalContent());
             unit.Save();
         }
 
         public void AddLike(ServiceLike like)
         {
-            unit.Books.AddLike(like.ToDalLike());
+            unit.Likes.Create(like.ToDalLike());
             unit.Save();
         }
 
         public void AddReview(ServiceReview review)
         {
-            unit.Books.AddReview(review.ToDalReview());
+            unit.Reviews.Create(review.ToDalReview());
             unit.Save();
         }
 
         public IEnumerable<ServiceComment> GetBookComments(ServiceBook book)
         {
-            return unit.Books.GetComments(book.ToDalBook()).Select(e => e.ToServiceComment());
+            return unit.Comments.FindAll(e => e.BookID == book.ID).Select(e => e.ToServiceComment());
         }
 
         public IEnumerable<ServiceContent> GetBookContents(ServiceBook book)
         {
-            return unit.Books.GetContents(book.ToDalBook()).Select(e => e.ToServiceContent());
+            return unit.Contents.FindAll(e => e.BookID == book.ID).Select(e => e.ToServiceContent());
         }
 
         public IEnumerable<ServiceLike> GetBookLikes(ServiceBook book)
         {
-            return unit.Books.GetLikes(book.ToDalBook()).Select(e => e.ToServiceLike());
+            return unit.Likes.FindAll(e => e.BookID == book.ID).Select(e => e.ToServiceLike());
         }
 
         public IEnumerable<ServiceReview> GetBookReviews(ServiceBook book)
         {
-            return unit.Books.GetReviews(book.ToDalBook()).Select(e => e.ToServiceReview());
+            return unit.Reviews.FindAll(e => e.BookID == book.ID).Select(e => e.ToServiceReview());
         }
 
         public IEnumerable<ServiceComment> GetUserComments(ServiceUser user)
         {
-            throw new NotImplementedException();
+            return unit.Comments.FindAll(e => e.UserID == user.ID).Select(e => e.ToServiceComment());
         }
 
         public IEnumerable<ServiceContent> GetUserContents(ServiceUser user)
         {
-            throw new NotImplementedException();
+            return unit.Contents.FindAll(e => e.UserID == user.ID).Select(e => e.ToServiceContent());
         }
 
         public IEnumerable<ServiceReview> GetUserReviews(ServiceUser user)
         {
-            throw new NotImplementedException();
+            return unit.Reviews.FindAll(e => e.UserID == user.ID).Select(e => e.ToServiceReview());
         }
 
         public void RemoveComment(ServiceComment comment)
         {
-            unit.Books.DeleteComment(comment.ToDalComment());
+            unit.Comments.Delete(comment.ToDalComment());
+            unit.Save();
         }
 
         public void RemoveContent(ServiceContent content)
         {
-            unit.Books.DeleteContent(content.ToDalContent());
+            unit.Contents.Delete(content.ToDalContent());
+            unit.Save();
         }
 
         public void RemoveLike(ServiceLike like)
         {
-            unit.Books.DeleteLike(like.ToDalLike());
+            unit.Likes.Delete(like.ToDalLike());
+            unit.Save();
         }
 
         public void RemoveReview(ServiceReview review)
         {
-            unit.Books.DeleteReview(review.ToDalReview());
+            unit.Reviews.Delete(review.ToDalReview());
+            unit.Save();
+        }
+
+        public void UpdateLike(ServiceLike like)
+        {
+            unit.Likes.Update(like.ToDalLike());
+            unit.Save();
         }
     }
 }
