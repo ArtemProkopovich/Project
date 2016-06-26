@@ -8,6 +8,7 @@ using Service.Interfacies.Entities;
 using WebApplication.Infrastructure.Mappers;
 using WebApplication.Models;
 using WebApplication.Models.BookModels;
+using WebApplication.Models.DataModels;
 
 namespace WebApplication.Controllers
 {
@@ -26,8 +27,8 @@ namespace WebApplication.Controllers
         {
             try
             {
-                var tags =  service.GetAllTags().Select(e=>e.ToTagModel());
-                return View(tags);
+                var model = Tag.GetTagIndexModel();
+                return View(model);
             }
             catch(Exception ex)
             {
@@ -39,18 +40,10 @@ namespace WebApplication.Controllers
         {
             try
             {
+                int userID = (int?) Profile["ID"] ?? 0;
                 ServiceTag tag = service.GetTagById(id);
                 var books = service.GetTagBooks(tag);
-                List<BookShortModel> list = new List<BookShortModel>();
-                foreach (var book in books)
-                {
-                    BookShortModel bsm = book.ToBookShortModel();
-                    bsm.Author = bookService.GetBookAuthors(book).FirstOrDefault().ToAuthorShortModel();
-                    IEnumerable<ServiceLike> likes = bookService.GetBookLikes(book);
-                    bsm.Likes = likes.Count(e => e.Like);
-                    bsm.Dislikes = likes.Count(e => e.Like);
-                    list.Add(bsm);
-                }
+                List<BookShortModel> list = books.Select(book => Book.GetBookShortModel(book.ID, userID)).ToList();
 
                 return View(tag.ToTagBookListModel(list));
             }
@@ -60,28 +53,34 @@ namespace WebApplication.Controllers
             }
         }
 
-        // GET: Tag/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         // POST: Tag/Create
         [HttpPost]
-        public ActionResult Create(TagModel model)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(TagModel tag)
         {
             try
             {
-                if (service.GetAllTags().All(e => e.Name != model.Name))
+                if (ModelState.IsValid)
                 {
-                    service.AddTag(model.ToServiceTag());
-                    return RedirectToAction("Index");
+                    if (service.GetAllTags().All(e => e.Name != tag.Name))
+                    {
+                        service.AddTag(tag.ToServiceTag());
+                        if (Request.IsAjaxRequest())
+                        {
+                            return PartialView("_TagTableView", Tag.GetTagIndexModel());
+                        }
+                        return RedirectToAction("Index");
+                    }
                 }
-                return View();
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_TagTableView", Tag.GetTagIndexModel());
+                }
+                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View("Error");
             }
         }
 
@@ -91,7 +90,7 @@ namespace WebApplication.Controllers
             try
             {
                 var tag = service.GetTagById(id);
-                return View(tag.ToTagModel());
+                return View(Tag.GetTagModel(id));
             }
             catch
             {
@@ -102,6 +101,7 @@ namespace WebApplication.Controllers
         // POST: Tag/Delete/5
         [HttpPost]
         [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public ActionResult DeleteObject(int id)
         {
             try

@@ -118,6 +118,11 @@ namespace DataAccessLibrary.Repository
             return context.Collections.ToList().Select(e => e.ToDalCollection());
         }
 
+        public DalBookmark GetBookmark(int id)
+        {
+            return context.Bookmarks.FirstOrDefault(e => e.BookmarkID == id)?.ToDalBookmark();
+        }
+
         public IEnumerable<DalBookmark> GetBookmarks(DalCollectionBook cb)
         {
             return context.Bookmarks.Where(e => e.Collection_BookID == cb.ID).ToList().Select(e => e.ToDalBookmark());
@@ -143,6 +148,11 @@ namespace DataAccessLibrary.Repository
         {
             return
                 context.Collection_Book.Where(e => e.CollectionID == collection.ID).ToList().Select(e => e.ToDalCollectionBook());
+        }
+
+        public DalQuote GetQuote(int id)
+        {
+            return context.Quotes.FirstOrDefault(e => e.QuoteID == id)?.ToDalQuote();
         }
 
         public IEnumerable<DalQuote> GetQuotes(DalCollectionBook cb)

@@ -16,11 +16,11 @@ namespace WebApplication.Models.AuthorModels
 
         [DataType(DataType.Date)]
         [Display(Name = "Birth date")]
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = "Death date")]
-        public DateTime DeathDate { get; set; }
+        public DateTime? DeathDate { get; set; }
         public string PhotoPath { get; set; }
         public string Biography { get; set; }
 

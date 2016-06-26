@@ -24,13 +24,13 @@ namespace ServiceLibrary.Service
             unit.Save();
         }
 
-        public void AddBookmark(ServiceCollectionBook book, ServiceBookmark bookmark)
+        public void AddBookmark(ServiceBookmark bookmark)
         {
             unit.Collections.AddBookmark(bookmark.ToDalBookmark());
             unit.Save();
         }
 
-        public void AddQuote(ServiceCollectionBook book, ServiceQuote quote)
+        public void AddQuote(ServiceQuote quote)
         {
             unit.Collections.AddQuote(quote.ToDalQuote());
             unit.Save();
@@ -57,6 +57,11 @@ namespace ServiceLibrary.Service
             throw new NotImplementedException();
         }
 
+        public ServiceBookmark GetBookmark(int id)
+        {
+            return unit.Collections.GetBookmark(id)?.ToServiceBookmark();
+        }
+
         public IEnumerable<ServiceBookmark> GetBookmarks(ServiceCollectionBook cb)
         {
             return unit.Collections.GetBookmarks(cb.ToDalCollectionBook()).Select(e => e.ToServiceBookmark());
@@ -75,6 +80,11 @@ namespace ServiceLibrary.Service
         public ServiceCollection GetCollectionById(int id)
         {
             return unit.Collections.GetById(id)?.ToServiceCollection();
+        }
+
+        public ServiceQuote GetQuote(int id)
+        {
+            return unit.Collections.GetQuote(id)?.ToServiceQuote();
         }
 
         public IEnumerable<ServiceQuote> GetQuotes(ServiceCollectionBook cb)

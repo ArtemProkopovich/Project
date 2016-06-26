@@ -5,6 +5,7 @@ using System.Web;
 using Service.Interfacies.Entities;
 using WebApplication.Models;
 using WebApplication.Models.BookModels;
+using WebApplication.Models.DataModels;
 
 namespace WebApplication.Infrastructure.Mappers
 {
@@ -19,12 +20,13 @@ namespace WebApplication.Infrastructure.Mappers
             };
         }
 
-        public static TagModel ToTagModel(this ServiceTag tag)
+        public static TagModel ToTagModel(this ServiceTag tag, int bookCount)
         {
             return new TagModel
             {
                 ID = tag.ID,
-                Name = tag.Name
+                Name = tag.Name,
+                BookCount = bookCount
             };
         }
 
@@ -32,7 +34,7 @@ namespace WebApplication.Infrastructure.Mappers
         {
             return new TagBookListModel
             {
-                Tag = tag.ToTagModel(),
+                Tag = Tag.GetTagModel(tag),
                 Books = books
             };
         }

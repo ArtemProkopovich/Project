@@ -1,4 +1,5 @@
-﻿@model WebApplication.Models.ViewModels.CollectionBookModels.CollectionBookPageModel
+﻿@using WebApplication.Models.ViewModels.ContentModels
+@model WebApplication.Models.ViewModels.CollectionBookModels.CollectionBookPageModel
 
 @{
     ViewBag.Title = "Details";
@@ -10,7 +11,7 @@
 }
 
 @section Content{
-    <div class="row">
+    <div class="col-md-12 row">
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="col-md-3">
@@ -39,13 +40,13 @@
                 <ul class="dropdown-menu" role="menu">
                     @foreach (var file in Model.Files)
                     {
-                        <li><a href="@Url.Action("Download", "Books", new {id = file.BookID, fileID=file.ID })">@file.Format</a></li>
+                        <li><a href="@Url.Action("Download", "Books", new {id = file.BookID, fileID = file.ID})">@file.Format</a></li>
                     }
                 </ul>
             </div>
 
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" style="padding-top: 10px">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#quotes">Quotes</a></li>
                 <li><a data-toggle="tab" href="#bookmarks">Bookmarks</a></li>
@@ -53,33 +54,74 @@
 
             <div class="tab-content">
                 <div id="quotes" class="tab-pane fade in active">
-                    <h3>Quotes</h3>
-                    <div class="panel-group">
-                        @foreach (var quote in Model.Quotes)
+                    <h2>Quotes</h2>
+                    @Html.Partial("_QuoteListView",Model.Quotes)
+                    @using (Ajax.BeginForm("AddQuote", new AjaxOptions()
+                    {
+                        HttpMethod = "POST",
+                        UpdateTargetId = "quotesContent",
+                        InsertionMode = InsertionMode.Replace,
+                    }))
+                    {
+                        QuoteModel quote = new QuoteModel()
                         {
-                            <div class="panel">
-                                <div class="panel-body">
-                                    <h2><i class="glyphicon glyphicon-hand-right"></i> @quote.Text</h2>
-                                    <h4>Delete</h4>
+                            CollectionBookID = Model.Book.ID,
+                            Text = "",
+                        };
+
+                        @Html.AntiForgeryToken()
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                            @Html.HiddenFor(e => quote.CollectionBookID)
+                            <div class="form-group">
+                                @Html.LabelFor(e => quote.Text, htmlAttributes: new {@class = "control-label col-md-2"})
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(e => quote.Text, 10, 50, new {htmlAttributes = new {@class = "form-control"}})
+                                    @Html.ValidationMessageFor(e => quote.Text, "", new {@class = "text-danger"})
                                 </div>
                             </div>
-                        }
-                    </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Add quote" class="btn btn-default"/>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
-            </div>
-            <div class="tab-content">
-                <div id="bookmarks" class="tab-pane fade in active">
-                    <div class="panel-group">
-                        @foreach (var bookmark in Model.Bookmarks)
+                <div id="bookmarks" class="tab-pane fade">
+                    <h2>Bookmarks</h2>
+                    @Html.Partial("_BookmarkListView",Model.Bookmarks)
+                    @using (Ajax.BeginForm("AddBookmark", new AjaxOptions()
+                    {
+                        HttpMethod = "POST",
+                        UpdateTargetId = "bookmarksContent",
+                        InsertionMode = InsertionMode.Replace,
+                    }))
+                    {
+                        BookmarkModel bookmark = new BookmarkModel()
                         {
-                            <div class="panel">
-                                <div class="panel-body">
-                                    <h2><a href="@Url.Action("Read",new {id = Model.Book.ID})">from <strong>@bookmark.Page</strong></a></h2>
-                                    <h4>Delete</h4>
+                            CollectionBookID = Model.Book.ID,
+                            Page = 0,
+                        };
+
+                        @Html.AntiForgeryToken()
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                            @Html.HiddenFor(e => bookmark.CollectionBookID)
+                            <div class="form-group">
+                                @Html.LabelFor(e => bookmark.Page, htmlAttributes: new {@class = "control-label col-md-2"})
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(e => bookmark.Page, new {htmlAttributes = new {@class = "form-control"}})
+                                    @Html.ValidationMessageFor(e => bookmark.Page, "", new {@class = "text-danger"})
                                 </div>
                             </div>
-                        }
-                    </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Add bookmark" class="btn btn-default"/>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

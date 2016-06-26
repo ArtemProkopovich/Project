@@ -23,7 +23,11 @@ namespace WebApplication.Providers
 
             // получаем из контекста имя пользователя - логин в системе
             var username = (string)context["UserName"];
-            if (string.IsNullOrEmpty(username)) return result;
+            if (string.IsNullOrEmpty(username))
+            {
+                result.Add(new SettingsPropertyValue(collection["ID"]) {PropertyValue = 0});
+                return result;
+            }
             var user = userService.GetUserByEmail(username) ?? userService.GetUserByLogin(username);
             int id = user?.ID ?? 0;
             result.Add(new SettingsPropertyValue(collection["ID"]) {PropertyValue = id});

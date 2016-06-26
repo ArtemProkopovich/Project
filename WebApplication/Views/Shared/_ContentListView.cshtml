@@ -1,0 +1,8 @@
+﻿@model IEnumerable<WebApplication.Models.ContentModels.ContentModel>
+
+<div id="contentsContent">
+    @foreach (var content in Model)
+    {
+        @Html.Partial("_ContentView", content)
+    }
+</div>

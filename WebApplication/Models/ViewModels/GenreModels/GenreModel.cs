@@ -14,5 +14,8 @@ namespace WebApplication.Models
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Name can't be empty.")]
         public string Name { get; set; }
+
+        [HiddenInput(DisplayValue = false)]
+        public int? ParentGenreID { get; set; }
     }
 }

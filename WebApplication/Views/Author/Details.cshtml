@@ -10,27 +10,69 @@
     <div class="row">
         <div class="col-md-3">
             <img class="img-thumbnail" src="@Url.Action("GetImage", new {id = Model.ID})" alt="image"/>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="" style="padding-top: 10px">
+                    <div class="btn-group btn-group-sm btn-group-justified">
+                        <a class="btn btn-default" href="@Url.Action("Edit", "Author", new {id = Model.ID})"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i> Edit author</a>
+                    </div>
+                </div>
+            }
+        </div>   
+        <div class="col-md-9">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h2>@Model.Name</h2>
+                </div>
+                <div class="panel-body list-group">
+                    <div class="list-group-item">
+                        <h4>@Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-4" })</h4>
+                        @if (Model.BirthDate == null)
+                        {
+                            <text><h4>Not specified</h4></text>
+                        }
+                        else
+                        {
+                            <h4>@Html.DisplayFor(model => model.BirthDate)</h4>
+                        }
+                    </div>
+                    @if (Model.DeathDate != null || (Model.DeathDate == null && Model.BirthDate == null))
+                    {
+                        <div class="list-group-item">
+                            <h4>@Html.LabelFor(model => model.DeathDate, htmlAttributes: new { @class = "control-label col-md-4" })</h4>
+                            @if (Model.BirthDate == null)
+                            {
+                                <text><h4>Not specified</h4></text>
+                            }
+                            else
+                            {
+                                <h4>@Html.DisplayFor(model => model.DeathDate)</h4>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-        <div class="container col-md-9">
-            <div class="container list-group">
-                <div class="list-group-item">
-                    <div class="control-label col-md-12">@Html.DisplayFor(model => model.Name)</div>
+        <div class="row col-md-12" style="padding-top:25px">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>Biography</h2>
                 </div>
-                <div class="list-group-item">
-                    @Html.LabelFor(model => model.BirthDate, htmlAttributes: new {@class = "control-label col-md-4"})
-                    @Html.DisplayFor(model => model.BirthDate)
-                </div>
-                <div class="list-group-item">
-                    @Html.LabelFor(model => model.DeathDate, htmlAttributes: new {@class = "control-label col-md-4"})
-                    @Html.DisplayFor(model => model.DeathDate)
-                </div>
-                <div class="list-group-item">
-                    @Html.LabelFor(model => model.Biography, htmlAttributes: new {@class = "control-label col-md-4"})
-                    @Html.DisplayTextFor(model => model.Biography)
+                <div class="panel-body">
+                    @Html.Raw(Model.Biography)
                 </div>
             </div>
         </div>
     </div>
-    <hr/>
-    @Html.Partial("_BookShortViewList",Model.Books)
 </div>
+<hr/>
+<div class="row">
+    <div class="col-md-9">
+        <h2>Books of @Model.Name</h2>
+        @Html.Partial("_BookShortViewList", Model.Books)
+    </div>
+    <div class="col-md-3">
+        <h2>Other info</h2>
+    </div>
+</div>
+

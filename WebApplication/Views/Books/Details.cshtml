@@ -17,39 +17,10 @@
             <div class="text-center">
                 <img class="img-thumbnail" src="@Url.Action("GetImage", "Books", new {id = Model.ID})" alt="image"/>
             </div>
-            @{
-                string buttonLikeStyle = "btn-default";
-                string buttonDislikeStyle = "btn-default";
-                bool? buttonLikeValue = true;
-                bool? buttonDislikeValue = false;
-                if (Model.UserLike != null)
-                {
-                    if (Model.UserLike.Like)
-                    {
-                        buttonLikeValue = null;
-                        buttonLikeStyle = "btn-success";
-                    }
-                    else
-                    {
-                        buttonDislikeValue = null;
-                        buttonDislikeStyle = "btn-danger";
-                    }
-                }
-            }
+            
             <div class="" style="padding-top: 10px">
-                <div class="btn-group btn-group-sm btn-group-justified">
-                    <a class="btn btn-sm @buttonLikeStyle" href="@Url.Action("UpdateLike","Comment",new {bookID=Model.ID,like=buttonLikeValue, returnUrl=Url.Action("Details","Books",new {id=Model.ID}) })"><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i> Like</a>
-                    <a class="btn btn-sm @buttonDislikeStyle"  href="@Url.Action("UpdateLike","Comment",new {bookID=Model.ID,like=buttonDislikeValue, returnUrl=Url.Action("Details","Books",new {id=Model.ID}) })"><i class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></i> Dislike</a>
-                </div>
-                <div class="progress" style="padding-top:2px">
-                    @{ int likePercent = Model.LikeCount != 0 ? Model.Like*100/Model.LikeCount : 50; }
-                    <div class="progress-bar progress-bar-success" style="width: @likePercent%">
-                        <span class="sr-only">@likePercent likes</span>
-                    </div>
-                    @{ int dislikePercent = Model.LikeCount != 0 ? Model.Dislike*100/Model.LikeCount : 50; }
-                    <div class="progress-bar progress-bar-danger" style="width: @dislikePercent%">
-                        <span class="sr-only">@dislikePercent dislikes</span>
-                    </div>
+                <div id="like-progress-buttons">
+                    @Html.Partial("_LikeProgressButtonsView",Model.Likes)
                 </div>
                 <div class="" style="padding-top: 10px">
                     @if (User.Identity.IsAuthenticated)
@@ -70,6 +41,11 @@
                                 }
                             </ul>
                         </div>
+                        <div class="" style="padding-top: 10px">
+                            <div class="btn-group btn-group-sm btn-group-justified">
+                                <a class="btn btn-default" href="@Url.Action("Edit", "Books", new {bookID = Model.ID})"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i>Edit book</a>
+                            </div>
+                        </div>
                     }
                     else
                     {
@@ -77,12 +53,7 @@
                             <a class="btn btn-info" href="@Url.Action("Login", "Login", new {returnUrl = Url.Action("Details", "Books", new {Id = Model.ID})})">Login to add books to the collection</a>
                         </div>
                     }
-                </div>
-                <div class="" style="padding-top: 10px">
-                    <div class="btn-group btn-group-sm btn-group-justified">
-                        <a class="btn btn-default" href="@Url.Action("Edit", "Books", new {bookID = Model.ID})"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i>Edit book</a>
-                    </div>
-                </div>
+                </div>       
             </div>
         </div>
         <div class="col-md-9 row">
@@ -142,12 +113,14 @@
                     <div id="comments" class="tab-pane fade in active">
                         <h3>Comments</h3>
                         <div class="row">
-                            @foreach (var comment in Model.Comments)
-                            {
-                                @Html.Partial("_CommentView", comment)
-                            }
+                            @Html.Partial("_CommentListView", Model.Comments)
                         </div>
-                        @using (Html.BeginForm("CreateComment", "Comment", FormMethod.Post))
+                        @using (Ajax.BeginForm("CreateComment", "Comment", new AjaxOptions()
+                        {
+                            HttpMethod = "POST",
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "commentsContent",
+                        }))
                         {
                             CommentModel comment = new CommentModel();
                             comment.Book = new BookShortModel() { ID = Model.ID };
@@ -175,16 +148,22 @@
                     <div id="contents" class="tab-pane fade">
                         <h3>Contents</h3>
                         <div class="row">
+                            @Html.Partial("_ContentListView", Model.Contents)
                             @foreach (var content in Model.Contents)
                             {
                                 @Html.Partial("_ContentView", content)
                             }
-                            @using (Html.BeginForm("CreateContent", "Comment", FormMethod.Post))
+                            @using (Ajax.BeginForm("CreateContent", "Comment", new AjaxOptions()
+                            {
+                                HttpMethod = "POST",
+                                InsertionMode = InsertionMode.Replace,
+                                UpdateTargetId = "contentsContent",
+                            }))
                             {
                                 ContentModel content = new ContentModel();
-                                content.Book = new BookShortModel() { ID = Model.ID };
+                                content.Book = new BookShortModel() {ID = Model.ID};
                                 content.Text = "";
-                                @Html.AntiForgeryToken()                          
+                                @Html.AntiForgeryToken()
                                 <div class="form-horizontal">
                                     @Html.ValidationSummary(true, "", new {@class = "text-danger"})
                                     @Html.HiddenFor(e => content.Book.ID)
@@ -207,11 +186,13 @@
                     <div id="reviews" class="tab-pane fade">
                         <h3>Reviews</h3>
                         <div class="row">
-                            @foreach (var review in Model.Reviews)
+                            @Html.Partial("_ReviewListView",Model.Reviews)
+                            @using (Ajax.BeginForm("CreateReview", "Comment", new AjaxOptions()
                             {
-                                @Html.Partial("_ReviewView", review)
-                            }
-                            @using (Html.BeginForm("CreateReview", "Comment", FormMethod.Post))
+                                HttpMethod = "POST",
+                                InsertionMode = InsertionMode.Replace,
+                                UpdateTargetId = "reviewsContent",
+                            }))
                             {
                                 ReviewModel review = new ReviewModel();
                                 review.Header = "";

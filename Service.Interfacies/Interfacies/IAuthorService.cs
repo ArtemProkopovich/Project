@@ -9,7 +9,7 @@ namespace Service.Interfacies
 {
     public interface IAuthorService
     {
-        void AddAuthor(ServiceAuthor author);
+        int AddAuthor(ServiceAuthor author);
         void RemoveAuthor(ServiceAuthor author);
         void UpdateAuthor(ServiceAuthor author);
         ServiceAuthor GetById(int id);

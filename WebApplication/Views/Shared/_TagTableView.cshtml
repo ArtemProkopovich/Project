@@ -1,0 +1,19 @@
+﻿@model WebApplication.Models.ViewModels.TagModels.TagIndexModel
+
+<table class="table table-striped">
+    @{
+        var tags = Model.Tags.ToList();
+    }
+    @{const int booksInRow = 5; }
+    @for (int i = 0; i < (tags.Count%booksInRow == 0 ? tags.Count/booksInRow : tags.Count/booksInRow + 1); i++)
+    {
+        <tr>
+            @for (int j = 0; j < booksInRow && i*booksInRow + j < tags.Count; j++)
+            {
+                <td>
+                    <a href="@Url.Action("List", "Tag", new {id = tags[i*booksInRow + j].ID})" style="color: #715252"><h5><strong>@tags[i*booksInRow + j].Name</strong> (@tags[i*booksInRow + j].BookCount)</h5></a>
+                </td>
+            }
+        </tr>
+    }
+</table>

@@ -73,6 +73,7 @@ namespace DataAccessLibrary.Repository
             var l = context.Entry(dbLike);
             l.Entity.Like = entity.Like;
             l.State = System.Data.Entity.EntityState.Modified;
+            context.SaveChanges();
         }
     }
 }

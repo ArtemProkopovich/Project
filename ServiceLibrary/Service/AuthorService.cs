@@ -18,10 +18,11 @@ namespace ServiceLibrary.Service
         {
             this.unit = unit;
         }
-        public void AddAuthor(ServiceAuthor author)
+        public int AddAuthor(ServiceAuthor author)
         {
-            unit.Authors.Create(author.ToDalAuthor());
+            int id = unit.Authors.Create(author.ToDalAuthor());
             unit.Save();
+            return id;
         }
 
         public void AddAuthorBook(ServiceAuthor author, ServiceBook book)

@@ -8,6 +8,7 @@ using Service.Interfacies.Entities;
 using WebApplication.Infrastructure.Mappers;
 using WebApplication.Models;
 using WebApplication.Models.BookModels;
+using WebApplication.Models.DataModels;
 using WebApplication.Models.UserModels;
 
 namespace WebApplication.Controllers
@@ -164,18 +165,10 @@ namespace WebApplication.Controllers
         {
             try
             {
+                int userID = (int?) Profile["ID"] ?? 0;
                 ServiceList list = service.GetListById(id);
                 var books = service.GetListBooks(list);
-                List<BookShortModel> bookList = new List<BookShortModel>();
-                foreach (var book in books)
-                {
-                    BookShortModel bsm = book.ToBookShortModel();
-                    bsm.Author = bookService.GetBookAuthors(book).FirstOrDefault().ToAuthorShortModel();
-                    IEnumerable<ServiceLike> likes = bookService.GetBookLikes(book);
-                    bsm.Likes = likes.Count(e => e.Like);
-                    bsm.Dislikes = likes.Count(e => e.Like);
-                    bookList.Add(bsm);
-                }
+                List<BookShortModel> bookList = books.Select(book => Book.GetBookShortModel(book.ID, userID)).ToList();
 
                 return View(list.ToListBookListModel(bookList));
             }

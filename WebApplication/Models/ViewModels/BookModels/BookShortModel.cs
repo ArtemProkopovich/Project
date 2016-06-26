@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication.Models.AuthorModels;
+using WebApplication.Models.ViewModels.ContentModels;
 
 namespace WebApplication.Models.BookModels
 {
@@ -13,8 +14,7 @@ namespace WebApplication.Models.BookModels
         public int ID { get; set; }
         public string Name { get; set; }
         public AuthorShortModel Author { get; set; }
-        public int Likes { get; set; }
-        public int Dislikes { get; set; }
+        public LikeButtonsModel Likes { get; set; }
         public string Cover { get; set; }
     }
 }

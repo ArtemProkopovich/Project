@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Interfacies;
 using DataAccess.Interfacies.Entities;
+using DataAccessLibrary.Additional;
 using ORMLibrary;
 using DataAccessLibrary.Mappers;
 
@@ -41,8 +42,15 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalGenre> FindAll(Expression<Func<DalGenre, bool>> f)
         {
-            throw new NotImplementedException();
+            var lambda = ExpressionTranslator.Translate<DalGenre, Genres>(f, dictionary);
+            return context.Genres.Where(lambda).ToList().Select(e => e.ToDalGenre());
         }
+
+        private readonly Dictionary<string, string> dictionary = new Dictionary<string, string>()
+        {
+            {"ID", "GenreID"},
+            {"ParentGenreID", "ParentGenreID"},
+        };
 
         public IEnumerable<DalGenre> GetAll()
         {

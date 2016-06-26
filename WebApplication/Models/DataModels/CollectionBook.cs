@@ -29,7 +29,8 @@ namespace WebApplication.Models.DataModels
         public static CollectionBookModel GetColectionBookModel(int id)
         {
             var cb = manager.collectionService.GetCollectionBookById(id);
-            var book = Book.GetBookShortModel(cb.BookID);
+            var dbCl = manager.collectionService.GetCollectionById(cb.CollectionID);
+            var book = Book.GetBookShortModel(cb.BookID, dbCl.UserID);
             var cl = Collection.GetCollectionModel(manager.collectionService.GetCollectionById(cb.CollectionID));
             return cb.ToCollectionBookModel(book, cl);
         }

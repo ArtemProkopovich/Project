@@ -23,6 +23,7 @@ namespace WebApplication.Controllers
         {
             try
             {
+                int userId = (int?) Profile["ID"] ?? 0;
                 var user = manager.userService.GetUserByLogin(User.Identity.Name) ?? manager.userService.GetUserByEmail(User.Identity.Name);
                 var profile = manager.userService.GetUserProfile(user.ID);
                 var userCollections = manager.collectionService.GetUserCollections(user).OrderBy(e => e.Name);
@@ -35,7 +36,7 @@ namespace WebApplication.Controllers
                     var collcetionBooks = manager.collectionService.GetCollectionBooks(cl);
                     foreach (var book in collcetionBooks)
                     {
-                        var shortBook = manager.bookService.GetFullBookInfo(book.BookID).ToBookShortModel();
+                        var shortBook = manager.bookService.GetFullBookInfo(book.BookID).ToBookShortModel(userId);
                         books.Add(book.ToCollectionBookModel(shortBook, collectionBooksModel.collection));
                     }
                     collectionBooksModel.books = books;

@@ -15,14 +15,13 @@ namespace WebApplication.Models.DataModels
     {
         private static readonly IServiceManager manager = DependencyResolver.Current.GetService<IServiceManager>();
 
-        public static BookShortModel GetBookShortModel(int id)
+        public static BookShortModel GetBookShortModel(int bookID, int userID)
         {
-            var book = manager.bookService.GetBookById(id);
+            var book = manager.bookService.GetBookById(bookID);
             var model = book.ToBookShortModel();
             model.Author = manager.bookService.GetBookAuthors(book)?.FirstOrDefault()?.ToAuthorShortModel();
             model.Cover = manager.bookService.GetBookCovers(book)?.FirstOrDefault()?.ImagePath;
-            model.Likes = manager.bookService.GetBookLikes(book)?.Count(e=>e.Like) ?? 0;
-            model.Dislikes = manager.bookService.GetBookLikes(book)?.Count(e => !e.Like) ?? 0;
+            model.Likes = Like.GetLikeButtonsModel(bookID, userID);
             return model;
         }
 
@@ -46,20 +45,15 @@ namespace WebApplication.Models.DataModels
             result.Contents = book.Contents.Select(Content.GetContentModel);
             result.Covers = book.Covers.Select(e => e.ToCoverModel());
             result.Genres = book.Genres.Select(e => e.ToGenreModel());
-            result.Likes = book.Likes;
-            result.Like = book.Likes?.Count(e => e.Like) ?? 0;
-            result.Dislike = book.Likes?.Count(e => !e.Like) ?? 0;
-            result.LikeCount = book.Likes?.Count() ?? 0;
+            result.Likes = Like.GetLikeButtonsModel(id, userID);
             result.Lists = book.Lists.Select(e => e.ToListModel());
             result.Reviews = book.Review.Select(Review.GetReviewModel);
-            result.Tags = book.Tags.Select(e => e.ToTagModel());
+            result.Tags = book.Tags.Select(Tag.GetTagModel);
             result.Screening = book.Screeninigs.Select(e => e.ToScreeningModel());
 
 
             if (userID > 0)
             {
-                result.UserLike = result.Likes?.FirstOrDefault(e => e.UserID == userID);
-
                 var cwb = new List<CollectionModel>();
                 var cwob = new List<CollectionModel>();
                 var user = manager.userService.GetUserById(userID);

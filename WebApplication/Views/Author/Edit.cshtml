@@ -5,15 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
-
-
 @using (Html.BeginForm("Edit", "Author", FormMethod.Post, new {@enctype = "multipart/form-data"}))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>AuthorEditModel</h4>
         <hr/>
         @Html.ValidationSummary(true, "", new {@class = "text-danger"})
         @Html.HiddenFor(model => model.ID)
@@ -44,25 +40,16 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.NewPhoto, htmlAttributes: new {@class = "control-label col-md-2"})
-            <div class="col-md-10">
-                <input type="file" name="Photo" class="form-control" accept="image/*"/>
+            <div class="col-md-4">
+                <input type="file" id="cover" name="Photo" class="file" data-allowed-file-extensions='["jpg", "jpeg", "png", "bmp"]' accept="image/*" />
                 @Html.ValidationMessageFor(model => model.NewPhoto, "", new {@class = "text-danger"})
             </div>
         </div>
 
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.PhothPath, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PhothPath, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PhothPath, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
         <div class="form-group">
-            @Html.LabelFor(model => model.Biography, htmlAttributes: new {@class = "control-label col-md-2"})
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Biography, new {htmlAttributes = new {@class = "form-control"}})
-                @Html.ValidationMessageFor(model => model.Biography, "", new {@class = "text-danger"})
+            <div class="col-md-offset-2 col-md-10">
+                @Html.TextAreaFor(model => model.Biography, 10, 50, new { htmlAttributes = new { @class = "form-control", @placeholder = "Biography..." } })
+                @Html.ValidationMessageFor(model => model.Biography, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -80,4 +67,28 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/editor")
+
+    <script>
+        var btnCust = '<button type="button" class="btn btn-default" title="Add picture tags" onclick="alert(\'Call your custom code here.\')"><i class="glyphicon glyphicon-tag"></i></button>';
+        $("#cover").fileinput({
+            overwriteInitial: true,
+            maxFileSize: 1500,
+            showClose: false,
+            showCaption: false,
+            browseLabel: '',
+            removeLabel: '',
+            browseIcon: '<i class="glyphicon glyphicon-folder-open"></i>',
+            removeIcon: '<i class="glyphicon glyphicon-remove"></i>',
+            removeTitle: 'Cancel or reset changes',
+            elErrorContainer: '#kv-avatar-errors-1',
+            msgErrorClass: 'alert alert-block alert-danger',
+            defaultPreviewContent: '<img src="@Url.Action("GetImage", "Author", new {id = Model.ID})" alt="Your Avatar" style="width:160px">',
+            layoutTemplates: { main2: '{preview} ' + btnCust + ' {remove} {browse}' },
+            allowedFileExtensions: ["jpg", "png", "gif", "jpeg"]
+        });
+    </script>
 }
+
+
+

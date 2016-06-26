@@ -1,0 +1,25 @@
+﻿@model IEnumerable<WebApplication.Models.ViewModels.ContentModels.QuoteModel>
+    
+<div id="quotesContent" class="panel-group">
+    @foreach (var quote in Model)
+    {
+        <div class="panel">
+            <div class="panel-body">
+                <h2><i class="glyphicon glyphicon-hand-right"></i> @quote.Text</h2>
+                @using (Ajax.BeginForm("DeleteQuote", new AjaxOptions()
+                {
+                    Confirm = "Are you sure delete this quote?",
+                    HttpMethod = "POST",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "quotesContent",
+                }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("quoteID", quote.ID)
+                    <input type="submit" value="Delete" class="btn btn-danger"/>
+                }
+            </div>
+        </div>
+    }
+</div>
+

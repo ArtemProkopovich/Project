@@ -8,6 +8,7 @@ using Service.Interfacies.Entities;
 using WebApplication.Infrastructure.Mappers;
 using WebApplication.Models;
 using WebApplication.Models.BookModels;
+using WebApplication.Models.DataModels;
 
 namespace WebApplication.Controllers
 {
@@ -28,8 +29,7 @@ namespace WebApplication.Controllers
         {
             try
             {
-                var genres = service.GetAllGenres().Select(e => e.ToGenreModel());
-                return View(genres);
+                return View(Genre.GetGenreIndexModel());
             }
             catch (Exception ex)
             {
@@ -37,24 +37,27 @@ namespace WebApplication.Controllers
             }
         }
 
-        // GET: Genre/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         // POST: Genre/Create
+        [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult Create(GenreModel model)
+        public ActionResult Create(GenreModel genre)
         {
             try
             {
-                if (service.GetAllGenres().All(e => e.Name != model.Name))
+                if (ModelState.IsValid && service.GetAllGenres().All(e => e.Name != genre.Name))
                 {
-                    service.AddGenre(model.ToServiceGenre());
+                    service.AddGenre(genre.ToServiceGenre());
+                    if (Request.IsAjaxRequest())
+                    {
+                        return PartialView("_GenreTreeView", Genre.GetGenreIndexModel());
+                    }
                     return RedirectToAction("Index");
                 }
-                return View();
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_GenreTreeView", Genre.GetGenreIndexModel());
+                }
+                return RedirectToAction("Index");
             }
             catch
             {
@@ -66,18 +69,10 @@ namespace WebApplication.Controllers
         {
             try
             {
+                int userID = (int?) Profile["ID"] ?? 0;
                 ServiceGenre genre = service.GetGenreById(id);
                 var books = service.GetGenreBooks(genre);
-                List<BookShortModel> list = new List<BookShortModel>();
-                foreach (var book in books)
-                {
-                    BookShortModel bsm = book.ToBookShortModel();
-                    bsm.Author = bookService.GetBookAuthors(book).FirstOrDefault().ToAuthorShortModel();
-                    IEnumerable<ServiceLike> likes = bookService.GetBookLikes(book);
-                    bsm.Likes = likes.Count(e => e.Like);
-                    bsm.Dislikes = likes.Count(e => e.Like);
-                    list.Add(bsm);
-                }
+                List<BookShortModel> list = books.Select(book => Book.GetBookShortModel(book.ID, userID)).ToList();
 
                 return View(genre.ToGenreBookListModel(list));
             }
@@ -88,6 +83,7 @@ namespace WebApplication.Controllers
         }
 
         // GET: Genre/Delete/5
+        [HttpGet]
         public ActionResult Delete(int id)
         {
             try
@@ -103,7 +99,9 @@ namespace WebApplication.Controllers
 
         // POST: Genre/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
+        public ActionResult DeleteObject(int id)
         {
             try
             {
@@ -111,9 +109,9 @@ namespace WebApplication.Controllers
                 service.RemoveGenre(genre);
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                return View("Error");
             }
         }
     }

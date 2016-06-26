@@ -1,0 +1,29 @@
+﻿@model IEnumerable<WebApplication.Models.ViewModels.ContentModels.BookmarkModel>
+    
+<div id="bookmarksContent" class="panel-group">
+    @foreach (var bookmark in Model)
+    {
+        <div class="panel">
+            <div class="panel-body">
+                <h2>
+                    <a style="color: black" href="@Url.Action("Read", new {id = bookmark.CollectionBookID})">Read book from <strong>@bookmark.Page</strong> page</a>
+                </h2>
+                @using (Ajax.BeginForm("DeleteBookmark", new AjaxOptions()
+                {
+                    Confirm = "Are you sure delete this bookmark?",
+                    HttpMethod = "POST",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "bookmarksContent",
+                }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("bookmarkID",bookmark.ID)
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                }
+            </div>
+        </div>
+    }
+</div>
+
+
+

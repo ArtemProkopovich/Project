@@ -1,0 +1,31 @@
+﻿@using WebApplication.Models
+@model WebApplication.Models.ViewModels.GenreModels.GenreIndexModel
+
+
+<div class="row">
+    @foreach (var genre in Model.Genres.Where(e => e.ParentGenreID == null))
+    {
+        <div class="col-md-4">
+            @{ string ulID = "tree" + genre.ID;}
+            <ul id="@ulID">
+                @TreeView(genre)
+            </ul>
+        </div>
+    }
+</div>
+
+@helper TreeView(GenreModel genre)
+{
+    <li><a href="@Url.Action("List", "Genre", new {id = genre.ID})">@genre.Name</a>
+    @{ var nodes = Model.Genres.Where(e => e.ParentGenreID == genre.ID); }
+    @if (nodes.Count() != 0)
+    {
+        <ul>
+            @foreach (var node in nodes)
+            {
+                @TreeView(node)
+            }
+        </ul>
+    }
+    </li> 
+}

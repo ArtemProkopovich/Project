@@ -20,7 +20,6 @@ namespace WebApplication.Controllers
             this.manager = manager;
         }
 
-        [HttpGet]
         public ActionResult UpdateLike(int bookId, bool? like, string returnUrl)
         {
             try
@@ -36,8 +35,10 @@ namespace WebApplication.Controllers
                     }
                     else
                     {
+                        manager.commentService.RemoveLike(dbLike);
+                        dbLike.ID = 0;
                         dbLike.Like = (bool)like;
-                        manager.commentService.UpdateLike(dbLike);
+                        manager.commentService.AddLike(dbLike);
                     }
                 }
                 else if(like!=null)
@@ -49,11 +50,24 @@ namespace WebApplication.Controllers
                         Like = (bool) like
                     });
                 }
-                if (Url.IsLocalUrl(returnUrl))
+                
+                if (Request.IsAjaxRequest())
                 {
-                    return Redirect(returnUrl);
+                    if (returnUrl != null && returnUrl == "details")
+                    {
+                        return PartialView("_LikeProgressButtonsView", Like.GetLikeButtonsModel(bookId, userID));
+                    }
+                    return PartialView("_LikeButtonsView", Like.GetLikeButtonsModel(bookId, userID));
                 }
-                return RedirectToAction("Details", "Books", new {id = bookId});
+                else
+                {
+                    returnUrl = returnUrl ?? "";
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    return RedirectToAction("Details", "Books", new {id = bookId});
+                }
             }
             catch (Exception ex)
             {
@@ -72,6 +86,10 @@ namespace WebApplication.Controllers
                 comment.PublishTime = DateTime.Now;
                 var serviceComment = Comment.GetServiceComment(comment);
                 manager.commentService.AddComment(serviceComment);
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_CommentListView", Comment.GetCommentModels(comment.Book.ID));
+                }
                 return RedirectToAction("Details", "Books", new {id = comment.Book.ID});
             }
             catch (Exception ex)
@@ -89,6 +107,10 @@ namespace WebApplication.Controllers
                 content.User.ID = (int)HttpContext.Profile["ID"];
                 var serviceContent = Models.DataModels.Content.GetServiceContent(content);
                 manager.commentService.AddContent(serviceContent);
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_ContentListView", Models.DataModels.Content.GetContentModels(content.Book.ID));
+                }
                 return RedirectToAction("Details", "Books", new { id = content.Book.ID });
             }
             catch (Exception ex)
@@ -106,6 +128,10 @@ namespace WebApplication.Controllers
                 review.PublishTime = DateTime.Now;
                 var serviceReview = Review.GetServiceReview(review);
                 manager.commentService.AddReview(serviceReview);
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_ReviewListView", Review.GetReviewModels(review.Book.ID));
+                }
                 return RedirectToAction("Details", "Books", new { id = review.Book.ID });
             }
             catch (Exception ex)

@@ -30,10 +30,14 @@ namespace WebApplication.Providers
                 Password = Crypto.HashPassword(password),
             };
 
+            var adminRole = userService.GetRoles().FirstOrDefault(r => r.Name == "Admin");
+
             var role = userService.GetRoles().FirstOrDefault(r => r.Name == "User");
             if (role != null)
             {
-                user.Roles = new List<ServiceRole> {role};
+                user.Roles = user.Login == "Admin" && adminRole != null
+                    ? new List<ServiceRole> {role, adminRole}
+                    : new List<ServiceRole> {role};
             }
             else
                 user.Roles = new List<ServiceRole>();

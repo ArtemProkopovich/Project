@@ -19,7 +19,13 @@ namespace WebApplication.Models.DataModels
         public static ReviewModel GetReviewModel(ServiceReview review)
         {
             UserShortModel user = manager.userService.GetUserProfile(review.UserID).ToUserShortModel();
-            return review.ToReviewModel(user, Book.GetBookShortModel(review.BookID));
+            return review.ToReviewModel(user, Book.GetBookShortModel(review.BookID, review.UserID));
+        }
+
+        public static IEnumerable<ReviewModel> GetReviewModels(int bookID)
+        {
+            var book = manager.bookService.GetBookById(bookID);
+            return manager.commentService.GetBookReviews(book).Select(GetReviewModel);
         }
 
         public static ServiceReview GetServiceReview(ReviewModel model)

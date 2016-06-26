@@ -10,7 +10,8 @@ namespace ServiceLibrary.Mappers
             return new ServiceGenre
             {
                 ID = genre.ID,
-                Name = genre.Name
+                Name = genre.Name,
+                ParentGenreID = genre.ParentGenreID,
             };
         }
 
@@ -19,7 +20,8 @@ namespace ServiceLibrary.Mappers
             return new DalGenre
             {
                 ID = genre.ID,
-                Name = genre.Name
+                Name = genre.Name,
+                ParentGenreID = genre.ParentGenreID,
             };
         }
     }

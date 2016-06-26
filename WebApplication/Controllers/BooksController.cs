@@ -26,8 +26,9 @@ namespace WebApplication.Controllers
 
         public ActionResult Index()
         {
+            int userID = (int?) Profile["ID"] ?? 0;
             var books = manager.bookService.GetAllBooks().Take(4);
-            var bookList = books.Select(book => manager.bookService.GetFullBookInfo(book.ID).ToBookShortModel()).ToList();
+            var bookList = books.Select(book => manager.bookService.GetFullBookInfo(book.ID).ToBookShortModel(userID)).ToList();
             IEnumerable<AuthorShortModel> authorList =
                 manager.authorService.GetAllAuthors().Take(4).Select(e => e.ToAuthorShortModel());
             var genres = manager.listService.GetAllGenres();
@@ -99,6 +100,7 @@ namespace WebApplication.Controllers
         }
         
        [HttpGet]
+       [Authorize]
         public ActionResult Create()
         {
            try
@@ -125,6 +127,8 @@ namespace WebApplication.Controllers
         }
 
         [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(BookCreateModel model)
         {
             try
@@ -168,6 +172,7 @@ namespace WebApplication.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult Edit(int id)
         {
             try
@@ -182,6 +187,8 @@ namespace WebApplication.Controllers
         }
 
         [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(BookCreateModel model)
         {
             try
@@ -202,8 +209,9 @@ namespace WebApplication.Controllers
         {
             try
             {
+                int userID = (int?) Profile["ID"] ?? 0;
                 var books = manager.bookService.GetAllBooks();
-                var bookList = books.Select(book => manager.bookService.GetFullBookInfo(book.ID).ToBookShortModel()).ToList();
+                var bookList = books.Select(book => manager.bookService.GetFullBookInfo(book.ID).ToBookShortModel(userID)).ToList();
                 return View(bookList);
             }
             catch (Exception ex)
@@ -213,6 +221,7 @@ namespace WebApplication.Controllers
         }
 
         // GET: Books/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             try
@@ -228,6 +237,8 @@ namespace WebApplication.Controllers
 
         // POST: Books/Delete/5
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try

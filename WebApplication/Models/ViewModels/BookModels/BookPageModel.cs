@@ -18,14 +18,10 @@ namespace WebApplication.Models.BookModels
         public int ID { get; set; }
         public string Name { get; set; }
         [DataType(DataType.Date)]
-        public DateTime PublishDate { get; set; }
+        public DateTime? PublishDate { get; set; }
         public int AgeCategory { get; set; }
         public IEnumerable<AuthorShortModel> Authors { get; set; }
-        public IEnumerable<ServiceLike> Likes { get; set; }
-        public ServiceLike UserLike { get; set; }
-        public int Like { get; set; }
-        public int Dislike { get; set; }
-        public int LikeCount { get; set; }
+        public LikeButtonsModel Likes { get; set; }
         public IEnumerable<CollectionModel> CollectionsWithBook { get; set; }
         public IEnumerable<CollectionModel> CollectionWithoutBook { get; set; }
         public IEnumerable<CoverModel> Covers { get; set; }

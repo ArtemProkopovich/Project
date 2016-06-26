@@ -9,6 +9,7 @@ using Service.Interfacies.Entities;
 using WebApplication.Infrastructure.Mappers;
 using WebApplication.Models.CollectionBookModels;
 using WebApplication.Models.DataModels;
+using WebApplication.Models.ViewModels.ContentModels;
 
 namespace WebApplication.Controllers
 {
@@ -144,6 +145,102 @@ namespace WebApplication.Controllers
                     return Redirect(returnUrl);
                 }
                 return RedirectToAction("Index", "Collection");
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult AddQuote(QuoteModel quote)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    manager.collectionService.AddQuote(quote.ToServiceQuote());
+                    var model = Quote.GetQuoteList(quote.CollectionBookID);
+                    if (Request.IsAjaxRequest())
+                    {
+                        return PartialView("_QuoteListView", model);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Details", new { id = quote.CollectionBookID });
+                    }
+                }
+                return RedirectToAction("Details", new {id = quote.CollectionBookID});
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult AddBookmark(BookmarkModel bookmark)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    manager.collectionService.AddBookmark(bookmark.ToServiceBookmark());
+                    var model = Bookmark.GetBookmarkList(bookmark.CollectionBookID);
+                    if (Request.IsAjaxRequest())
+                    {
+                        return PartialView("_BookmarkListView", model);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Details", new { id = bookmark.CollectionBookID });
+                    }
+                }
+                return RedirectToAction("Details", new { id = bookmark.CollectionBookID });
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult DeleteQuote(int quoteID)
+        {
+            try
+            {
+                var quote = manager.collectionService.GetQuote(quoteID);
+                manager.collectionService.RemoveQuote(quote);
+                if (Request.IsAjaxRequest())
+                {
+                    var model = Quote.GetQuoteList(quote.CollectionBookID);
+                    return PartialView("_QuoteListView", model);
+                }
+                return RedirectToAction("Details", quote.CollectionBookID);
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult DeleteBookmark(int bookmarkID)
+        {
+            try
+            {
+                var bm = manager.collectionService.GetBookmark(bookmarkID);
+                manager.collectionService.RemoveBookmark(bm);
+                if (Request.IsAjaxRequest())
+                {
+                    var model = Bookmark.GetBookmarkList(bm.CollectionBookID);
+                    return PartialView("_BookmarkListView", model);
+                }
+                return RedirectToAction("Details", bm.CollectionBookID);
             }
             catch (Exception ex)
             {

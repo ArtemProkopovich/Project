@@ -9,10 +9,13 @@ namespace WebApplication.Models
 {
     public class TagModel
     {
-        [HiddenInput(DisplayValue =false)]
+        [HiddenInput(DisplayValue = false)]
         public int ID { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Name can't be empty.")]
         public string Name { get; set; }
+
+        [HiddenInput(DisplayValue = false)]
+        public int BookCount { get; set; }
     }
 }

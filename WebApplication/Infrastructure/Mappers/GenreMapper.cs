@@ -15,7 +15,8 @@ namespace WebApplication.Infrastructure.Mappers
             return new ServiceGenre
             {
                 ID = genre.ID,
-                Name = genre.Name
+                Name = genre.Name,
+                ParentGenreID = genre.ParentGenreID,
             };
         }
 
@@ -24,7 +25,8 @@ namespace WebApplication.Infrastructure.Mappers
             return new GenreModel
             {
                 ID = genre.ID,
-                Name = genre.Name
+                Name = genre.Name,
+                ParentGenreID = genre.ParentGenreID,
             };
         }
 

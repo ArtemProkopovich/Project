@@ -1,0 +1,9 @@
+﻿@model IEnumerable<WebApplication.Models.ContentModels.ReviewModel>
+
+<div id="reviewsContent">
+    @foreach (var review in Model)
+    {
+        @Html.Partial("_ReviewView", review)
+    }
+</div>
+

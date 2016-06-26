@@ -1,0 +1,8 @@
+﻿@model IEnumerable<WebApplication.Models.ContentModels.CommentModel>
+
+<div id="commentsContent">
+    @foreach (var comment in Model)
+    {
+        @Html.Partial("_CommentView", comment)
+    }
+</div>

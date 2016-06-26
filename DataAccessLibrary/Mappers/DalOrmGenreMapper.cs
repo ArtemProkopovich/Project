@@ -15,7 +15,8 @@ namespace DataAccessLibrary.Mappers
             return new Genres
             {
                 GenreID = genre.ID,
-                Name = genre.Name
+                Name = genre.Name,
+                Parent_GenreID = genre.ParentGenreID,
             };
         }
 
@@ -24,7 +25,8 @@ namespace DataAccessLibrary.Mappers
             return new DalGenre
             {
                 ID = genre.GenreID,
-                Name = genre.Name
+                Name = genre.Name,
+                ParentGenreID = genre.Parent_GenreID
             };
         }
     }

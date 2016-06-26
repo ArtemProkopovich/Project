@@ -34,11 +34,11 @@
         {
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">
+                    <h2 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#@cl.collection.ID">
                             @cl.collection.Name
                         </a>
-                    </h4>
+                    </h2>
                 </div>
                 <div id="@cl.collection.ID" class="panel-collapse collapse @inactive">
                     @{ inactive = ""; }
@@ -65,13 +65,13 @@
                                                 @Html.LabelFor(model => book.book.Author, htmlAttributes: new {@class = "control-label col-md-3"})
                                                 @Html.ActionLink(book.book.Author.Name, "Details", "Author", new {id = book.book.Author.ID}, htmlAttributes: new {@class = "control-label col-md-9"})
                                             </div>
-                                            <div class="btn-group btn-group-sm btn-group-justified">
+                                            <div class="btn-group btn-group-sm btn-group-justified" style="padding-top:10px">
                                                 <a class="btn btn-success" href="@Url.Action("Read", "CollectionBook", new {id = book.ID})"><i class="glyphicon glyphicon-book" aria-hidden="true"></i>Read</a>
                                                 <a class="btn btn-success" href="@Url.Action("Download", "CollectionBook", new {id = book.ID})"><i class="glyphicon glyphicon-download" aria-hidden="true"></i>Download</a>
-                                                <a class="btn btn-success" href="@Url.Action("Index", "CollectionBook", new {id = book.ID})"><i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>Watch more</a>
+                                                <a class="btn btn-success" href="@Url.Action("Details", "CollectionBook", new {id = book.ID})"><i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>Watch more</a>
                                                 <a class="btn btn-danger" href="@Url.Action("Delete", "CollectionBook", new {id = book.ID})"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i>Delete</a>
                                             </div>
-                                            <div class="col-md-offset-2" style="padding-top: 10px">
+                                            <div class="" style="padding-top: 10px">
                                                 <button data-toggle="dropdown" class="btn btn-warning=dropdown-toggle" href="#"><i class="glyphicon glyphicon-bookmark" aria-hidden="true"></i> Move to <span class="caret"></span></button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     @foreach (var clc in Model.Collections)
@@ -88,7 +88,7 @@
                         </div>
                     </div>
                     <div class="panel-footer">
-                        <div class="btn-group btn-group-lg btn-group-justified">
+                        <div class="btn-group btn-group-sm btn-group-justified">
                             <a class="btn btn-danger" href="@Url.Action("Clear", "Collection", new {id = cl.collection.ID})">Clear collection</a>
                             @if (cl.collection.Name != "Favorite")
                             {

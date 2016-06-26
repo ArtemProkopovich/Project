@@ -16,10 +16,12 @@ namespace Service.Interfacies
         void AddBook(ServiceCollection collection, ServiceBook book);
         void RemoveBook(ServiceCollectionBook book);
         void MoveBook(ServiceCollectionBook book, ServiceCollection collection);
-        void AddBookmark(ServiceCollectionBook book, ServiceBookmark bookmark);
+        void AddBookmark(ServiceBookmark bookmark);
+        ServiceBookmark GetBookmark(int id);
         void RemoveBookmark(ServiceBookmark bookmark);
         IEnumerable<ServiceBookmark> GetBookmarks(ServiceCollectionBook cb);
-        void AddQuote(ServiceCollectionBook book, ServiceQuote quote);
+        void AddQuote(ServiceQuote quote);
+        ServiceQuote GetQuote(int id);
         void RemoveQuote(ServiceQuote quote);
         IEnumerable<ServiceQuote> GetQuotes(ServiceCollectionBook cb);
         IEnumerable<ServiceCollectionBook> GetCollectionBooks(ServiceCollection collection);

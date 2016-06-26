@@ -18,9 +18,11 @@ namespace WebApplication.Models.BookModels
         public int AgeCategory { get; set; }
         public HttpPostedFileBase File { get; set; }
         public HttpPostedFileBase Cover { get; set; }
+        [AllowHtml]
         public string Content { get; set; }
         public string Genre { get; set; }
         public string Tag { get; set; }
+        [DataType(DataType.Url)]
         public string Screening { get; set; }
     }
 }

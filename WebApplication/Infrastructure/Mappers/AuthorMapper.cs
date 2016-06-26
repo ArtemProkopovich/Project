@@ -14,8 +14,8 @@ namespace WebApplication.Infrastructure.Mappers
             return new AuthorCreateModel()
             {
                 Name = author.Name,
-                BirthDate = author.BirthDate ?? new DateTime(),
-                DeathDate = author.DeathDate ?? new DateTime(),
+                BirthDate = author.BirthDate,
+                DeathDate = author.DeathDate,
                 Biography = author.Biography
             };
         }
@@ -27,9 +27,9 @@ namespace WebApplication.Infrastructure.Mappers
                 ID = author.AuthorData.ID,
                 Name = author.AuthorData.Name,
                 Biography = author.AuthorData.Biography,
-                BirthDate = author.AuthorData.BirthDate ?? new DateTime(),
-                DeathDate = author.AuthorData.DeathDate ?? new DateTime(),
-                PhotoPath = author.AuthorData.Photo ?? "",
+                BirthDate = author.AuthorData.BirthDate,
+                DeathDate = author.AuthorData.DeathDate,
+                PhotoPath = author.AuthorData.Photo,
                 Books = author.AuthorBooks.Select(e => e.ToBookShortModel())
             };
         }
@@ -50,8 +50,8 @@ namespace WebApplication.Infrastructure.Mappers
             {
                 ID = author.ID,
                 Name = author.Name,
-                BirthDate = author.BirthDate ?? new DateTime(),
-                DeathDate = author.DeathDate ?? new DateTime(),
+                BirthDate = author.BirthDate,
+                DeathDate = author.DeathDate,
                 Biography = author.Biography,
                 PhotoPath = author.Photo
             };

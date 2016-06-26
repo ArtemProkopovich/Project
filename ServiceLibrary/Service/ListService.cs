@@ -124,8 +124,18 @@ namespace ServiceLibrary.Service
 
         public void RemoveGenre(ServiceGenre genre)
         {
-            unit.Genres.Delete(genre.ToDalGenre());
+            RemoveGenreTree(genre);
             unit.Save();
+        }
+
+        private void RemoveGenreTree(ServiceGenre genre)
+        {
+            var genres = unit.Genres.GetAll().Where(e => e.ParentGenreID == genre.ID);
+            foreach (var g in genres)
+            {
+                RemoveGenreTree(g.ToServiceGenre());
+            }
+            unit.Genres.Delete(genre.ToDalGenre());
         }
 
         public void RemoveList(ServiceList list)

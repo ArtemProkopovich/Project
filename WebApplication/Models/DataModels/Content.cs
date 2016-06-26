@@ -19,7 +19,13 @@ namespace WebApplication.Models.DataModels
         public static ContentModel GetContentModel(ServiceContent content)
         {
             UserShortModel user = manager.userService.GetUserProfile(content.UserID).ToUserShortModel();
-            return content.ToContentModel(user, Book.GetBookShortModel(content.BookID));
+            return content.ToContentModel(user, Book.GetBookShortModel(content.BookID, content.UserID));
+        }
+
+        public static IEnumerable<ContentModel> GetContentModels(int bookID)
+        {
+            var book = manager.bookService.GetBookById(bookID);
+            return manager.commentService.GetBookContents(book).Select(GetContentModel);
         }
 
         public static ServiceContent GetServiceContent(ContentModel model)

@@ -11,6 +11,7 @@ using System.IO;
 using System.Text;
 using Service.Interfacies.Entities;
 using WebApplication.Models.BookModels;
+using WebApplication.Models.DataModels;
 
 namespace WebApplication.Controllers
 {
@@ -41,24 +42,16 @@ namespace WebApplication.Controllers
         //GET: Author/Details/5
         public ActionResult Details(int id)
         {
+            int userID = (int?) Profile["ID"] ?? 0;
             ServiceFullAuthor sfa  = service.GetFullAuthorInfo(id);
             AuthorFullModel author = sfa.ToAuthorFullModel();
-            List<BookShortModel> list = new List<BookShortModel>();
-            foreach (var book in sfa.AuthorBooks)
-            {
-                BookShortModel bsm = book.ToBookShortModel();
-                bsm.Author = sfa.AuthorData.ToAuthorShortModel();
-                IEnumerable<ServiceLike> likes = bookService.GetBookLikes(book);
-                bsm.Cover = bookService.GetBookCovers(book)?.First().ImagePath;
-                bsm.Likes = likes.Count(e => e.Like);
-                bsm.Dislikes = likes.Count(e => e.Like);
-                list.Add(bsm);
-            }
+            List<BookShortModel> list = sfa.AuthorBooks.Select(book => Book.GetBookShortModel(book.ID, userID)).ToList();
             author.Books = list;
             return View(author);
         }
 
         // GET: Author/Create
+        [Authorize(Roles ="Admin")]
         public ActionResult Create()
         {
             return View();
@@ -66,20 +59,26 @@ namespace WebApplication.Controllers
 
         // POST: Author/Create
         [HttpPost]
+        [Authorize(Roles ="Admin")]
         public ActionResult Create(AuthorCreateModel model)
         {
             try
             {
-                if (model.Photo != null)
+                if (ModelState.IsValid)
                 {
-                    string filepath = Server.MapPath("~/App_Data/Uploads/Covers/" +
-                                                     FilePathGenerator.GenerateFileName(model.Photo.FileName));
-                    model.Photo.SaveAs(filepath);
-                    service.AddAuthor(model.ToServiceAuthor(filepath));
+                    int id;
+                    if (model.Photo != null)
+                    {
+                        string filepath = Server.MapPath("~/App_Data/Uploads/Covers/Authors/" +
+                                                         FilePathGenerator.GenerateFileName(model.Photo.FileName));
+                        model.Photo.SaveAs(filepath);
+                        id = service.AddAuthor(model.ToServiceAuthor(filepath));
+                    }
+                    else
+                        id = service.AddAuthor(model.ToServiceAuthor());
+                    return RedirectToAction("Details", id);
                 }
-                else
-                    service.AddAuthor(model.ToServiceAuthor());
-                return RedirectToAction("Index");
+                return View(model);
             }
             catch(Exception ex)
             {
@@ -103,6 +102,7 @@ namespace WebApplication.Controllers
 
         // POST: Author/Edit/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(AuthorEditModel model)
         {
             try
@@ -128,6 +128,7 @@ namespace WebApplication.Controllers
         }
 
         // GET: Author/Delete/5
+        [Authorize(Roles ="Admin")]
         public ActionResult Delete(int id)
         {
             try
@@ -143,6 +144,8 @@ namespace WebApplication.Controllers
 
         // POST: Author/Delete/5
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
@@ -159,6 +162,7 @@ namespace WebApplication.Controllers
             }
         }
 
+        
         public FileResult GetImage(int id)
         {
             var author = service.GetById(id);

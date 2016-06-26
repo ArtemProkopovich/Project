@@ -20,7 +20,13 @@ namespace WebApplication.Models.DataModels
         {
             UserShortModel user = manager.userService.GetUserProfile(comment.UserID)?.ToUserShortModel() ??
                                   new ServiceUserProfile() {ID = comment.UserID}.ToUserShortModel();
-            return comment.ToCommentModel(user, Book.GetBookShortModel(comment.BookID));
+            return comment.ToCommentModel(user, Book.GetBookShortModel(comment.BookID, comment.UserID));
+        }
+
+        public static IEnumerable<CommentModel> GetCommentModels(int bookID)
+        {
+            var book = manager.bookService.GetBookById(bookID);
+            return manager.commentService.GetBookComments(book).Select(GetCommentModel);
         }
 
         public static ServiceComment GetServiceComment(CommentModel model)

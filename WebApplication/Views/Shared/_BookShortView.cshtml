@@ -1,4 +1,5 @@
-﻿@model WebApplication.Models.BookModels.BookShortModel
+﻿@using Service.Interfacies.Entities
+@model WebApplication.Models.BookModels.BookShortModel
 
 <div class="panel panel-default">
     <div class="panel-body">
@@ -16,9 +17,8 @@
                 @Html.ActionLink(Model.Author.Name, "Details", "Author", new {id = Model.Author.ID}, htmlAttributes: new {@class = "control-label col-md-9"})
             </div>
             <div class="clearfix"></div>
-            <div class="btn-group btn-group-sm">
-                <button class="btn btn-success"><i class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></i>Like @Model.Likes</button>
-                <button class="btn btn-danger"><i class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></i>Dislike @Model.Dislikes</button>
+            <div id="like-buttons">
+                @Html.Partial("_LikeButtonsView", Model.Likes)
             </div>
         </div>
     </div>
