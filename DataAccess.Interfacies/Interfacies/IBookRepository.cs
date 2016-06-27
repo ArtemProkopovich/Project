@@ -7,8 +7,18 @@ using DataAccess.Interfacies.Entities;
 
 namespace DataAccess.Interfacies
 {
+    public enum DalOrderType
+    {
+        Likes,
+        Comments,
+        Reads
+    }
+
     public interface IBookRepository : IRepository<DalBook>
     {
+        int GetAllBooksCount();
+        IEnumerable<DalBook> OrderTake(DalOrderType order, int offset, int count);
+
         DalBook GetRandomBook();
         DalBook GetByName(string name);
 

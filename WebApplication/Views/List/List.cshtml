@@ -1,14 +1,44 @@
-﻿@model WebApplication.Models.ListBookListModel
+﻿@model WebApplication.Models.ViewModels.ListModels.ListPageModel
 
 @{
     ViewBag.Title = "List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>@Model.List.Name</h3>
-<div class="clearfix"></div>
 <div class="jumbotron">
+    <h2>
+        <strong>@Model.List.Name</strong>
+        @if (User.IsInRole("Admin"))
+        {
+            <a href="@Url.Action("Edit","List",new {id = Model.List.ID})" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+            <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#modal"><span class="glyphicon glyphicon-remove"></span></button>
+        }
+    </h2>
     @Html.Partial("_BookShortViewList", Model.Books)
 </div>
 
+<div class="modal fade bs-example-modal-sm" id="modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Delete tag</h4>
+            </div>
+            <div class="modal-body">
+                <h4 class="text-danger">Are you sure to delete <strong>@Model.List.Name</strong> list?</h4>
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm("Delete", "List", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("id", Model.List.ID)
+                    <div class="">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
 

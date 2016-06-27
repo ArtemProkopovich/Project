@@ -4,7 +4,7 @@
 <div class="container panel-group">
     @foreach (BookShortModel book in Model)
     {
-        Html.RenderPartial("_BookShortView", book);
+        @Html.Partial("_BookShortView", book);
     }
 </div>
 

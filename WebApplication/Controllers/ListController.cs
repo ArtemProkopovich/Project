@@ -28,8 +28,8 @@ namespace WebApplication.Controllers
         {
             try
             {
-                var lists = service.GetAllLists().Select(e=>e.ToListModel());
-                return View(lists);
+                var model = Models.DataModels.List.GetListIndexModel();
+                return View(model);
             }
             catch
             {
@@ -37,28 +37,32 @@ namespace WebApplication.Controllers
             }
         }
 
-        // GET: List/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         // POST: List/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(ListModel model)
         {
             try
             {
-                if (service.GetAllLists().All(e => e.Name != model.Name))
+                if (ModelState.IsValid)
                 {
-                    service.AddList(model.ToServiceList());
-                    return RedirectToAction("Index");
+                    if (service.GetAllLists().All(e => e.Name != model.Name))
+                    {
+                        service.AddList(model.ToServiceList());
+                        if (Request.IsAjaxRequest())
+                        {
+                            var lim = Models.DataModels.List.GetListIndexModel();
+                            return PartialView("_ListCoverListView", lim);
+                        }
+                        return RedirectToAction("Index");
+                    }
                 }
-                return View();
+                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View("Error");
             }
         }
 
@@ -165,12 +169,7 @@ namespace WebApplication.Controllers
         {
             try
             {
-                int userID = (int?) Profile["ID"] ?? 0;
-                ServiceList list = service.GetListById(id);
-                var books = service.GetListBooks(list);
-                List<BookShortModel> bookList = books.Select(book => Book.GetBookShortModel(book.ID, userID)).ToList();
-
-                return View(list.ToListBookListModel(bookList));
+                return View();
             }
             catch
             {

@@ -1,0 +1,24 @@
+﻿@model WebApplication.Models.ViewModels.ListModels.ListIndexModel
+
+@foreach (var list in Model.Lists)
+{
+    <div class="row">
+        <a href="@Url.Action("List", "List", new {id = list.List.ID})">
+            <h3>@list.List.Name</h3>
+            <div class="authors-list">
+                @foreach (var book in list.Books)
+                {
+                    <div class="container-authors">
+                        <div class="author-poster">
+                            <div class="author-poster-header">
+                                <div class="author-poster-name"></div>
+                                <p title="@book.Name">@book.Name</p>
+                            </div>
+                            <img alt="image" src="@Url.Action("GetImage", "Books", new {id = book.ID})"/>
+                        </div>
+                    </div>
+                }
+            </div>
+        </a>
+    </div>
+}

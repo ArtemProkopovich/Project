@@ -27,14 +27,5 @@ namespace WebApplication.Infrastructure.Mappers
                 Name = list.Name
             };
         }
-
-        public static ListBookListModel ToListBookListModel(this ServiceList list, IEnumerable<BookShortModel> books)
-        {
-            return new ListBookListModel
-            {
-                List = list.ToListModel(),
-                Books = books
-            };
-        }
     }
 }

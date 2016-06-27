@@ -9,6 +9,8 @@ namespace DataAccess.Interfacies
 {
     public interface IAuthorRepository:IRepository<DalAuthor>
     {
+        int GetAuthorsCount();
+        IEnumerable<DalAuthor> OrderTake(int offset, int count);
         IEnumerable<DalBook> GetBooks(DalAuthor author);
         DalAuthor GetByName(string name);
     }

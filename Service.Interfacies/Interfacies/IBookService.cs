@@ -9,9 +9,16 @@ using Service.Interfacies.Entities.Book;
 
 namespace Service.Interfacies
 {
+    public enum ServiceOrderType
+    {
+        Likes,
+        Comments,
+        Reads
+    }
+
     public interface IBookService
     {
-        void AddBook(ServiceBook book);
+        int AddBook(ServiceBook book);
         void RemoveBook(ServiceBook book);
         ServiceBook GetRandomBook();
         ServiceBook GetBookById(int id);
@@ -31,6 +38,8 @@ namespace Service.Interfacies
         IEnumerable<ServiceBook> FindAll(Func<ServiceBook, bool> func);
         IEnumerable<ServiceBook> GetUserBooks(ServiceUser user);
         IEnumerable<ServiceBook> GetAllBooks();
+        int GetAllBooksCount();
+        IEnumerable<ServiceBook> OrderTake(ServiceOrderType filter, int offset, int count);
         ServiceBook RandomBook();
         ServiceBook RandomBook(Func<ServiceBook, bool> func);
         IEnumerable<ServiceLike> GetBookLikes(ServiceBook book);

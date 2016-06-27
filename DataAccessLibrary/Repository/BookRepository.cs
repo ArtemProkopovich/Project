@@ -241,5 +241,32 @@ namespace DataAccessLibrary.Repository
             return context.Books.FirstOrDefault(e => e.BookID == book.ID)?.Lists.Select(e => e.ToDalList()) ??
                    new List<DalList>();
         }
+
+        public int GetAllBooksCount()
+        {
+            return context.Books.Count();
+        }
+
+        public IEnumerable<DalBook> OrderTake(DalOrderType order, int offset, int count)
+        {
+            IOrderedQueryable<Books> list;
+            switch (order)
+            {
+                case DalOrderType.Reads:
+                    list = context.Books.OrderByDescending(e => e.Collection_Book.Count);
+                    break;
+                case DalOrderType.Comments:
+                    list = context.Books.OrderByDescending(e => e.Comments.Count);
+                    break;
+
+                default:
+                    list = context.Books.OrderByDescending(e => e.Likes.Count);
+                    break;
+            }
+            return list.Skip(offset)
+                .Take(count)
+                .ToList()
+                .Select(e => e.ToDalBook());
+        }
     }
 }

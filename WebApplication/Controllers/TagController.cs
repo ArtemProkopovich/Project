@@ -56,6 +56,7 @@ namespace WebApplication.Controllers
         // POST: Tag/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(TagModel tag)
         {
             try
@@ -85,6 +86,7 @@ namespace WebApplication.Controllers
         }
 
         // GET: Tag/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             try
@@ -102,6 +104,7 @@ namespace WebApplication.Controllers
         [HttpPost]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteObject(int id)
         {
             try

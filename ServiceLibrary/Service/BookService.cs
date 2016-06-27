@@ -20,10 +20,11 @@ namespace ServiceLibrary.Service
         {
             this.unit = unit;
         }
-        public void AddBook(ServiceBook book)
+        public int AddBook(ServiceBook book)
         {
-            unit.Books.Create(book.ToDalBook());
+            int id = unit.Books.Create(book.ToDalBook());
             unit.Save();
+            return id;
         }
 
         public void AddCover(ServiceBook book, ServiceCover cover)
@@ -169,6 +170,30 @@ namespace ServiceLibrary.Service
         {
             unit.Books.Update(book.ToDalBook());
             unit.Save();
+        }
+
+        public int GetAllBooksCount()
+        {
+            return unit.Books.GetAllBooksCount();
+        }
+
+        public IEnumerable<ServiceBook> OrderTake(ServiceOrderType filter, int offset, int count)
+        {
+            return unit.Books.OrderTake(ToDalOrder(filter), offset, count).Select(e => e.ToServiceBook());
+        }
+
+        private DalOrderType ToDalOrder(ServiceOrderType type)
+        {
+            switch (type)
+            {
+                case ServiceOrderType.Likes:
+                    return DalOrderType.Likes;
+                case ServiceOrderType.Comments:
+                    return DalOrderType.Comments;
+                case ServiceOrderType.Reads:
+                    return DalOrderType.Reads;
+            }
+            return DalOrderType.Likes;
         }
     }
 }

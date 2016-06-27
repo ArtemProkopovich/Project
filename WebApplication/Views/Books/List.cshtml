@@ -1,16 +1,21 @@
-﻿@model IEnumerable<WebApplication.Models.BookModels.BookShortModel>
+﻿@model WebApplication.Models.ViewModels.BookModels.BookListModel
 
 @{
     ViewBag.Title = "List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>List</h2>
-
 <div class="jumbotron">
-    @Html.Partial("_BookShortViewList", Model)
+    <h2>All books on Booker</h2>
+    <div id="book-list-content">
+        @Html.Partial("_BookListNavView", Model)
+    </div>
 </div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
+

@@ -50,6 +50,11 @@ namespace DataAccessLibrary.Repository
             return context.Authors.ToList().Select(e=>e.ToDalAuthor());
         }
 
+        public int GetAuthorsCount()
+        {
+            return context.Authors.Count();
+        }
+
         public IEnumerable<DalBook> GetBooks(DalAuthor author)
         {
             return context.Books.Where(e => e.Authors.AsQueryable().Any(t => t.AuthorID == author.ID)).ToList()
@@ -64,6 +69,11 @@ namespace DataAccessLibrary.Repository
         public DalAuthor GetByName(string name)
         {
             return context.Authors.FirstOrDefault(e => e.Name == name)?.ToDalAuthor();
+        }
+
+        public IEnumerable<DalAuthor> OrderTake(int offset, int count)
+        {
+            return context.Authors.OrderBy(e => e.Name).Skip(offset).Take(count).ToList().Select(e=>e.ToDalAuthor());
         }
 
         public void Update(DalAuthor entity)

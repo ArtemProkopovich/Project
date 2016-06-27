@@ -18,7 +18,8 @@ namespace WebApplication.Models.DataModels
 
         public static ContentModel GetContentModel(ServiceContent content)
         {
-            UserShortModel user = manager.userService.GetUserProfile(content.UserID).ToUserShortModel();
+            UserShortModel user = manager.userService.GetUserProfile(content.UserID)?.ToUserShortModel() ??
+                                  new ServiceUserProfile() { ID = content.UserID }.ToUserShortModel();
             return content.ToContentModel(user, Book.GetBookShortModel(content.BookID, content.UserID));
         }
 

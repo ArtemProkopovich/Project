@@ -25,13 +25,33 @@ namespace WebApplication.Controllers
             this.service = service;
             this.bookService = bookService;
         }
+
+        private const int BooksOnPage=20;
+
         // GET: Author
         public ActionResult Index()
         {
             try
             {
-                var authors = service.GetAllAuthors().Select(e=>e.ToAuthorShortModel());
-                return View(authors);
+                var model = Author.GetAuthorIndexModel(BooksOnPage, 1);
+                return View(model);
+            }
+            catch
+            {
+                return View("Error");
+            }
+        }
+
+        public ActionResult List(int currentPage)
+        {
+            try
+            {
+                var model = Author.GetAuthorIndexModel(BooksOnPage, currentPage);
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_AuthorListView", model);
+                }
+                return View("Index", model);
             }
             catch
             {

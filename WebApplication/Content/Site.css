@@ -25,7 +25,7 @@ textarea {
 
 .container-a{
 	background-color: #f8f8f8;
-	padding: 3% 5%;
+	padding: 0% 0%;
 }
 
 
@@ -38,12 +38,12 @@ textarea {
 	}
 
 .authors-list{
-	padding: 0 6%;
+	padding: 3% 4%;
 }
 	.container-authors{
 		display: inline-block;
 		vertical-align: top;
-		width: 150px;
+		width: 180px;
 		margin-bottom: 10px;
 		position: relative;
 		margin-right: 10px;
@@ -59,7 +59,7 @@ textarea {
 	.author-poster{
 		display: block;
 		width: 100%;
-		height: 210px;
+		height: 220px;
 		vertical-align: top;
 		overflow: hidden;
 		position: relative;

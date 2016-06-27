@@ -12,7 +12,6 @@ using WebApplication.Models.DataModels;
 
 namespace WebApplication.Controllers
 {
-    [Authorize]
     public class GenreController : Controller
     {
         private readonly IListService service;
@@ -40,6 +39,7 @@ namespace WebApplication.Controllers
         // POST: Genre/Create
         [ValidateAntiForgeryToken]
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(GenreModel genre)
         {
             try
@@ -84,6 +84,7 @@ namespace WebApplication.Controllers
 
         // GET: Genre/Delete/5
         [HttpGet]
+        [Authorize(Roles="Admin")]
         public ActionResult Delete(int id)
         {
             try
@@ -101,6 +102,7 @@ namespace WebApplication.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteObject(int id)
         {
             try

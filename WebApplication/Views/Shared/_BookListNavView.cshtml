@@ -1,0 +1,70 @@
+﻿@using WebApplication.Models.ViewModels.BookModels
+@model WebApplication.Models.ViewModels.BookModels.BookListModel
+
+<div class="row">
+    <div class="col-md-6">
+        <h4 class="text-info">Order by</h4>
+        <ul class="nav nav-pills">
+            @{ string active = "";}
+            @if (Model.Filter == SortBy.Likes)
+            {
+                active = "active";
+            }
+            <li class="@active" role="presentation">@Ajax.ActionLink("Most liked", "FilterList", "Books", new {filter = SortBy.Likes, booksOnPage = Model.bookOnPageCount}, new AjaxOptions()
+                                               {
+                                                   HttpMethod = "GET",
+                                                   UpdateTargetId = "book-list-content",
+                                                   InsertionMode = InsertionMode.Replace,
+                                               }, new { @class = "btn btn-default" })
+            </li>
+            @{ active = ""; }
+            @if (Model.Filter == SortBy.Comments)
+            {
+                active = "active";
+            }
+            <li class="@active" role="presentation">@Ajax.ActionLink("Most discussed", "FilterList", "Books", new {filter = SortBy.Comments, booksOnPage = Model.bookOnPageCount}, new AjaxOptions()
+                                               {
+                                                   HttpMethod = "GET",
+                                                   UpdateTargetId = "book-list-content",
+                                                   InsertionMode = InsertionMode.Replace,
+                                               }, new { @class = "btn btn-default" })
+            </li>
+            @{ active = ""; }
+            @if (Model.Filter == SortBy.Read)
+            {
+                active = "active";
+            }
+            <li class="@active" role="presentation">@Ajax.ActionLink("Most read", "FilterList", "Books", new {filter = SortBy.Read, booksOnPage = Model.bookOnPageCount}, new AjaxOptions()
+                                               {
+                                                   HttpMethod = "GET",
+                                                   UpdateTargetId = "book-list-content",
+                                                   InsertionMode = InsertionMode.Replace,
+                                               }, new { @class = "btn btn-default" })
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <h4 class="text-info">Books on the page</h4>
+        <ul class="nav nav-pills">
+            @{active = "";}
+            @for (int i = 10; i < 60; i = i + 10, active = "")
+            {
+                if (i == Model.bookOnPageCount)
+                {
+                    active = "active";
+                }
+                <li class="@active" role="presentation">@Ajax.ActionLink(i.ToString(), "FilterList", "Books", new {filter = Model.Filter, booksOnPage = i}, new AjaxOptions()
+                                                   {
+                                                       HttpMethod = "GET",
+                                                       UpdateTargetId = "book-list-content",
+                                                       InsertionMode = InsertionMode.Replace,
+                                                   }, new {@class="btn btn-default"})
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+<hr />
+<div class="row" id="books-content" style="padding-top: 20px">
+    @Html.Partial("_BookListPartialView", Model)
+</div>

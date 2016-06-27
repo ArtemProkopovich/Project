@@ -46,6 +46,11 @@ namespace ServiceLibrary.Service
             return unit.Authors.GetAll().Select(e => e.ToServiceAuthor());
         }
 
+        public int GetAuthorsCount()
+        {
+            return unit.Authors.GetAuthorsCount();
+        }
+
         public ServiceAuthor GetById(int id)
         {
             return unit.Authors.GetById(id).ToServiceAuthor();
@@ -75,6 +80,11 @@ namespace ServiceLibrary.Service
                 return fullAuthor;
             }
             return null;
+        }
+
+        public IEnumerable<ServiceAuthor> OrderTake(int offset, int count)
+        {
+            return unit.Authors.OrderTake(offset, count).Select(e=>e.ToServiceAuthor());
         }
 
         public void RemoveAuthor(ServiceAuthor author)

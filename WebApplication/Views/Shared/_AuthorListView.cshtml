@@ -1,0 +1,6 @@
+﻿@model WebApplication.Models.ViewModels.AuthorModels.AuthorIndexModel
+
+@foreach (var author in Model.Authors)
+{
+    @Html.Partial("_AuthorShortView", author)
+}

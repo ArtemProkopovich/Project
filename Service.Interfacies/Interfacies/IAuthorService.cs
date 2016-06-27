@@ -14,7 +14,9 @@ namespace Service.Interfacies
         void UpdateAuthor(ServiceAuthor author);
         ServiceAuthor GetById(int id);
         ServiceAuthor GetByName(string name);
+        int GetAuthorsCount();
         IEnumerable<ServiceAuthor> GetAllAuthors();
+        IEnumerable<ServiceAuthor> OrderTake(int offset, int count);
         ServiceFullAuthor GetFullAuthorInfo(int id);
         ServiceFullAuthor GetFullAuthorInfo(ServiceAuthor author);
         void AddAuthorBook(ServiceAuthor author, ServiceBook book);

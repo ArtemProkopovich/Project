@@ -8,35 +8,38 @@
 }
 
 
-@using (Html.BeginForm("Create","Books",FormMethod.Post,new { @enctype = "multipart/form-data"})) 
+@using (Html.BeginForm("Create", "Books", FormMethod.Post, new {@enctype = "multipart/form-data"}))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>BookCreateModel</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <hr/>
+        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Name, htmlAttributes: new {@class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Author, "Author", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Author, (List<SelectListItem>)ViewData["authors"], new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Author, "", new { @class = "text-danger" })
+        <div class="form-group">         
+            @Html.LabelFor(model => model.Authors, htmlAttributes: new {@class = "control-label col-md-2"})
+            <div class="col-md-4">
+                <select name="Authors" id="selector" class="selectpicker" multiple data-live-search="true">
+                    <option value="">None</option>
+                    @foreach (var author in Model.AuthorList)
+                    {
+                        <option value="@author.ID">@author.Name</option>
+                    }
+                </select>
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.PublishDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.PublishDate, htmlAttributes: new {@class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PublishDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PublishDate, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.PublishDate, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.PublishDate, "", new {@class = "text-danger"})
             </div>
         </div>
 
@@ -49,56 +52,86 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Genre,"Genre", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model=>model.Genre, (List<SelectListItem>)ViewData["genres"], new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Genre, "", new {@class = "text-danger"})
+            <div class="col-md-offset-2 col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                            <a class="control-label" data-toggle="collapse" data-parent="#accordion" href="#genres">
+                                Genres
+                            </a>
+                        </h2>
+                    </div>
+                    <div id="genres" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="btn-group" data-toggle="buttons">
+                                @foreach (var genre in Model.GenreList)
+                                {
+                                    <label class="btn btn-primary">
+                                        <input type="checkbox" autocomplete="off" name="genres" value="@genre.ID"/> @genre.Name
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Tag, "Tag", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Tag, (List<SelectListItem>)ViewData["tags"], new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Tag, "", new { @class = "text-danger" })
+            <div class="col-md-offset-2 col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                            <a class="control-label" data-toggle="collapse" data-parent="#accordion" href="#tags">
+                                Tags
+                            </a>
+                        </h2>
+                    </div>
+                    <div id="tags" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="btn-group" data-toggle="buttons">
+                                @foreach (var tag in Model.TagList)
+                                {
+                                    <label class="btn btn-primary">
+                                        <input type="checkbox" autocomplete="off" name="tags" value="@tag.ID" />@tag.Name
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Covers, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                <input id="input-c" name="Covers" type="file" multiple class="file" data-allowed-file-extensions='["jpg", "png"]'>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.File, "File", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <input type="file" name="File" class="form-control" accept="application/pdf"/>
-                @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.Files, htmlAttributes: new {@class = "control-label col-md-2"})
+            <div class="col-md-6">
+                <input id="input-f" name="Files" type="file" multiple class="file" data-allowed-file-extensions='["pdf", "docx", "txt", "rtf", "fb2"]'>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Cover, "Cover", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" name="Cover" class="form-control" accept="image/*" />
-                @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
+                @Html.TextAreaFor(model => model.Content, 10, 70, new {htmlAttributes = new {@class = "form-control", @placeholder = "Summary..."}})
+                @Html.ValidationMessageFor(model => model.Content, "", new {@class = "text-danger"})
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Screening, "Screening", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model=>model.Screening, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Content,"Book content", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Content, 10, 50, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create book" class="btn btn-default" />
+                <input type="submit" value="Create book" class="btn btn-default"/>
             </div>
         </div>
     </div>
@@ -107,4 +140,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/editor")
 }

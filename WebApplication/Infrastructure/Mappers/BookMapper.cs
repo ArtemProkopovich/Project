@@ -6,6 +6,7 @@ using Service.Interfacies.Entities;
 using WebApplication.Models.AuthorModels;
 using WebApplication.Models.BookModels;
 using WebApplication.Models.DataModels;
+using WebApplication.Models.ViewModels.BookModels;
 using WebApplication.Models.ViewModels.ContentModels;
 
 namespace WebApplication.Infrastructure.Mappers
@@ -57,6 +58,29 @@ namespace WebApplication.Infrastructure.Mappers
                 Name = bkm.Name
             };
             return sb;
+        }
+
+        public static BookEditModel ToEditModel(this ServiceBook book)
+        {
+            return new BookEditModel()
+            {
+                ID = book.ID,
+                AgeCategory = book.AgeCategory,
+                PublishDate = book.FirstPublication,
+                Name = book.Name,
+
+            };
+        }
+
+        public static ServiceBook ToServiceBook(this BookEditModel model)
+        {
+            return new ServiceBook()
+            {
+                ID = model.ID,
+                AgeCategory = model.AgeCategory,
+                FirstPublication = model.PublishDate,
+                Name = model.Name
+            };
         }
     }
 }

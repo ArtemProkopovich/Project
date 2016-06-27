@@ -1,0 +1,69 @@
+﻿@using WebApplication.Models.ViewModels.BookModels
+@model WebApplication.Models.ViewModels.BookModels.BookListModel
+
+@Html.Partial("_BookShortViewList", Model.Books)
+<div class="text-center">
+    <nav>
+        <ul class="pagination pagination-lg">
+            @{ string disabled = "";}
+            @if (Model.currentPage == 1)
+            {
+                disabled = "disabled";
+            }
+            <li class="@disabled">
+                @Ajax.ActionLink("<<", "FilterListPage", "Books", new {filter = Model.Filter, booksOnPage = Model.bookOnPageCount, currentPage = Model.currentPage - 1}, new AjaxOptions()
+                {
+                    HttpMethod = "GET",
+                    UpdateTargetId = "books-content",
+                    InsertionMode = InsertionMode.Replace,
+                })
+            </li>
+
+            @{
+                string active = "";
+                int startI = 1;
+                int endI = Model.pageCount;
+                if (Model.currentPage > 3 && Model.pageCount - 2 <= Model.currentPage)
+                {
+                    startI = Model.currentPage - 2;
+                    endI = Model.currentPage + 2;
+                }
+                if (Model.currentPage + 2 > Model.pageCount && Model.pageCount>5)
+                {
+                    startI = Model.pageCount - 4;
+                    endI = Model.pageCount;
+                }
+
+            }
+            @for (int i = startI; i <= endI; i++, active = "")
+            {
+                if (i == Model.currentPage)
+                {
+                    active = "active";
+                }
+                <li class="@active">
+                    @Ajax.ActionLink(i.ToString(), "FilterListPage", "Books", new {filter = Model.Filter, booksOnPage = Model.bookOnPageCount, currentPage = i}, new AjaxOptions()
+                    {
+                        HttpMethod = "GET",
+                        UpdateTargetId = "books-content",
+                        InsertionMode = InsertionMode.Replace,
+                    })
+                </li>
+            }
+
+            @{ disabled = "";}
+            @if (Model.currentPage == Model.pageCount)
+            {
+                disabled = "disabled";
+            }
+            <li class="@disabled">
+                @Ajax.ActionLink(">>", "FilterListPage", "Books", new {filter = Model.Filter, booksOnPage = Model.bookOnPageCount, currentPage = Model.currentPage + 1}, new AjaxOptions()
+                {
+                    HttpMethod = "GET",
+                    UpdateTargetId = "books-content",
+                    InsertionMode = InsertionMode.Replace,
+                })
+            </li>
+        </ul>
+    </nav>
+</div>
