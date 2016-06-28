@@ -9,16 +9,11 @@ namespace Service.Interfacies
 {
     public interface IFindService
     {
-        IEnumerable<ServiceList> GetAllLists();
-        IEnumerable<ServiceGenre> GetAllGenres();
-        IEnumerable<ServiceTag> GetAllTags();
-        IEnumerable<ServiceAuthor> GetAllAuthors();
-        IEnumerable<ServiceBook> GetAllBooks();
-        IEnumerable<ServiceBook> FindAll(Func<ServiceBook, bool> func);
-        IEnumerable<ServiceBook> FindByGenre(ServiceGenre genre);
-        IEnumerable<ServiceBook> FindByList(ServiceList list);
-        IEnumerable<ServiceBook> FindByAuthor(ServiceAuthor author);
-        IEnumerable<ServiceBook> FindByTag(ServiceTag tag);
-        IEnumerable<ServiceBook> FindByQuery(string query);
+        IEnumerable<ServiceGenre> FindByGenre(string query);
+        IEnumerable<ServiceList> FindByList(string query);
+        IEnumerable<ServiceAuthor> FindByAuthor(string query);
+        IEnumerable<ServiceBook> FindByBook(string query);
+        IEnumerable<ServiceTag> FindByTag(string query);
+        IEnumerable<string> FindByQuery(string query);
     }
 }

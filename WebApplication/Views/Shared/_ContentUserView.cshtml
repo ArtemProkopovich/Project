@@ -11,7 +11,7 @@
                 <a class="right btn" href="@Url.Action("DeleteContent","Comment",new {id=Model.ID})"><span><i class="glyphicon glyphicon-remove"></i></span></a>
             </div>
             <div class="panel-body">
-                @Model.Text
+                @Html.Raw(Model.Text);
             </div>
         </div>
     </div>

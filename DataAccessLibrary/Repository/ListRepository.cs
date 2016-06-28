@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Interfacies;
 using DataAccess.Interfacies.Entities;
+using DataAccessLibrary.Additional;
 using DataAccessLibrary.Mappers;
 using ORMLibrary;
 
@@ -25,7 +26,10 @@ namespace DataAccessLibrary.Repository
             var dbList = context.Lists.FirstOrDefault(e => e.ListID == list.ID);
             var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
             if (dbList != null && dbBook != null)
-                dbList.Books.Add(dbBook);
+            {
+                dbBook.Lists.Add(dbList);
+                context.SaveChanges();
+            }
         }
 
         public void AddBooks(DalList list, IEnumerable<DalBook> books)
@@ -54,7 +58,10 @@ namespace DataAccessLibrary.Repository
             var dbList = context.Lists.FirstOrDefault(e => e.ListID == list.ID);
             var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
             if (dbList != null && dbBook != null)
+            {
                 dbList.Books.Remove(dbBook);
+                context.SaveChanges();
+            }
         }
 
         public DalList Find(Expression<Func<DalList, bool>> f)
@@ -64,7 +71,8 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalList> FindAll(Expression<Func<DalList, bool>> f)
         {
-            throw new NotImplementedException();
+            var lambda = ExpressionTranslator.Translate<DalList, Lists>(f, new Dictionary<string, string>());
+            return context.Lists.Where(lambda).ToList().Select(e => e.ToDalList());
         }
 
         public IEnumerable<DalList> GetAll()

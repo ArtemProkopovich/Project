@@ -13,6 +13,7 @@ namespace WebApplication.Infrastructure.Mappers
         {
             return new CoverModel()
             {
+                ID = cover.ID,
                 BookID = cover.BookID,
                 Path = cover.ImagePath,
             };

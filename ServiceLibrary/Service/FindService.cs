@@ -18,59 +18,34 @@ namespace ServiceLibrary.Service
             this.unit = unit;
         }
 
-        public IEnumerable<ServiceBook> FindAll(Func<ServiceBook, bool> func)
+        public IEnumerable<ServiceAuthor> FindByAuthor(string query)
+        {
+            return unit.Authors.FindAll(e => e.Name.Contains(query)).Select(e => e.ToServiceAuthor());
+        }
+
+        public IEnumerable<ServiceBook> FindByBook(string query)
+        {
+            return unit.Books.FindAll(e => e.Name.Contains(query)).Select(e => e.ToServiceBook());
+        }
+
+        public IEnumerable<ServiceGenre> FindByGenre(string query)
+        {
+            return unit.Genres.FindAll(e => e.Name.Contains(query)).Select(e => e.ToServiceGenre());
+        }
+
+        public IEnumerable<ServiceList> FindByList(string query)
+        {
+            return unit.Lists.FindAll(e => e.Name.Contains(query)).Select(e => e.ToServiceList());
+        }
+
+        public IEnumerable<string> FindByQuery(string query)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ServiceBook> FindByAuthor(ServiceAuthor author)
+        public IEnumerable<ServiceTag> FindByTag(string query)
         {
-            return unit.Authors.GetBooks(author.ToDalAuthor()).Select(e=>e.ToServiceBook());
-        }
-
-        public IEnumerable<ServiceBook> FindByGenre(ServiceGenre genre)
-        {
-            return unit.Genres.GetBooks(genre.ToDalGenre()).Select(e => e.ToServiceBook());
-        }
-
-        public IEnumerable<ServiceBook> FindByList(ServiceList list)
-        {
-            return unit.Lists.GetBooks(list.ToDalList()).Select(e => e.ToServiceBook());
-        }
-
-        public IEnumerable<ServiceBook> FindByQuery(string query)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<ServiceBook> FindByTag(ServiceTag tag)
-        {
-            return unit.Tags.GetBooks(tag.ToDalTag()).Select(e=>e.ToServiceBook());
-        }
-
-        public IEnumerable<ServiceAuthor> GetAllAuthors()
-        {
-            return unit.Authors.GetAll().Select(e => e.ToServiceAuthor());
-        }
-
-        public IEnumerable<ServiceBook> GetAllBooks()
-        {
-            return unit.Books.GetAll().Select(e => e.ToServiceBook());
-        }
-
-        public IEnumerable<ServiceGenre> GetAllGenres()
-        {
-            return unit.Genres.GetAll().Select(e => e.ToServiceGenre());
-        }
-
-        public IEnumerable<ServiceList> GetAllLists()
-        {
-            return unit.Lists.GetAll().Select(e => e.ToServiceList());
-        }
-
-        public IEnumerable<ServiceTag> GetAllTags()
-        {
-            return unit.Tags.GetAll().Select(e => e.ToServiceTag());
+            return unit.Tags.FindAll(e => e.Name.Contains(query)).Select(e => e.ToServiceTag());
         }
     }
 }

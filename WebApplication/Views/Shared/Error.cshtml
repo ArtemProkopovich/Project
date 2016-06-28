@@ -2,13 +2,20 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width" />
-    <title>Ошибка</title>
+    <meta name="viewport" content="width=device-width"/>
+    @{
+        ViewBag.Title = "Login";
+    }
+    <title>Error</title>
 </head>
 <body>
-    <hgroup>
-        <h1>Ошибка.</h1>
-        <h2>При обработке запроса произошла ошибка.</h2>
-    </hgroup>
+<hgroup>
+    <h1>Error.</h1>
+    <h2>There was an error processing your request.</h2>
+</hgroup>
+<div class="" style="text-align: center">
+    <a href="@Url.Action("Index", "Home")"><img src="@Url.Content("~/App_Data/Uploads/error.jpg")" style="max-height: 300px; max-width: 500px"/></a>
+</div>
+    <h3>Click on the image to go home page.</h3>
 </body>
 </html>

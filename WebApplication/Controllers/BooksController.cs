@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using NLog;
 using Service.Interfacies;
 using Service.Interfacies.Entities;
 using ServiceLibrary.Service;
@@ -19,6 +21,7 @@ namespace WebApplication.Controllers
 {
     public class BooksController : Controller
     {
+        private Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IServiceManager manager;
 
         public BooksController(IServiceManager manager)
@@ -30,38 +33,11 @@ namespace WebApplication.Controllers
         {
             try
             {
-                int userID = (int?) Profile["ID"] ?? 0;
-                var books = manager.bookService.GetAllBooks().Take(4);
-                var bookList =
-                    books.Select(book => manager.bookService.GetFullBookInfo(book.ID).ToBookShortModel(userID)).ToList();
-                IEnumerable<AuthorShortModel> authorList =
-                    manager.authorService.GetAllAuthors().Take(4).Select(e => e.ToAuthorShortModel());
-                var genres = manager.listService.GetAllGenres();
-                List<GenreFirstModel> genreList = new List<GenreFirstModel>();
-                foreach (var genre in genres)
-                {
-                    var book = manager.listService.GetGenreBooks(genre).FirstOrDefault();
-                    if (book != null)
-                    {
-                        var smb = book.ToBookShortModel();
-                        smb.Cover = manager.bookService.GetBookCovers(book)?.FirstOrDefault()?.ImagePath;
-                        genreList.Add(new GenreFirstModel() {book = smb, genre = genre.ToGenreModel()});
-                    }
-                }
-
-
-                BookIndexPageModel bipm = new BookIndexPageModel()
-                {
-                    Authors = authorList,
-                    Books = bookList,
-                    Genres = genreList,
-                    Lists = new List<ListShortModel>()
-                };
-
-                return View(bipm);
+                return View(Book.GetBookIndexPageModel());
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -70,12 +46,18 @@ namespace WebApplication.Controllers
         {
             try
             {
-                ServiceBook book = manager.bookService.GetRandomBook();
-                BookPageModel model = manager.bookService.GetFullBookInfo(book.ID).ServiceBookToModelBook();
-                return View("Details", model);
+                int userID = (int)Profile["ID"];
+                int booksCount = manager.bookService.GetAllBooksCount();
+                List<BookModel> books = new List<BookModel>();
+                var book =
+                    manager.bookService.OrderTake(ServiceOrderType.Likes, RandomInit.GetRandom().Next(booksCount), 1)
+                        .FirstOrDefault();
+
+                return View("Details", Book.GetBookPageModel(book.ID, userID));
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -94,6 +76,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -106,9 +89,10 @@ namespace WebApplication.Controllers
            {
                return View(Book.GetBookCreateModel());
            }
-           catch
+           catch(Exception ex)
            {
-               return View("Error");
+                logger.Error(ex);
+                return View("Error");
            }
         }
 
@@ -123,7 +107,7 @@ namespace WebApplication.Controllers
                 {
                     int userID = (int)Profile["ID"];
                     int id = Book.SaveBook(model, userID, Server);
-                    return RedirectToAction("Details", id);
+                    return RedirectToAction("Details", new {id = id});
                 }
                 var bcm = Book.GetBookCreateModel();
                 model.AuthorList = bcm.AuthorList;
@@ -133,6 +117,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -146,8 +131,9 @@ namespace WebApplication.Controllers
                 var model = Book.GetBookEditModel(id);
                 return View(model);
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -170,8 +156,9 @@ namespace WebApplication.Controllers
                 model.TagList = bcm.TagList;
                 return View(model);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -181,11 +168,12 @@ namespace WebApplication.Controllers
             try
             {
                 int userID = (int) Profile["ID"];
-                var model = Book.GetBookListModel(SortBy.Likes, 20, 1, userID);
+                var model = Book.GetBookListModel(SortBy.Likes, 6, 1, userID);
                 return View(model);
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -208,6 +196,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -231,6 +220,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -244,8 +234,9 @@ namespace WebApplication.Controllers
                 var book = manager.bookService.GetBookById(id).ToBookShortModel();
                 return View(book);
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -262,29 +253,163 @@ namespace WebApplication.Controllers
                 manager.bookService.RemoveBook(book);
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult UploadFile(int id)
+        {
+            try
+            {
+                var model = Book.GetBookFileEditModel(id);
+                return View("FileEdit", model);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UploadFile(int id, HttpPostedFileBase File)
+        {
+            try
+            {
+                var book = manager.bookService.GetBookById(id);
+                if (book != null && File != null)
+                {
+                    string path = Models.DataModels.File.SaveFile(Server, File, "~/App_Data/Uploads/Files/");
+                    manager.bookService.AddFile(book,
+                        new ServiceFile() {BookID = id, Path = path, Format = Path.GetExtension(path)});
+                }
+                return Json(new {initialPreview = new {}, initialPreviewConfig = new {}, append = true});
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return Json(new {error = "Error loading file" });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UploadCover(int id, HttpPostedFileBase Cover)
+        {
+            try
+            {
+                var book = manager.bookService.GetBookById(id);
+                if (book != null && Cover != null)
+                {
+                    string path = Models.DataModels.File.SaveFile(Server, Cover, "~/App_Data/Uploads/Covers/Books/");
+                    manager.bookService.AddCover(book,
+                        new ServiceCover() {BookID = id, ImagePath = path});
+                }
+                return Json(new { initialPreview = new { }, initialPreviewConfig = new { }, append = true });
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return Json(new { error = "Error loading file" });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteFile(int bookID, int key)
+        {
+            try
+            {
+                var book = manager.bookService.GetBookById(bookID);
+                var file = manager.bookService.GetBookFiles(book).FirstOrDefault(e => e.ID == key);
+                if (file != null)
+                    manager.bookService.RemoveFile(file);
+                return Json(new { initialPreview = new { }, initialPreviewConfig = new { }, append = true });
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return Json(new { error = "Error loading file" });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteCover(int bookID, int key)
+        {
+            try
+            {
+                var book = manager.bookService.GetBookById(bookID);
+                var cover = manager.bookService.GetBookCovers(book).FirstOrDefault(e => e.ID == key);
+                if (cover != null)
+                    manager.bookService.RemoveCover(cover);
+                return Json(new { initialPreview = new { }, initialPreviewConfig = new { }, append = true });
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return Json(new { error = "Error loading file" });
             }
         }
 
         public FileResult GetImage(int id)
         {
-            var book = manager.bookService.GetBookById(id);
-            ServiceCover cover = manager.bookService.GetBookCovers(book)?.FirstOrDefault();
-            return cover != null
-                ? new FilePathResult(cover.ImagePath, "image/*")
-                : new FilePathResult(Server.MapPath("~/App_Data/Uploads/Covers/Books/" + "no_book_cover.jpg"), "image/*");
+            try
+            {
+                var book = manager.bookService.GetBookById(id);
+                ServiceCover cover = manager.bookService.GetBookCovers(book)?.FirstOrDefault();
+                return cover != null
+                    ? new FilePathResult(cover.ImagePath, "image/*")
+                    : new FilePathResult(Server.MapPath("~/App_Data/Uploads/Covers/Books/" + "no_book_cover.jpg"),
+                        "image/*");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return null;
+            }
+        }
+
+        public FileResult GetCover(int bookID, int coverID)
+        {
+            try
+            {
+                var book = manager.bookService.GetBookById(bookID);
+                ServiceCover cover = manager.bookService.GetBookCovers(book)?.FirstOrDefault(e => e.ID == coverID);
+                return cover != null
+                    ? new FilePathResult(cover.ImagePath, "image/*")
+                    : new FilePathResult(Server.MapPath("~/App_Data/Uploads/Covers/Books/" + "no_book_cover.jpg"),
+                        "image/*");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return null;
+            }
         }
 
         [Authorize]
-        public ActionResult DownloadFile(int id, int fileID)
+        public ActionResult GetFile(int bookID, int fileID)
         {
-            var book = manager.bookService.GetBookById(id);
-            var file = manager.bookService.GetBookFiles(book).FirstOrDefault(e => e.ID == fileID);
-            if (file != null)
-                return new FilePathResult(file.Path, "");
-            return View("Error");
+            try
+            {
+                var book = manager.bookService.GetBookById(bookID);
+                var file = manager.bookService.GetBookFiles(book)?.FirstOrDefault(e => e.ID == fileID);
+                if (fileID == 0)
+                    file = manager.bookService.GetBookFiles(book)?.FirstOrDefault();
+                if (file != null)
+                    return new FilePathResult(file.Path, "application/pdf");
+
+                return
+                    new FilePathResult(Server.MapPath("~/App_Data/Uploads/Files/" + "pdf-sample.pdf"),
+                        "application/pdf");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return View("Error");
+            }
         }
     }
 }

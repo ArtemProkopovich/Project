@@ -1,0 +1,86 @@
+﻿@model WebApplication.Models.ViewModels.BookModels.BookFileEditModel
+
+@{
+    ViewBag.Title = "FileEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>File editor for <strong>@Model.Book.Name</strong></h2>
+<div class="form-horizontal">
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Files, htmlAttributes: new {@class = "control-label col-md-2"})
+        <div class="col-md-8">
+            <input id="input-f" name="File" type="file" multiple class="file-loading" data-allowed-file-extensions='["pdf", "docx", "txt", "rtf", "fb2"]'>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Covers, htmlAttributes: new {@class = "control-label col-md-2"})
+        <div class="col-md-8">
+            <input id="input-c" name="Cover" type="file" multiple class="file-loading" data-allowed-file-extensions='["jpg", "jpeg", "png", "bmp"]'>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <a class="btn btn-default" href="@Url.Action("Edit", "Books", new {id = Model.Book.ID})">Back to book editor</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/editor")
+    <script>
+        $("#input-f").fileinput({
+            uploadUrl: "@Url.Action("UploadFile", "Books", new {id = Model.Book.ID})", // server upload action
+            uploadAsync: true,
+            maxFileCount: 10,
+            overwriteInitial: false,
+            initialPreview: [
+                @foreach (var file in Model.UpFiles)
+                {
+                    <text>"@Url.Action("GetFile", "Books", new {bookID = Model.Book.ID, fileID = file.ID})",</text>
+                }
+            ],
+            initialPreviewAsData: true,
+            initialPreviewFileType: 'image',
+
+            // image is the default and can be overridden in config below
+            initialPreviewConfig: [
+                @foreach (var file in Model.UpFiles)
+                {
+                    <text>{type:"pdf", caption: "@file.Path", width: "150px", url: "@Url.Action("DeleteFile", "Books", new {bookID = Model.Book.ID})", key: @file.ID },</text>
+                }
+            ],
+        });
+    </script>
+    <script>
+        $("#input-c").fileinput({
+            uploadUrl: "@Url.Action("UploadCover", "Books", new {id = Model.Book.ID})", // server upload action
+            uploadAsync: true,
+            maxFileCount: 10,
+            overwriteInitial: false,
+            initialPreview: [
+                @foreach (var cover in Model.UpCovers)
+                {
+                    <text>"@Url.Action("GetCover", "Books", new {bookID = Model.Book.ID, coverID = cover.ID})",</text>
+                }
+            ],
+            initialPreviewAsData: true,
+            initialPreviewFileType: 'image',
+
+            // image is the default and can be overridden in config below
+            initialPreviewConfig: [
+               @foreach (var cover in Model.UpCovers)
+               {
+                   <text>{ caption: "@cover.ImagePath", width: "150px", url: "@Url.Action("DeleteCover", "Books", new {bookID = Model.Book.ID})", key: @cover.ID },</text>
+               }
+            ],
+        });
+        $('#input-c').on('filepredelete', function (event, key) {
+            console.log('Key = ' + key);
+        });
+    </script>
+}
+

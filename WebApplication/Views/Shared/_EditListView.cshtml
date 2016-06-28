@@ -1,0 +1,18 @@
+﻿@model WebApplication.Models.UserModels.EditListModel
+
+@using (Ajax.BeginForm("DeleteListBook", "List", new AjaxOptions()
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "list-books-content",
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("listID", Model.List.ID)
+    int i = 1;
+    foreach (var book in Model.ListBooks)
+    {
+        <h3>@i - @book.Name<button class="btn btn-default" type="submit" name="bookID" value="@book.ID"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i></button>
+        </h3>
+    }
+}

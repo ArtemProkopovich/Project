@@ -39,6 +39,7 @@ namespace WebApplication
                 "~/Content/bootstrap.css",
                 "~/Content/bootstrap-select.css",
                 "~/Content/bootstrap-fileinput/css/fileinput.css",
+                "~/Content/themes/base/autocomplete.css",
                 "~/Content/site.css"));
         }
     }

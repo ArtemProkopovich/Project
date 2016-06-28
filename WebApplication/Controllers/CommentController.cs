@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using NLog;
 using Service.Interfacies;
 using Service.Interfacies.Entities;
 using WebApplication.Models.ContentModels;
@@ -15,6 +16,7 @@ namespace WebApplication.Controllers
     public class CommentController : Controller
     {
         private readonly IServiceManager manager;
+        private Logger logger = LogManager.GetCurrentClassLogger();
         public CommentController(IServiceManager manager)
         {
             this.manager = manager;
@@ -71,6 +73,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         } 
@@ -94,6 +97,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -115,6 +119,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -136,6 +141,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -145,7 +151,7 @@ namespace WebApplication.Controllers
             try
             {
                 var user = manager.userService.GetUserById((int)HttpContext.Profile["ID"]);
-                var comment = manager.commentService.GetUserComments(user).FirstOrDefault(e => e.UserID == user.ID);
+                var comment = manager.commentService.GetUserComments(user).FirstOrDefault(e => e.ID == id);
                 if (comment != null)
                 {
                     manager.commentService.RemoveComment(comment);
@@ -155,6 +161,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -164,7 +171,7 @@ namespace WebApplication.Controllers
             try
             {
                 var user = manager.userService.GetUserById((int)HttpContext.Profile["ID"]);
-                var content = manager.commentService.GetUserContents(user).FirstOrDefault(e => e.UserID == user.ID);
+                var content = manager.commentService.GetUserContents(user).FirstOrDefault(e => e.ID == id);
                 if (content != null)
                 {
                     manager.commentService.RemoveContent(content);
@@ -174,20 +181,29 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
 
         public ActionResult DeleteReview(int id)
         {
-            var user = manager.userService.GetUserById((int)HttpContext.Profile["ID"]);
-            var review = manager.commentService.GetUserReviews(user).FirstOrDefault(e => e.UserID == user.ID);
-            if (review != null)
+            try
             {
-                manager.commentService.RemoveReview(review);
-                return RedirectToAction("ContentDetails", "User");
+                var user = manager.userService.GetUserById((int) HttpContext.Profile["ID"]);
+                var review = manager.commentService.GetUserReviews(user).FirstOrDefault(e => e.ID == id);
+                if (review != null)
+                {
+                    manager.commentService.RemoveReview(review);
+                    return RedirectToAction("ContentDetails", "User");
+                }
+                return RedirectToAction("Login", "Login");
             }
-            return RedirectToAction("Login", "Login");
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return View("Error");
+            }
         }
     }
 }

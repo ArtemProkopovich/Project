@@ -25,7 +25,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.BirthDate, htmlAttributes: new {@class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.BirthDate, new {htmlAttributes = new {@class = "form-control"}})
+                @{
+                    string value = Model.BirthDate?.ToString("yyyy-MM-dd") ?? "";
+                }
+                <input class="form-control text-box single-line" data-val="true" data-val-date="The field birth date must be a date." id="BirthDate" name="BirthDate" type="date" value="@value"/>
                 @Html.ValidationMessageFor(model => model.BirthDate, "", new {@class = "text-danger"})
             </div>
         </div>
@@ -33,7 +36,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DeathDate, htmlAttributes: new {@class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DeathDate, new {htmlAttributes = new {@class = "form-control"}})
+                @{
+                    value = Model.DeathDate?.ToString("yyyy-MM-dd") ?? "";
+                }
+                <input class="form-control text-box single-line" data-val="true" data-val-date="The field death date must be a date." id="DeathDate" name="DeathDate" type="date" value="@value"/>
                 @Html.ValidationMessageFor(model => model.DeathDate, "", new {@class = "text-danger"})
             </div>
         </div>

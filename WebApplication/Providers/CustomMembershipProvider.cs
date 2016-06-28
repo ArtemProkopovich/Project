@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
+using NLog;
 using Service.Interfacies;
 using Service.Interfacies.Entities;
 
@@ -13,61 +14,85 @@ namespace WebApplication.Providers
     public class CustomMembershipProvider : MembershipProvider
     {
         public IUserService userService = DependencyResolver.Current.GetService<IUserService>();
-
+        private Logger logger = LogManager.GetCurrentClassLogger();
         public MembershipUser CreateUser(string login, string email, string password)
         {
-            MembershipUser membershipUser = GetUser(login, false);
-
-            if (membershipUser != null)
+            try
             {
-                return null;
+                MembershipUser membershipUser = GetUser(login, false);
+
+                if (membershipUser != null)
+                {
+                    return null;
+                }
+
+                var user = new ServiceUser
+                {
+                    Login = login,
+                    Email = email,
+                    Password = Crypto.HashPassword(password),
+                };
+
+                var adminRole = userService.GetRoles().FirstOrDefault(r => r.Name == "Admin");
+
+                var role = userService.GetRoles().FirstOrDefault(r => r.Name == "User");
+                if (role != null)
+                {
+                    user.Roles = user.Login == "Admin" && adminRole != null
+                        ? new List<ServiceRole> {role, adminRole}
+                        : new List<ServiceRole> {role};
+                }
+                else
+                    user.Roles = new List<ServiceRole>();
+
+                userService.Sign(user);
+                membershipUser = GetUser(login, false);
+                return membershipUser;
             }
-
-            var user = new ServiceUser
+            catch (Exception ex)
             {
-                Login = login,
-                Email = email,
-                Password = Crypto.HashPassword(password),
-            };
-
-            var adminRole = userService.GetRoles().FirstOrDefault(r => r.Name == "Admin");
-
-            var role = userService.GetRoles().FirstOrDefault(r => r.Name == "User");
-            if (role != null)
-            {
-                user.Roles = user.Login == "Admin" && adminRole != null
-                    ? new List<ServiceRole> {role, adminRole}
-                    : new List<ServiceRole> {role};
+                logger.Error(ex);
             }
-            else
-                user.Roles = new List<ServiceRole>();
-
-            userService.Sign(user);
-            membershipUser = GetUser(login, false);
-            return membershipUser;
+            return null;
         }
 
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
-            var user = userService.GetUserByEmail(username) ?? userService.GetUserByLogin(username);
+            try
+            {
+                var user = userService.GetUserByEmail(username) ?? userService.GetUserByLogin(username);
 
-            if (user == null) return null;
+                if (user == null) return null;
 
-            var memberUser = new MembershipUser("CustomMembershipProvider", user.Login,
-                null, null, null, null,
-                false, false, DateTime.Now,
-                DateTime.MinValue, DateTime.MinValue,
-                DateTime.MinValue, DateTime.MinValue);
+                var memberUser = new MembershipUser("CustomMembershipProvider", user.Login,
+                    null, null, null, null,
+                    false, false, DateTime.Now,
+                    DateTime.MinValue, DateTime.MinValue,
+                    DateTime.MinValue, DateTime.MinValue);
 
-            return memberUser;
+                return memberUser;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
+            return null;
         }
 
         public override bool ValidateUser(string username, string password)
         {
-            ServiceUser user = userService.GetUserByEmail(username) ?? userService.GetUserByLogin(username);
-            if (user != null && Crypto.VerifyHashedPassword(user.Password, password))
+            try
             {
-                return true;
+                ServiceUser user = userService.GetUserByEmail(username) ?? userService.GetUserByLogin(username);
+                if (user != null && Crypto.VerifyHashedPassword(user.Password, password))
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
             }
             return false;
         }

@@ -9,7 +9,7 @@ namespace WebApplication.Models.CollectionModels
 {
     public class CollectionListModel : _UserProfileModel
     {
-        public CollectionListModel(ServiceUserProfile profile, IEnumerable<CollectionBookListModel> colectionsBooks)
+        public CollectionListModel(_UserProfileModel profile, IEnumerable<CollectionBookListModel> colectionsBooks)
         {
             ID = profile.ID;
             Name = profile.Name;

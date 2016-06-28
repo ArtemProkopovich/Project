@@ -16,20 +16,20 @@ namespace WebApplication
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
+                defaults: new {controller = "Home", action = "Index", id = UrlParameter.Optional}
+                );
             routes.MapRoute(
                 name: "Login",
                 url: "{Login}",
-                defaults: new { controller = "Login", action = "Login"}
-            );
+                defaults: new {controller = "Login", action = "Login"}
+                );
             routes.MapRoute(
                 name: "Sign",
                 url: "{Sign}",
-                defaults: new { controller = "Sign", action = "Sign"}
-            );
+                defaults: new {controller = "Sign", action = "Sign"}
+                );
 
-            routes.MapRoute(name: "CatchAll", url: "{*catchall}", defaults: new {controller = "Home", action = "Index"});
+            routes.MapRoute("404-catch-all", "{*catchall}", new {Controller = "Error", Action = "NotFound"});
         }
     }
 }

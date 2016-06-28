@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using NLog;
 using Service.Interfacies;
 using WebApplication.Infrastructure.Mappers;
 using WebApplication.Models.CollectionBookModels;
@@ -14,6 +15,7 @@ namespace WebApplication.Controllers
     public class CollectionController : Controller
     {
         private readonly IServiceManager manager;
+        private Logger logger = LogManager.GetCurrentClassLogger();
         public CollectionController(IServiceManager manager)
         {
             this.manager = manager;
@@ -23,29 +25,12 @@ namespace WebApplication.Controllers
         {
             try
             {
-                int userId = (int?) Profile["ID"] ?? 0;
-                var user = manager.userService.GetUserByLogin(User.Identity.Name) ?? manager.userService.GetUserByEmail(User.Identity.Name);
-                var profile = manager.userService.GetUserProfile(user.ID);
-                var userCollections = manager.collectionService.GetUserCollections(user).OrderBy(e => e.Name);
-                List<CollectionBookListModel> collectionsBooks = new List<CollectionBookListModel>();
-                foreach (var cl in userCollections)
-                {
-                    CollectionBookListModel collectionBooksModel = new CollectionBookListModel();
-                    collectionBooksModel.collection = cl.ToCollectionModel();
-                    List<CollectionBookModel> books = new List<CollectionBookModel>();
-                    var collcetionBooks = manager.collectionService.GetCollectionBooks(cl);
-                    foreach (var book in collcetionBooks)
-                    {
-                        var shortBook = manager.bookService.GetFullBookInfo(book.BookID).ToBookShortModel(userId);
-                        books.Add(book.ToCollectionBookModel(shortBook, collectionBooksModel.collection));
-                    }
-                    collectionBooksModel.books = books;
-                    collectionsBooks.Add(collectionBooksModel);
-                }
-                return View(new CollectionListModel(profile, collectionsBooks));
+                int userId = (int)Profile["ID"];
+                return View(Models.DataModels.Collection.GetCollectionListModel(userId));
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -53,8 +38,8 @@ namespace WebApplication.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            var user = manager.userService.GetUserByLogin(User.Identity.Name) ?? manager.userService.GetUserByEmail(User.Identity.Name);
-            return View(new CollectionModel() {UserID = user.ID});
+            int userID = (int)Profile["ID"];
+            return View(new CollectionModel() {UserID = userID});
         }
 
         [HttpPost]
@@ -71,6 +56,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -84,6 +70,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -98,6 +85,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -112,6 +100,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -130,6 +119,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -144,6 +134,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -159,6 +150,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }

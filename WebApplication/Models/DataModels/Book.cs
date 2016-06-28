@@ -6,11 +6,14 @@ using System.Web;
 using System.Web.Mvc;
 using Service.Interfacies;
 using Service.Interfacies.Entities;
+using WebApplication.Infrastructure;
 using WebApplication.Models.BookModels;
 using WebApplication.Infrastructure.Mappers;
 using WebApplication.Models.AuthorModels;
 using WebApplication.Models.CollectionModels;
 using WebApplication.Models.ViewModels.BookModels;
+using WebApplication.Models.ViewModels.ContentModels;
+using WebApplication.Models.ViewModels.ListModels;
 
 namespace WebApplication.Models.DataModels
 {
@@ -36,6 +39,39 @@ namespace WebApplication.Models.DataModels
         public static BookIndexPageModel GetBookIndexPageModel()
         {
             BookIndexPageModel result = new BookIndexPageModel();
+            var random = RandomInit.GetRandom();
+            int booksCount = manager.bookService.GetAllBooksCount();
+            List<BookModel> books = new List<BookModel>();
+            for (int i = 0; i < 4; i++)
+            {
+                books.Add(
+                    manager.bookService.OrderTake(ServiceOrderType.Likes, random.Next(booksCount), 1)
+                        .FirstOrDefault()
+                        .ToBookModel());
+            }
+            List<AuthorShortModel> authors = new List<AuthorShortModel>();
+            int authorsCount = manager.authorService.GetAuthorsCount();
+            for (int i = 0; i < 4; i++)
+            {
+                authors.Add(
+                    manager.authorService.OrderTake(random.Next(authorsCount), 1).FirstOrDefault().ToAuthorShortModel());
+            }
+            List<GenreFirstModel> genres = new List<GenreFirstModel>();
+            var dbGenres = manager.listService.GetAllGenres().ToList();
+            for (int i = 0; i < 4 && dbGenres.Count>0; i++)
+            {
+                genres.Add(Genre.GetGenreFirstModel(dbGenres.ElementAt(random.Next(dbGenres.Count-1))));
+            }
+            List<ListShortModel> lists = new List<ListShortModel>();
+            var dbLists = manager.listService.GetAllLists().ToList();
+            for (int i = 0; i < 4 && dbLists.Count>0; i++)
+            {
+                lists.Add(List.GetListShortModel(dbLists.ElementAt(random.Next(dbLists.Count-1))));
+            }
+            result.Authors = authors;
+            result.Books = books;
+            result.Genres = genres;
+            result.Lists = lists;
             return result;
         }
 
@@ -79,30 +115,17 @@ namespace WebApplication.Models.DataModels
             result.Comments = book.Comments.Select(Comment.GetCommentModel);
             result.Contents = book.Contents.Select(Content.GetContentModel);
             result.Covers = book.Covers.Select(e => e.ToCoverModel());
+            if (!result.Covers.Any())
+            {
+                result.Covers = new List<CoverModel>() {new CoverModel() {ID = 0, BookID = id}};
+            }                
             result.Genres = book.Genres.Select(e => e.ToGenreModel());
             result.Likes = Like.GetLikeButtonsModel(id, userID);
             result.Lists = book.Lists.Select(e => e.ToListModel());
             result.Reviews = book.Review.Select(Review.GetReviewModel);
             result.Tags = book.Tags.Select(Tag.GetTagModel);
             result.Screening = book.Screeninigs.Select(e => e.ToScreeningModel());
-
-
-            if (userID > 0)
-            {
-                var cwb = new List<CollectionModel>();
-                var cwob = new List<CollectionModel>();
-                var user = manager.userService.GetUserById(userID);
-                var collections = manager.collectionService.GetUserCollections(user);
-                foreach (var cl in collections)
-                {
-                    if (manager.collectionService.GetCollectionBooks(cl).Any(e => e.BookID == id))
-                        cwb.Add(Collection.GetCollectionModel(cl));
-                    else
-                        cwob.Add(Collection.GetCollectionModel(cl));
-                }
-                result.CollectionsWithBook = cwb;
-                result.CollectionWithoutBook = cwob;
-            }
+            result.Collections = CollectionBook.GetBookInCollectionModel(id, userID);
             return result;
         }
 
@@ -126,6 +149,16 @@ namespace WebApplication.Models.DataModels
             result.Authors = book.Genres.Select(e=>e.ID).ToArray();
             result.Genres = book.Genres.Select(e => e.ID).ToArray();
             result.Tags = book.Tags.Select(e => e.ID).ToArray();
+            return result;
+        }
+
+        public static BookFileEditModel GetBookFileEditModel(int id)
+        {
+            BookFileEditModel result = new BookFileEditModel();
+            var book = manager.bookService.GetFullBookInfo(id);
+            result.Book = book.BookData.ToBookModel();
+            result.UpFiles = book.Files;
+            result.UpCovers = book.Covers;
             return result;
         }
 
@@ -154,17 +187,31 @@ namespace WebApplication.Models.DataModels
                 manager.listService.AddBookTag(book, tag);
             }
             //Adding files
-            foreach (string filepath in model.Files?.Select(file => File.SaveFile(server, file, "~/App_Data/Uploads/Files/"))?? new List<string>())
+            if (model.Files != null)
             {
-                manager.bookService.AddFile(book,
-                    new ServiceFile {Path = filepath, Format = Path.GetExtension(filepath)});
+                foreach (var file in model.Files)
+                {
+                    if (file != null)
+                    {
+                        string filepath = File.SaveFile(server, file, "~/App_Data/Uploads/Files/");
+                        manager.bookService.AddFile(book,
+                            new ServiceFile {BookID=id, Path = filepath, Format = Path.GetExtension(filepath)});
+                    }
+                }
             }
 
-            //Adding covers
-            foreach (string filepath in model.Covers?.Select(file => File.SaveFile(server, file, "~/App_Data/Uploads/Covers/Books")) ?? new List<string>())
+            if (model.Covers != null)
             {
-                manager.bookService.AddCover(book,
-                    new ServiceCover {ImagePath = filepath});
+                //Adding covers
+                foreach (var cover  in model.Covers)
+                {
+                    if (cover != null)
+                    {
+                        string filepath = File.SaveFile(server, cover, "~/App_Data/Uploads/Covers/Books");
+                        manager.bookService.AddCover(book,
+                            new ServiceCover {BookID = id, ImagePath = filepath});
+                    }
+                }
             }
 
             //Adding content

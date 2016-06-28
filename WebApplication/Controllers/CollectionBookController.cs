@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using NLog;
 using Service.Interfacies;
 using Service.Interfacies.Entities;
 using WebApplication.Infrastructure.Mappers;
@@ -17,15 +18,10 @@ namespace WebApplication.Controllers
     public class CollectionBookController : Controller
     {
         private readonly IServiceManager manager;
+        private Logger logger = LogManager.GetCurrentClassLogger();
         public CollectionBookController(IServiceManager manager)
         {
             this.manager = manager;
-        }
-
-        // GET: CollectionBook
-        public ActionResult Index()
-        {
-            return View();
         }
 
         public ActionResult Details(int id)
@@ -38,10 +34,12 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
-
+        [HttpPost]
+        [Authorize]
         public ActionResult Add(int bookID, int clID, string returnUrl)
         {
             try
@@ -49,14 +47,20 @@ namespace WebApplication.Controllers
                 var dbBook = manager.bookService.GetBookById(bookID);
                 var dbCl = manager.collectionService.GetCollectionById(clID);
                 manager.collectionService.AddBook(dbCl, dbBook);
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_CollectionsBookManageView", CollectionBook.GetBookInCollectionModel(bookID,
+                        (int) Profile["ID"]));
+                }
                 if (Url.IsLocalUrl(returnUrl))
                 {
                     return Redirect(returnUrl);
                 }
                 return RedirectToAction("Index", "Collection");
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -72,6 +76,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -84,6 +89,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -96,6 +102,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -117,7 +124,8 @@ namespace WebApplication.Controllers
             }
         }*/
 
-        [HttpGet]
+        [HttpPost]
+        [Authorize]
         public ActionResult DeleteFromCollection(int bookID, int clID, string returnUrl)
         {
             try
@@ -129,17 +137,24 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult Delete(int ID, string returnUrl)
         {
             try
             {
                 var clBook = manager.collectionService.GetCollectionBookById(ID);
                 manager.collectionService.RemoveBook(clBook);
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_CollectionsBookManageView", CollectionBook.GetBookInCollectionModel(clBook.BookID,
+                        (int)Profile["ID"]));
+                }
                 if (Url.IsLocalUrl(returnUrl))
                 {
                     return Redirect(returnUrl);
@@ -148,6 +163,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -175,6 +191,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -202,6 +219,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -223,6 +241,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -244,16 +263,25 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
 
         public ActionResult GetFile(int ID)
         {
-            var book = manager.bookService.GetBookById(ID);
-            //ServiceFile file = manager.bookService.GetBookFiles(book)?.First();
-            string filepath = Server.MapPath("~/App_Data/Uploads/Files/1.pdf");
+            try
+            {
+                var book = manager.bookService.GetBookById(ID);
+                //ServiceFile file = manager.bookService.GetBookFiles(book)?.First();
+                string filepath = Server.MapPath("~/App_Data/Uploads/Files/1.pdf");
                 return new FileStreamResult(new FileStream(filepath, FileMode.Open, FileAccess.Read), "application/pdf");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return null;
+            }
         }
     }
 }

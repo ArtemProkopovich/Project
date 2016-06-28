@@ -1,8 +1,6 @@
 ﻿@model WebApplication.Models.ViewModels.CollectionBookModels.ReadBookModel
 
-<div class="jumbotron">
-    <div class="row">
-        <object data="@Url.Action("GetFile", new {id = Model.ID})" type="application/pdf"></object>
-    </div>
+<div class="row">
+    <object data="@Url.Action("GetFile", "Books", new {bookID = Model.ID, fileID = 0})" type="application/pdf" style="width: 100%; height: 550px"></object>
 </div>
 

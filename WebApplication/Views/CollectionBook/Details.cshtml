@@ -34,13 +34,13 @@
                 </p>
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" id="download">
             <div class="dropdown">
                 <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button"><i class="glyphicon glyphicon-cloud-download" aria-hidden="true"></i> Download file format <span class="caret"></span></button>
                 <ul class="dropdown-menu" role="menu">
                     @foreach (var file in Model.Files)
                     {
-                        <li><a href="@Url.Action("Download", "Books", new {id = file.BookID, fileID = file.ID})">@file.Format</a></li>
+                        <li><a href="@Url.Action("GetFile", "Books", new {bookID = file.BookID, fileID = file.ID})">@file.Format</a></li>
                     }
                 </ul>
             </div>

@@ -69,6 +69,10 @@
       <HintPath>..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.3.5\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -153,12 +157,14 @@
     <Compile Include="Controllers\CollectionBookController.cs" />
     <Compile Include="Controllers\CollectionController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FindController.cs" />
     <Compile Include="Controllers\GenreController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ListController.cs" />
     <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Filters\CustomHandleErrorAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -180,6 +186,7 @@
     <Compile Include="Infrastructure\Mappers\UserMapper.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\Mappers\ScreeningMapper.cs" />
+    <Compile Include="Infrastructure\RandomInit.cs" />
     <Compile Include="Models\DataModels\Author.cs" />
     <Compile Include="Models\DataModels\Book.cs" />
     <Compile Include="Models\DataModels\Bookmark.cs" />
@@ -202,10 +209,13 @@
     <Compile Include="Models\ViewModels\AuthorModels\AuthorShortModel.cs" />
     <Compile Include="Models\ViewModels\BookModels\BookCreateModel.cs" />
     <Compile Include="Models\ViewModels\BookModels\BookEditModel.cs" />
+    <Compile Include="Models\ViewModels\BookModels\BookFileEditModel.cs" />
     <Compile Include="Models\ViewModels\BookModels\BookIndexPageModel.cs" />
     <Compile Include="Models\ViewModels\BookModels\BookListModel.cs" />
+    <Compile Include="Models\ViewModels\BookModels\BookModel.cs" />
     <Compile Include="Models\ViewModels\BookModels\BookPageModel.cs" />
     <Compile Include="Models\ViewModels\BookModels\BookShortModel.cs" />
+    <Compile Include="Models\ViewModels\CollectionBookModels\BookInCollectionsModel.cs" />
     <Compile Include="Models\ViewModels\CollectionBookModels\CollectionBookModel.cs" />
     <Compile Include="Models\ViewModels\CollectionBookModels\CollectionBookPageModel.cs" />
     <Compile Include="Models\ViewModels\CollectionBookModels\ReadBookModel.cs" />
@@ -220,6 +230,7 @@
     <Compile Include="Models\ViewModels\ContentModels\QuoteModel.cs" />
     <Compile Include="Models\ViewModels\ContentModels\ReviewModel.cs" />
     <Compile Include="Models\ViewModels\ContentModels\ScreeningModel.cs" />
+    <Compile Include="Models\ViewModels\FindModels\FindIndexModel.cs" />
     <Compile Include="Models\ViewModels\GenreModels\GenreBookListModel.cs" />
     <Compile Include="Models\ViewModels\GenreModels\GenreFirstModel.cs" />
     <Compile Include="Models\ViewModels\GenreModels\GenreIndexModel.cs" />
@@ -246,6 +257,8 @@
     <Compile Include="Providers\CustomRoleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Uploads\404.jpg" />
+    <Content Include="App_Data\Uploads\error.jpg" />
     <Content Include="App_Data\initial_db.sql" />
     <Content Include="App_Data\project_db.mdf" />
     <Content Include="App_Data\project_db_log.ldf">
@@ -380,6 +393,12 @@
     <Content Include="Scripts\i18n\defaults-zh_TW.js" />
     <Content Include="Scripts\i18n\defaults-zh_TW.min.js" />
     <Content Include="Content\bootstrap-fileinput\sass\fileinput.scss" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.4.js" />
     <Content Include="Scripts\jquery-2.2.4.min.js" />
@@ -617,7 +636,6 @@
     <Content Include="Views\Books\Delete.cshtml" />
     <Content Include="Views\Genre\List.cshtml" />
     <Content Include="Views\List\Edit.cshtml" />
-    <Content Include="Views\Find\Index.cshtml" />
     <Content Include="Views\Books\Index.cshtml" />
     <Content Include="Views\Collection\Create.cshtml" />
     <Content Include="Views\Collection\Index.cshtml" />
@@ -643,10 +661,12 @@
     <Content Include="Views\Author\Index.cshtml" />
     <Content Include="Views\List\Index.cshtml" />
     <Content Include="Views\List\List.cshtml" />
+    <Content Include="Views\Find\Index.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Books\FileEdit.cshtml" />
     <None Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Shared\_BookShortViewList.cshtml" />
     <Content Include="Views\Shared\_AuthorShortView.cshtml" />
-    <Content Include="Views\Shared\_BookShortImageView.cshtml" />
     <Content Include="Views\Shared\_ProfileLayout.cshtml" />
     <Content Include="Views\Shared\_CommentView.cshtml" />
     <Content Include="Views\Shared\_ContentView.cshtml" />
@@ -666,6 +686,11 @@
     <Content Include="Views\Shared\_BookListNavView.cshtml" />
     <Content Include="Views\Shared\_AuthorListView.cshtml" />
     <Content Include="Views\Shared\_ListCoverListView.cshtml" />
+    <Content Include="Views\Shared\_ListShortView.cshtml" />
+    <Content Include="Views\Shared\_GenreShortView.cshtml" />
+    <Content Include="Views\Shared\_BookFirstView.cshtml" />
+    <Content Include="Views\Shared\_EditListView.cshtml" />
+    <Content Include="Views\Shared\_CollectionsBookManageView.cshtml" />
     <None Include="Views\Sign\Sign.cshtml" />
     <Content Include="Views\Tag\Delete.cshtml" />
     <Content Include="Views\Tag\List.cshtml" />

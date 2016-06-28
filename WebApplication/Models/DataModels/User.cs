@@ -45,7 +45,7 @@ namespace WebApplication.Models.DataModels
         public static UserContentDetailsModel GetUserContentDetailsModel(int id)
         {
             var user = manager.userService.GetUserById(id);
-            var profile = manager.userService.GetUserProfile(id);
+            var profile = Get_UserProfileModel(id);
             UserContentDetailsModel model = new UserContentDetailsModel();
             model.Comments = manager.commentService.GetUserComments(user).Select(Comment.GetCommentModel);
             model.Reviews = manager.commentService.GetUserReviews(user).Select(Review.GetReviewModel);
@@ -59,12 +59,14 @@ namespace WebApplication.Models.DataModels
 
         public static UserProfileModel GetUserProfileModel(int id)
         {
-            return manager.userService.GetUserProfile(id).ToUserProfileModel();
+            return manager.userService.GetUserProfile(id)?.ToUserProfileModel() ??
+                   (new ServiceUserProfile() {ID = id}).ToUserProfileModel();
         }
 
         public static _UserProfileModel Get_UserProfileModel(int id)
         {
-            return manager.userService.GetUserProfile(id).To_UserProfileModel();
+            return manager.userService.GetUserProfile(id)?.To_UserProfileModel() ??
+                   (new ServiceUserProfile() {ID = id}).To_UserProfileModel();
         }
     }
 }

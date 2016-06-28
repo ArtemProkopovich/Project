@@ -7,6 +7,7 @@ using Service.Interfacies;
 using Service.Interfacies.Entities;
 using WebApplication.Infrastructure.Mappers;
 using WebApplication.Models.CollectionBookModels;
+using WebApplication.Models.CollectionModels;
 using WebApplication.Models.ViewModels.CollectionBookModels;
 
 namespace WebApplication.Models.DataModels
@@ -43,6 +44,29 @@ namespace WebApplication.Models.DataModels
             result.Bookmarks = manager.collectionService.GetBookmarks(cb).Select(Bookmark.GetBookmarkModel);
             result.Quotes = manager.collectionService.GetQuotes(cb).Select(Quote.GetQuoteModel);
             result.Files = manager.bookService.GetBookFiles(manager.bookService.GetBookById(cb.BookID));
+            return result;
+        }
+
+        public static BookInCollectionsModel GetBookInCollectionModel(int bookID, int userID)
+        {
+            BookInCollectionsModel result = new BookInCollectionsModel();
+            var cwb = new List<CollectionModel>();
+            var cwob = new List<CollectionModel>();
+            result.BookID = bookID;
+            if (userID > 0)
+            {
+                var user = manager.userService.GetUserById(userID);
+                var collections = manager.collectionService.GetUserCollections(user);
+                foreach (var cl in collections)
+                {
+                    if (manager.collectionService.GetCollectionBooks(cl).Any(e => e.BookID == bookID))
+                        cwb.Add(Collection.GetCollectionModel(cl));
+                    else
+                        cwob.Add(Collection.GetCollectionModel(cl));
+                }
+            }
+            result.CollectionsWithBook = cwb;
+            result.CollectionsWithoutBook = cwob;
             return result;
         }
 

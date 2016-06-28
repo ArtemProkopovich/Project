@@ -3,14 +3,55 @@
 
 
 <div class="row">
-    @foreach (var genre in Model.Genres.Where(e => e.ParentGenreID == null))
+    <div class="col-md-12">
+        @foreach (var genre in Model.Genres.Where(e => e.ParentGenreID == null))
+        {
+            <div class="col-md-4">
+                @{ string ulID = "tree" + genre.ID;}
+                <ul id="@ulID">
+                    @TreeView(genre)
+                </ul>
+            </div>
+        }
+    </div>
+    <div class="col-md-12" style="padding-top: 50px"></div>
+    <hr/>
+    @if (User.IsInRole("Admin"))
     {
-        <div class="col-md-4">
-            @{ string ulID = "tree" + genre.ID;}
-            <ul id="@ulID">
-                @TreeView(genre)
-            </ul>
-        </div>
+        using (Ajax.BeginForm("Create", "Genre", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "genresContent",
+            OnSuccess = "UpdateTree"
+        }))
+        {
+            GenreModel genre = new GenreModel();
+            @Html.AntiForgeryToken()
+            <div class="form-inline">
+                @Html.HiddenFor(model => genre.ID)
+                @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => genre.Name, new {htmlAttributes = new {@class = "form-control", @placeholder = "Name"}})
+                        @Html.ValidationMessageFor(model => genre.Name, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="selector">Parent genre</label>
+                    <select name="genre.ParentGenreID" id="selector" class="selectpicker" data-live-search="true">
+                        <option value="">None</option>
+                        @foreach (var genreOption in Model.Genres)
+                        {
+                            <option value="@genreOption.ID">@genreOption.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Add genre" class="btn btn-default"/>
+                </div>
+            </div>
+        }
     }
 </div>
 

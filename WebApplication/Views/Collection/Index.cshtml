@@ -8,9 +8,9 @@
 }
 
 @section Navigation{
-    <div class="col-md-12 col-xs-6">
-        <div class="profile-sidebar hidden-print affix" style="width: auto; position: fixed; border-radius: 5px; padding: 10px 0px; background: aliceblue;">
-            <ul class="nav">
+    <div class="col-md-12 col-xs-6" id="scroll-spy">
+        <div class="profile-sidebar hidden-print" style="width: auto; position: fixed; border-radius: 5px; padding: 10px 0px; background: aliceblue;">
+            <ul class="nav nav-tabs nav-stacked affix-top">
                 @foreach (var cl in Model.Collections)
                 {
                     <li>
@@ -67,7 +67,7 @@
                                             </div>
                                             <div class="btn-group btn-group-sm btn-group-justified" style="padding-top:10px">
                                                 <a class="btn btn-success" href="@Url.Action("Read", "CollectionBook", new {id = book.ID})"><i class="glyphicon glyphicon-book" aria-hidden="true"></i>Read</a>
-                                                <a class="btn btn-success" href="@Url.Action("Download", "CollectionBook", new {id = book.ID})"><i class="glyphicon glyphicon-download" aria-hidden="true"></i>Download</a>
+                                                <a class="btn btn-success" href="@Url.Action("Details", "CollectionBook", new {id = book.ID})#download"><i class="glyphicon glyphicon-download" aria-hidden="true"></i>Download</a>
                                                 <a class="btn btn-success" href="@Url.Action("Details", "CollectionBook", new {id = book.ID})"><i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i>Watch more</a>
                                                 <a class="btn btn-danger" href="@Url.Action("Delete", "CollectionBook", new {id = book.ID})"><i class="glyphicon glyphicon-remove" aria-hidden="true"></i>Delete</a>
                                             </div>

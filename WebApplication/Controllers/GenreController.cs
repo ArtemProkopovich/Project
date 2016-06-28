@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using NLog;
 using Service.Interfacies;
 using Service.Interfacies.Entities;
 using WebApplication.Infrastructure.Mappers;
@@ -16,7 +17,7 @@ namespace WebApplication.Controllers
     {
         private readonly IListService service;
         private readonly IBookService bookService;
-
+        private Logger logger = LogManager.GetCurrentClassLogger();
         public GenreController(IListService service, IBookService bookService)
         {
             this.service = service;
@@ -32,6 +33,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -59,8 +61,9 @@ namespace WebApplication.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -76,8 +79,9 @@ namespace WebApplication.Controllers
 
                 return View(genre.ToGenreBookListModel(list));
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -92,8 +96,9 @@ namespace WebApplication.Controllers
                 var genre = service.GetGenreById(id);
                 return View(genre.ToGenreModel());
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -113,6 +118,7 @@ namespace WebApplication.Controllers
             }
             catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }

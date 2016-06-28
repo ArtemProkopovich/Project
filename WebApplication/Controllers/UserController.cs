@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using NLog;
 using Service.Interfacies;
 using Service.Interfacies.Entities;
 using WebApplication.Infrastructure;
@@ -16,6 +17,7 @@ namespace WebApplication.Controllers
     public class UserController : Controller
     {
         private readonly IUserService userService;
+        private Logger logger = LogManager.GetCurrentClassLogger();
         public UserController(IUserService userService)
         {
             this.userService = userService;
@@ -30,6 +32,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -43,6 +46,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -57,6 +61,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -83,8 +88,9 @@ namespace WebApplication.Controllers
                 }
                 return View(model);
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -92,10 +98,19 @@ namespace WebApplication.Controllers
         [AllowAnonymous]
         public FileResult GetImage(int id)
         {
-            var profile = userService.GetUserProfile(id) ?? new ServiceUserProfile() {ID = id};
-            return !string.IsNullOrEmpty(profile.PhotoPath)
-                ? new FilePathResult(profile.PhotoPath, "image/*")
-                : new FilePathResult(Server.MapPath("~/App_Data/Uploads/Covers/Users/" + "no_user_cover.png"), "image/*");
+            try
+            {
+                var profile = userService.GetUserProfile(id) ?? new ServiceUserProfile() {ID = id};
+                return !string.IsNullOrEmpty(profile.PhotoPath)
+                    ? new FilePathResult(profile.PhotoPath, "image/*")
+                    : new FilePathResult(Server.MapPath("~/App_Data/Uploads/Covers/Users/" + "no_user_cover.png"),
+                        "image/*");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return null;
+            }
         }
     }
 }

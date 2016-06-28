@@ -24,6 +24,15 @@ namespace WebApplication.Infrastructure.Mappers
             };
         }
 
+        public static BookModel ToBookModel(this ServiceBook book)
+        {
+            return new BookModel()
+            {
+                ID = book.ID,
+                Name = book.Name,
+            };
+        }
+
         public static BookPageModel  ServiceBookToModelBook(this ServiceFullBook sfb)
         {
             BookPageModel model = new BookPageModel

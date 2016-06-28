@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using NLog;
 using Service.Interfacies;
 using Service.Interfacies.Entities;
 using WebApplication.Infrastructure.Mappers;
@@ -10,6 +11,7 @@ using WebApplication.Models;
 using WebApplication.Models.BookModels;
 using WebApplication.Models.DataModels;
 using WebApplication.Models.UserModels;
+using WebApplication.Models.ViewModels.ListModels;
 
 namespace WebApplication.Controllers
 {
@@ -17,7 +19,7 @@ namespace WebApplication.Controllers
     {
         private readonly IListService service;
         private readonly IBookService bookService;
-
+        private Logger logger = LogManager.GetCurrentClassLogger();
         public ListController(IListService service, IBookService bookService)
         {
             this.service = service;
@@ -31,8 +33,9 @@ namespace WebApplication.Controllers
                 var model = Models.DataModels.List.GetListIndexModel();
                 return View(model);
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -41,15 +44,15 @@ namespace WebApplication.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public ActionResult Create(ListModel model)
+        public ActionResult Create(ListModel list)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    if (service.GetAllLists().All(e => e.Name != model.Name))
+                    if (service.GetAllLists().All(e => e.Name != list.Name))
                     {
-                        service.AddList(model.ToServiceList());
+                        service.AddList(list.ToServiceList());
                         if (Request.IsAjaxRequest())
                         {
                             var lim = Models.DataModels.List.GetListIndexModel();
@@ -60,8 +63,9 @@ namespace WebApplication.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -71,34 +75,13 @@ namespace WebApplication.Controllers
         {
             try
             {
-                ServiceList list = service.GetListById(id);
-                var books = service.GetListBooks(list);
-                var allBooks = bookService.GetAllBooks();
-                allBooks = allBooks.Except(books, new MyEqualityComparer());
-                List<BookShortModel> bookList = new List<BookShortModel>();
-                foreach (var book in books)
-                {
-                    BookShortModel bsm = book.ToBookShortModel();
-                    bsm.Author = bookService.GetBookAuthors(book).FirstOrDefault().ToAuthorShortModel();
-                    bookList.Add(bsm);
-                }
-                List<BookShortModel> otherBookList = new List<BookShortModel>();
-                foreach (var book in allBooks)
-                {
-                    BookShortModel bsm = book.ToBookShortModel();
-                    bsm.Author = bookService.GetBookAuthors(book).FirstOrDefault().ToAuthorShortModel();
-                    otherBookList.Add(bsm);
-                }
-                EditListModel elm = new EditListModel()
-                {
-                    List = list.ToListModel(),
-                    ListBooks = bookList,
-                    OtherBooks = otherBookList
-                };
+
+                EditListModel elm = Models.DataModels.List.GetEditListModel(id);
                 return View(elm);
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -116,6 +99,7 @@ namespace WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -133,7 +117,9 @@ namespace WebApplication.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult AddListBook(int listID, int bookID)
         {
             try
@@ -141,15 +127,22 @@ namespace WebApplication.Controllers
                 var sl = service.GetListById(listID);
                 var sb = bookService.GetBookById(bookID);
                 service.AddListBook(sl, sb);
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_EditListView", Models.DataModels.List.GetEditListModel(listID));
+                }
                 return RedirectToAction("Edit", new {ID = listID});
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
 
-        [HttpGet]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles ="Admin")]
         public ActionResult DeleteListBook(int listID, int bookID)
         {
             try
@@ -157,10 +150,15 @@ namespace WebApplication.Controllers
                 var sl = service.GetListById(listID);
                 var sb = bookService.GetBookById(bookID);
                 service.RemoveListBook(sl, sb);
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_EditListView", Models.DataModels.List.GetEditListModel(listID));
+                }
                 return RedirectToAction("Edit", new { ID = listID });
             }
             catch (Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -169,15 +167,20 @@ namespace WebApplication.Controllers
         {
             try
             {
-                return View();
+                int userID = (int)Profile["ID"];
+                ListPageModel model = Models.DataModels.List.GetListPageModel(id, userID);
+                return View(model);
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
 
         // GET: List/Delete/5
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             try
@@ -185,14 +188,17 @@ namespace WebApplication.Controllers
                 var list = service.GetListById(id);
                 return View(list.ToListModel());
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
 
         // POST: List/Delete/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         [ActionName("Delete")]
         public ActionResult DeleteObject(int id)
         {
@@ -202,8 +208,9 @@ namespace WebApplication.Controllers
                 service.RemoveList(list);
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }

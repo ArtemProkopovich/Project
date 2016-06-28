@@ -4,67 +4,48 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="clearfix"></div>
-<div class="container">
-    <h2>Edit</h2>
 
-
-    <div class="container col-md-offset-1 col-md-10">
-        <h4>Edit list: @Model.List.Name</h4>
-        <hr/>
-        <div class="clearfix"></div>
-        <div class="container col-md-12">
-            <h4>Books in this list:</h4>
-            <div class="table">
-                @foreach (var item in Model.ListBooks)
-                {
-                    <div class="col-md-12">
-                        <div class="col-md-5">
-                            -@Html.DisplayFor(modelItem => item.Name)
-                        </div>
-                        <div class="col-md-4">
-                            @Html.DisplayFor(modelItem => item.Author.Name)
-                        </div>
-                        <div class="col-md-3">
-                            @Html.ActionLink("Delete from list", "DeleteListBook", new {listID = Model.List.ID, bookID = item.ID})
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                }
-            </div>
-        </div>
-        <div class="clearfix"></div>
-        <hr/>
-        <div class="container col-md-12">
-            <h4>Other books:</h4>
-            <div class="table">
-                @foreach (var item in Model.OtherBooks)
-                {
-                    <div class="col-md-12">
-                        <div class="col-md-5">
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </div>
-                        <div class="col-md-4">
-                            @Html.DisplayFor(modelItem => item.Author.Name)
-                        </div>
-                        <div class="col-md-3">
-                            @Html.ActionLink("Add book to list", "AddListBook", new {listID = Model.List.ID, bookID = item.ID})
-                        </div>
-                    </div>
-                    <p></p>
-                    <div class="clearfix"></div>
-                }
-            </div>
-        </div>
-        <div class="clearfix"></div>
-        <hr/>
-        <div class="btn-group">
-            <a href="@Url.Action("Index")" class="btn btn-link">Back</a>
+<div class="row">
+    <div class="col-md-12">
+        <h2>Books in <strong>@Model.List.Name</strong> list</h2>
+        <div id="list-books-content" class="">
+            @Html.Partial("_EditListView",Model)
         </div>
     </div>
-    <div class="clearfix"></div>
+    <hr/>
+    <h2>Select the book you want to add in list</h2>
+    <div class="col-md-12">
+        @using (Ajax.BeginForm("AddListBook", "List", new AjaxOptions()
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "list-books-content"
+        }, htmlAttributes: new {@class = "navbar-form", @role = "search"}))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("listID", Model.List.ID)
+            <div class="input-group">
+                <input id="book-searcher" type="search" class="form-control" placeholder="Search book..." name="text">
+                <div class="input-group-btn">
+                    <button id="add-book-button" class="btn btn-default" type="submit" name="bookID"><span class="">Add book</span></button>
+                </div>
+            </div>
+        }
+    </div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $("#book-searcher").autocomplete({
+            delay: 300,
+            source: '@Url.Action("FindBook", "Find")',
+            minLength: 2,
+            select: function (event, ui) {
+                $("#book-searcher").val(ui.item.label);
+                $("#add-book-button").val(ui.item.value);
+                return false;
+            }
+        });
+    </script>
 }

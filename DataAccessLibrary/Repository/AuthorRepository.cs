@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Interfacies;
 using DataAccess.Interfacies.Entities;
+using DataAccessLibrary.Additional;
 using ORMLibrary;
 using DataAccessLibrary.Mappers;
 
@@ -42,7 +43,8 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalAuthor> FindAll(Expression<Func<DalAuthor, bool>> f)
         {
-            throw new NotImplementedException();
+            var lambda = ExpressionTranslator.Translate<DalAuthor, Authors>(f, new Dictionary<string, string>());
+            return context.Authors.Where(lambda).ToList().Select(e => e.ToDalAuthor());
         }
 
         public IEnumerable<DalAuthor> GetAll()

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using NLog;
 using Service.Interfacies;
 using Service.Interfacies.Entities;
 
@@ -11,30 +12,52 @@ namespace WebApplication.Providers
 {
     public class CustomRoleProvider : RoleProvider
     {
-
+        private Logger logger = LogManager.GetCurrentClassLogger();
         public IUserService userService = DependencyResolver.Current.GetService<IUserService>();
 
         public override void CreateRole(string roleName)
         {
-            var newRole = new ServiceRole() { Name = roleName };
-            userService.AddRole(newRole);
+            try
+            {
+                var newRole = new ServiceRole() {Name = roleName};
+                userService.AddRole(newRole);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+            }
         }
         public override string[] GetRolesForUser(string username)
         {
-            var user = userService.GetUserByEmail(username) ?? userService.GetUserByLogin(username);
-            if (user != null)
+            try
             {
-                return user.Roles.Select(e => e.Name).ToArray();
+                var user = userService.GetUserByEmail(username) ?? userService.GetUserByLogin(username);
+                if (user != null)
+                {
+                    return user.Roles.Select(e => e.Name).ToArray();
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
             }
             return new string[0];
         }
 
         public override bool IsUserInRole(string username, string roleName)
         {
-            var user = userService.GetUserByEmail(username) ?? userService.GetUserByLogin(username);
-            if (user != null)
+            try
             {
-                return user.Roles.Any(e => e.Name == roleName);
+                var user = userService.GetUserByEmail(username) ?? userService.GetUserByLogin(username);
+                if (user != null)
+                {
+                    return user.Roles.Any(e => e.Name == roleName);
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
             }
             return false;
         }

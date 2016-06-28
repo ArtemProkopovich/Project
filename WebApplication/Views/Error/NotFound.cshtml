@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "NotFound";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron">
+    <h2>Page not found</h2>
+    <h4><a href="@Url.Action("Index", "Home")">Go to home page.</a></h4>
+    <div class="col-md-12">
+        <div class="text-center">
+            <a href="@Url.Action("Index", "Home")"><img class="img-thumbnail" src="@Url.Content("~/App_Data/404.jpg")" alt="image"/></a>
+        </div>
+    </div>
+</div>
+
+

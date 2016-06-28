@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess.Interfacies;
 using DataAccess.Interfacies.Entities;
+using DataAccessLibrary.Additional;
 using ORMLibrary;
 using DataAccessLibrary.Mappers;
 
@@ -36,7 +37,7 @@ namespace DataAccessLibrary.Repository
             var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
             if (dbBook != null)
             {
-                dbBook.Covers.Add(cover.ToOrmCover());
+                context.Covers.Add(cover.ToOrmCover());
             }
         }
 
@@ -45,7 +46,7 @@ namespace DataAccessLibrary.Repository
             var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
             if (dbBook != null)
             {
-                dbBook.Files.Add(file.ToOrmFile());
+                context.Files.Add(file.ToOrmFile());
             }
         }
 
@@ -149,7 +150,8 @@ namespace DataAccessLibrary.Repository
 
         public IEnumerable<DalBook> FindAll(Expression<Func<DalBook, bool>> f)
         {
-            throw new NotImplementedException();
+            var lambda = ExpressionTranslator.Translate<DalBook, Books>(f, new Dictionary<string, string>());
+            return context.Books.Where(lambda).ToList().Select(e => e.ToDalBook());
         }
 
         public IEnumerable<DalBook> GetAll()
@@ -178,7 +180,7 @@ namespace DataAccessLibrary.Repository
         {
             var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
             if (dbBook != null)
-                return dbBook.Covers.Select(e=>e.ToDalCover());
+                return context.Covers.Where(e => e.BookID == book.ID).ToList().Select(e => e.ToDalCover());
             return new List<DalCover>();
         }
 
@@ -186,7 +188,7 @@ namespace DataAccessLibrary.Repository
         {
             var dbBook = context.Books.FirstOrDefault(e => e.BookID == book.ID);
             if (dbBook != null)
-                return dbBook.Files.Select(e => e.ToDalFile());
+                return context.Files.Where(e => e.BookID == book.ID).ToList().Select(e => e.ToDalFile());
             return new List<DalFile>();
         }
 

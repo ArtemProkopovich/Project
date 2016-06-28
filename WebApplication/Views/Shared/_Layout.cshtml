@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booker - @ViewBag.Title</title>
     @Styles.Render("~/Content/css")
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -45,7 +46,7 @@
         if (User.Identity.IsAuthenticated)
         {
             <text>
-                <ul class="nav navbar-nav navbar-right" style="padding-right: 30px">
+                <ul class="nav navbar-nav navbar-right navbar-inverse" style="padding-right: 30px">
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">Hello, @User.Identity.Name <b class="caret"></b></a>
                         <ul class="dropdown-menu" role="menu">
@@ -76,8 +77,19 @@
 <div class="container body-content" style="margin-top:50px">
     @RenderBody()
     <hr/>
-    <footer class="modal-footer">
-        <p>&copy; @DateTime.Now.Year – ASP.NET application for EPAM.</p>
+    <footer class="footer text-center">
+        <div class="row" style="background-color:#f5f5f5">
+            <p>&copy; @DateTime.Now.Year <a href="https://github.com/ArtemProkopovich/Project" style="color:black"><strong>Booker</strong></a> – ASP.NET application for EPAM.</p>
+            <p>
+                Thanks for perfect fileinput plugin to <a href="http://krajee.com/" style="color: black">Krajee</a>
+            </p>
+            <p>
+                Thanks for good select plugin to <a href="https://github.com/silviomoreto" style="color: black">Silvio Moreto</a>
+            </p>
+            <p>
+                Thanks for nice wysiwyg plugin to <a href="https://www.tinymce.com/" style="color: black">tynimce team</a>
+            </p>
+        </div>
     </footer>
 </div>
 
@@ -87,34 +99,16 @@
 @Scripts.Render("~/bundles/jqueryval")
 @Scripts.Render("~/bundels/jqueryajax")
 @RenderSection("scripts", required: false)
-<script type="text/javascript">
-    $(document).ready(function () {
-    var url = '@Url.Action("Find","Find")';
+<script>
     $("#searcher").autocomplete({
+        delay:300,
+        source: '@Url.Action("Find","Find")',
         minLength: 2,
-        source: function (request, response) {
-            $.getJSON(url, { term: request.term }, response);
-        },
-        select: function (event, ui) {
-            block();
-            if (ui.item.CssClass == 'tagsearch') window.location = '/museum?t=' +  ui.item.Id;
-            if (ui.item.CssClass == 'exhibitsearch') window.location = '/museum/show/' +  ui.item.Id;
-            if (ui.item.CssClass == 'lentasearch') window.location = '/lenta?t=' +  ui.item.Id;
+        select: function(event, ui) {
+            location.href = ui.item.value;
             return false;
         }
-    }).data('ui-autocomplete')._renderItem = function (ul, item) {
-        return $('<li style="font-size:.7em; max-width:700px;"></li>')
-            .data('item.autocomplete', item)
-            .append('<a><span class="searchtype">' +
-                item.label +
-                '</span><span class="searchtitle ' + item.label + '">' +
-                item.label +
-                '</span></a>'
-            )
-            .appendTo(ul);
-    };
-});
-
+    });
 </script>
 </body>
 </html>

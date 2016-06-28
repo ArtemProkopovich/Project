@@ -1,0 +1,31 @@
+﻿@model WebApplication.Models.ViewModels.CollectionBookModels.BookInCollectionsModel
+
+@{ string open = Request.IsAjaxRequest() ? "open" : "";}
+<div class="dropdown @open">
+    <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button"><i class="glyphicon glyphicon-bookmark" aria-hidden="true"></i> Edit book in your collections <span class="caret"></span></button>
+    <ul class="dropdown-menu" role="menu">
+        <li class="dropdown-header">Already in</li>
+        @foreach (var clc in Model.CollectionsWithBook)
+        {
+            <li>@Ajax.ActionLink(clc.Name, "DeleteFromCollection", "CollectionBook", new {bookID = Model.BookID, clID = clc.ID, returnUrl = Url.Action("Details", "Books", new {id = Model.BookID})}, new AjaxOptions()
+                {
+                    HttpMethod = "POST",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "collections-manage-content"
+                })</li>
+        }
+        <li class="divider"></li>
+        <li class="dropdown-header">Add to</li>
+        @foreach (var clc in Model.CollectionsWithoutBook)
+        {
+            <li>
+                @Ajax.ActionLink(clc.Name, "Add", "CollectionBook", new {bookID = Model.BookID, clID = clc.ID, returnUrl = Url.Action("Details", "Books", new {id = Model.BookID})}, new AjaxOptions()
+                {
+                    HttpMethod = "POST",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "collections-manage-content"
+                })
+            </li>
+        }
+    </ul>
+</div>

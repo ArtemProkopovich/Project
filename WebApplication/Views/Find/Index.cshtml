@@ -1,8 +1,24 @@
-﻿
+﻿@using WebApplication.Models.ViewModels.AuthorModels
+@model WebApplication.Models.ViewModels.FindModels.FindIndexModel
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Find option for query: @ViewBag.Query coming soon</h2>
+<div class="jumbotron">
+    <h2>Results for query <strong>@Model.Query</strong></h2>
+    <hr/>
+    <h3>The most appropriate books</h3>
+    <div class="row">
+        @Html.Partial("_BookShortViewList", Model.Books)
+    </div>
+    <hr />
+    <h3>The most appropriate authors</h3>
+    <div class="row">
+        <div class="authors-list">
+            @Html.Partial("_AuthorListView", new AuthorIndexModel() { Authors = Model.Authors })
+        </div>       
+    </div>
+</div>
 

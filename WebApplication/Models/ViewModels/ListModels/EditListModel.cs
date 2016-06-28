@@ -10,6 +10,5 @@ namespace WebApplication.Models.UserModels
     {
         public ListModel List { get; set; }
         public IEnumerable<BookShortModel> ListBooks { get; set; }
-        public IEnumerable<BookShortModel> OtherBooks { get; set; }
     }
 }

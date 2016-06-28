@@ -5,16 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
-
 
 @using (Html.BeginForm("Edit", "User", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>UserProfileModel</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ID)
 
@@ -35,17 +31,20 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BirthDate, htmlAttributes: new {@class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.BirthDate, "", new { @class = "text-danger" })
+                @{
+                    string value = Model.BirthDate.ToString("yyyy-MM-dd") ?? "";
+                }
+                <input class="form-control text-box single-line" data-val="true" data-val-date="The field birth date must be a date." id="BirthDate" name="BirthDate" type="date" value="@value"/>
+                @Html.ValidationMessageFor(model => model.BirthDate, "", new {@class = "text-danger"})
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Male, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <div class="checkbox">
+                <div class="checkbox selectpicker">
                     @Html.EditorFor(model => model.Male)
                     @Html.ValidationMessageFor(model => model.Male, "", new { @class = "text-danger" })
                 </div>
@@ -54,19 +53,11 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.NewPhoto, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <input type="file" name="NewPhoto" class="form-control" accept="image/*" />
+            <div class="col-md-4">
+                <input type="file" id="cover" name="Photo" class="file" data-allowed-file-extensions='["jpg", "jpeg", "png", "bmp"]' accept="image/*" />
                 @Html.ValidationMessageFor(model => model.NewPhoto, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.PhotoPath, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PhotoPath, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PhotoPath, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -77,5 +68,25 @@
 }
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/editor")
+<script>
+        var btnCust = '<button type="button" class="btn btn-default" title="Add picture tags" onclick="alert(\'Call your custom code here.\')"><i class="glyphicon glyphicon-tag"></i></button>';
+        $("#cover").fileinput({
+            overwriteInitial: true,
+            maxFileSize: 1500,
+            showClose: false,
+            showCaption: false,
+            browseLabel: '',
+            removeLabel: '',
+            browseIcon: '<i class="glyphicon glyphicon-folder-open"></i>',
+            removeIcon: '<i class="glyphicon glyphicon-remove"></i>',
+            removeTitle: 'Cancel or reset changes',
+            elErrorContainer: '#kv-avatar-errors-1',
+            msgErrorClass: 'alert alert-block alert-danger',
+            defaultPreviewContent: '<img src="@Url.Action("GetImage", "User", new {id = Model.ID})" alt="Your Avatar" style="width:160px">',
+            layoutTemplates: { main2: '{preview} ' + btnCust + ' {remove} {browse}' },
+            allowedFileExtensions: ["jpg", "png", "gif", "jpeg"]
+        });
+</script>
 }

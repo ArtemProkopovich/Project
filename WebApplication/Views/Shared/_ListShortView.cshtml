@@ -1,0 +1,11 @@
+﻿@model WebApplication.Models.ViewModels.ListModels.ListShortModel
+
+<div class="container-authors">
+    <div class="author-poster">
+        <div class="author-poster-header">
+            <div class="author-poster-name"></div>
+            <a href="@Url.Action("List","List", new {id = Model.List.ID})" title="@Model.List.Name">@Model.List.Name</a>
+        </div>
+        <img alt="image" src="@Url.Action("GetImage","Books", new {id = Model.bookID})" />
+    </div>
+</div>

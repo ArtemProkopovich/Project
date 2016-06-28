@@ -9,6 +9,8 @@ using WebApplication.Infrastructure.Mappers;
 using WebApplication.Models.AuthorModels;
 using System.IO;
 using System.Text;
+using System.Web.Routing;
+using NLog;
 using Service.Interfacies.Entities;
 using WebApplication.Models.BookModels;
 using WebApplication.Models.DataModels;
@@ -19,6 +21,7 @@ namespace WebApplication.Controllers
     {
         private readonly IAuthorService service;
         private readonly IBookService bookService;
+        private Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         public AuthorController(IAuthorService service, IBookService bookService)
         {
@@ -26,7 +29,7 @@ namespace WebApplication.Controllers
             this.bookService = bookService;
         }
 
-        private const int BooksOnPage=20;
+        private const int BooksOnPage=8;
 
         // GET: Author
         public ActionResult Index()
@@ -36,8 +39,9 @@ namespace WebApplication.Controllers
                 var model = Author.GetAuthorIndexModel(BooksOnPage, 1);
                 return View(model);
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -53,8 +57,9 @@ namespace WebApplication.Controllers
                 }
                 return View("Index", model);
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -62,12 +67,21 @@ namespace WebApplication.Controllers
         //GET: Author/Details/5
         public ActionResult Details(int id)
         {
-            int userID = (int?) Profile["ID"] ?? 0;
-            ServiceFullAuthor sfa  = service.GetFullAuthorInfo(id);
-            AuthorFullModel author = sfa.ToAuthorFullModel();
-            List<BookShortModel> list = sfa.AuthorBooks.Select(book => Book.GetBookShortModel(book.ID, userID)).ToList();
-            author.Books = list;
-            return View(author);
+            try
+            {
+                int userID = (int?) Profile["ID"] ?? 0;
+                ServiceFullAuthor sfa = service.GetFullAuthorInfo(id);
+                AuthorFullModel author = sfa.ToAuthorFullModel();
+                List<BookShortModel> list =
+                    sfa.AuthorBooks.Select(book => Book.GetBookShortModel(book.ID, userID)).ToList();
+                author.Books = list;
+                return View(author);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return View("Error");
+            }
         }
 
         // GET: Author/Create
@@ -96,12 +110,13 @@ namespace WebApplication.Controllers
                     }
                     else
                         id = service.AddAuthor(model.ToServiceAuthor());
-                    return RedirectToAction("Details", id);
+                    return RedirectToAction("Details", new {id = id});
                 }
                 return View(model);
             }
             catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -114,8 +129,9 @@ namespace WebApplication.Controllers
                 var author = service.GetById(id).ToAuthorEditModel();
                 return View(author);
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -141,9 +157,10 @@ namespace WebApplication.Controllers
                 service.UpdateAuthor(author);
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                logger.Error(ex);
+                return View("Error");
             }
         }
 
@@ -156,8 +173,9 @@ namespace WebApplication.Controllers
                 var author = service.GetById(id).ToAuthorShortModel();
                 return View(author);
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -176,8 +194,9 @@ namespace WebApplication.Controllers
                 service.RemoveAuthor(author);
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -185,10 +204,19 @@ namespace WebApplication.Controllers
         
         public FileResult GetImage(int id)
         {
-            var author = service.GetById(id);
-            return !string.IsNullOrEmpty(author.Photo)
-                ? new FilePathResult(author.Photo, "image/*")
-                : new FilePathResult(Server.MapPath("~/App_Data/Uploads/Covers/Authors/" + "no_author_cover.png"), "image/*");
+            try
+            {
+                var author = service.GetById(id);
+                return !string.IsNullOrEmpty(author?.Photo)
+                    ? new FilePathResult(author.Photo, "image/*")
+                    : new FilePathResult(Server.MapPath("~/App_Data/Uploads/Covers/Authors/" + "no_author_cover.png"),
+                        "image/*");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return null;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,6 +9,7 @@ using Service.Interfacies.Entities;
 using WebApplication.Models.AuthorModels;
 using WebApplication.Models.CollectionModels;
 using WebApplication.Models.ContentModels;
+using WebApplication.Models.ViewModels.CollectionBookModels;
 using WebApplication.Models.ViewModels.ContentModels;
 
 namespace WebApplication.Models.BookModels
@@ -23,8 +25,7 @@ namespace WebApplication.Models.BookModels
         public int AgeCategory { get; set; }
         public IEnumerable<AuthorShortModel> Authors { get; set; }
         public LikeButtonsModel Likes { get; set; }
-        public IEnumerable<CollectionModel> CollectionsWithBook { get; set; }
-        public IEnumerable<CollectionModel> CollectionWithoutBook { get; set; }
+        public BookInCollectionsModel Collections { get; set; }
         public IEnumerable<CoverModel> Covers { get; set; }
         public IEnumerable<GenreModel> Genres { get; set; }
         public IEnumerable<TagModel> Tags { get; set; }

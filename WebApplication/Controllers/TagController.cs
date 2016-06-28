@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using NLog;
+using NLog.Fluent;
 using Service.Interfacies;
 using Service.Interfacies.Entities;
 using WebApplication.Infrastructure.Mappers;
@@ -16,6 +18,7 @@ namespace WebApplication.Controllers
     {
         private readonly IListService service;
         private readonly IBookService bookService;
+        private Logger logger = LogManager.GetCurrentClassLogger();
 
         public TagController(IListService service, IBookService bookService)
         {
@@ -32,6 +35,7 @@ namespace WebApplication.Controllers
             }
             catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }          
         }
@@ -47,8 +51,9 @@ namespace WebApplication.Controllers
 
                 return View(tag.ToTagBookListModel(list));
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -79,8 +84,9 @@ namespace WebApplication.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -94,8 +100,9 @@ namespace WebApplication.Controllers
                 var tag = service.GetTagById(id);
                 return View(Tag.GetTagModel(id));
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View("Error");
             }
         }
@@ -113,8 +120,9 @@ namespace WebApplication.Controllers
                 service.RemoveTag(tag);
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
+                logger.Error(ex);
                 return View();
             }
         }

@@ -1,10 +1,11 @@
 ﻿@model WebApplication.Models.ViewModels.ContentModels.LikeButtonsModel
 
+    @{ string updateID = "like-buttons-" + Model.BookID; }
     @using (Ajax.BeginForm("UpdateLike", "Comment", new AjaxOptions()
     {
         HttpMethod = "POST",
         InsertionMode = InsertionMode.Replace,
-        UpdateTargetId = "like-buttons"
+        UpdateTargetId = updateID
     }))
     {
         string buttonLikeStyle = "btn-default";
@@ -27,12 +28,12 @@
         @Html.AntiForgeryToken()
         @Html.Hidden("bookID", Model.BookID)
         <div class="col-md-4">
-            <div class="btn-group btn-group-sm btn-group-justified" style="padding-top: 10px">
+            <div class="btn-group btn-group btn-group-justified" style="padding-top: 10px">
                 <div class="btn-group">
-                    <button type="submit" class="btn btn-sm @buttonLikeStyle" name="like" value="@buttonLikeValue.ToString()"><span class="glyphicon glyphicon-thumbs-up"> Like @Model.Likes</span></button>
+                    <button type="submit" class="btn @buttonLikeStyle" name="like" value="@buttonLikeValue.ToString()"><span class="glyphicon glyphicon-thumbs-up"></span><span> Like @Model.Likes </span></button>
                 </div>
                 <div class="btn-group">
-                    <button type="submit" class="btn btn-sm @buttonDislikeStyle" name="like" value="@buttonDislikeValue.ToString()"><span class="glyphicon glyphicon-thumbs-down"> Dislike @Model.Dislikes</span></button>
+                    <button type="submit" class="btn @buttonDislikeStyle" name="like" value="@buttonDislikeValue.ToString()"><span class="glyphicon glyphicon-thumbs-down"></span><span>Dislike @Model.Dislikes </span></button>
                 </div>
             </div>
         </div>

@@ -6,60 +6,81 @@
 }
 
 <div class="jumbotron">
-    <h2>Books main page</h2>
+    <h2>Welcome on Booker</h2>
     <div class="col-md-12">
         <div class="row">
-            <div class="name"><a href="@Url.Action("List")">Most popular books:</a>
+            <div class="name">
+                <h2><a href="@Url.Action("List")">Most popular books:</a></h2>
             </div>
-            <div class="authors-list">
-                @foreach (var book in Model.Books)
-                {
-                    @Html.Partial("_BookShortImageView", book)
-                }
+            <div class="container-a">
+                <div class="row">
+                    <div class="authors-list">
+                        @foreach (var book in Model.Books)
+                        {
+                            @Html.Partial("_BookFirstView", book)
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="clearfix"></div>
     <div class="col-md-12">
         <div class="row">
-            <div class="name"><a href="@Url.Action("Index", "Author")">Most popular authors: </a>
+            <div class="name">
+                <h2><a href="@Url.Action("Index", "Author")">Most popular authors: </a></h2>
             </div>
-            <div class="authors-list">
-                @foreach (var author in Model.Authors)
-                {
-                    @Html.Partial("_AuthorShortView", author)
-                }
-            </div>
-        </div>
-    </div>
-    <div class="clearfix"></div>
-    <div class="col-md-12">
-        <div class="row">
-            <div class="name"><a href="@Url.Action("Index", "Genre")">Most popular genres:</a>
-            </div>
-            <div class="authors-list">
-                @foreach (var genre in Model.Genres)
-                {
-                    genre.book.Name = genre.genre.Name;
-                    @Html.Partial("_BookShortImageView", genre.book)
-                }
+            <div class="container-a">
+                <div class="row">
+                    <div class="authors-list">
+                        @foreach (var author in Model.Authors)
+                        {
+                            @Html.Partial("_AuthorShortView", author)
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="clearfix"></div>
     <div class="col-md-12">
         <div class="row">
-            <div class="name"><a href="@Url.Action("Index", "List")">"List of top books:</a>
+            <div class="name">
+                <h2><a href="@Url.Action("Index", "Genre")">Most popular genres:</a></h2>
+            </div>
+            <div class="container-a">
+                <div class="row">
+                    <div class="authors-list">
+                        @foreach (var genre in Model.Genres)
+                        {
+                            genre.book.Name = genre.genre.Name;
+                            @Html.Partial("_GenreShortView", genre)
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="name">
+                <h2><a href="@Url.Action("Index", "List")">List of books by Booker:</a></h2>
             </div>
             <div class="authors-list">
-                @foreach (var list in Model.Lists)
-                {
-                    list.book.Name = list.list.Name;
-                    @Html.Partial("_BookShortImageView", list.book)
-                }
+                <div class="container-a">
+                    <div class="row">
+                        @foreach (var list in Model.Lists)
+                        {
+                            list.List.Name = list.List.Name;
+                            @Html.Partial("_ListShortView", list)
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="clearfix"></div>
 </div>
+
 

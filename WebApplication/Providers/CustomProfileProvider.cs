@@ -5,37 +5,48 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Profile;
+using NLog;
 using Service.Interfacies;
 
 namespace WebApplication.Providers
 {
     public class CustomProfileProvider : ProfileProvider
     {
+        private Logger logger = LogManager.GetCurrentClassLogger();
         public IUserService userService = DependencyResolver.Current.GetService<IUserService>();
         public override SettingsPropertyValueCollection GetPropertyValues(SettingsContext context, SettingsPropertyCollection collection)
         {
-            var result = new SettingsPropertyValueCollection();
-
-            if (collection.Count < 1)
+            try
             {
+                var result = new SettingsPropertyValueCollection();
+
+                if (collection.Count < 1)
+                {
+                    return result;
+                }
+
+                // получаем из контекста имя пользователя - логин в системе
+                var username = (string) context["UserName"];
+                if (string.IsNullOrEmpty(username))
+                {
+                    result.Add(new SettingsPropertyValue(collection["ID"]) {PropertyValue = 0});
+                    return result;
+                }
+                var user = userService.GetUserByEmail(username) ?? userService.GetUserByLogin(username);
+                int id = user?.ID ?? 0;
+                result.Add(new SettingsPropertyValue(collection["ID"]) {PropertyValue = id});
                 return result;
             }
-
-            // получаем из контекста имя пользователя - логин в системе
-            var username = (string)context["UserName"];
-            if (string.IsNullOrEmpty(username))
+            catch (Exception ex)
             {
-                result.Add(new SettingsPropertyValue(collection["ID"]) {PropertyValue = 0});
-                return result;
+                logger.Error(ex);
             }
-            var user = userService.GetUserByEmail(username) ?? userService.GetUserByLogin(username);
-            int id = user?.ID ?? 0;
-            result.Add(new SettingsPropertyValue(collection["ID"]) {PropertyValue = id});
-            return result;
+            return new SettingsPropertyValueCollection();
         }
 
         public override void SetPropertyValues(SettingsContext context, SettingsPropertyValueCollection collection)
         {
+            
         }
 
         #region Not implemented methods

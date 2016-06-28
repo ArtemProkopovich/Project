@@ -15,7 +15,43 @@
     <div class="row">
         <div class="col-md-3 row" style="margin-right:5px">
             <div class="text-center">
-                <img class="img-thumbnail" src="@Url.Action("GetImage", "Books", new {id = Model.ID})" alt="image"/>
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        @{
+                            string active = "active";
+                        }
+                        @for (int i = 0; i < Model.Covers.Count(); i++)
+                        {
+                            <li data-target="#carousel-example-generic" data-slide-to="@i" class="@active"></li>
+                            active = "";
+                        }
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        @{
+                            active = "active";
+                        }
+                        @foreach (var cover in Model.Covers)
+                        {
+                            <div class="item @active">
+                                <img src="@Url.Action("GetCover", "Books", new {bookID = Model.ID, coverID = cover.ID})" alt="image-alt">
+                            </div>
+                            active = "";
+                        }
+                    </div>
+
+                    <!-- Controls -->
+                    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
             </div>
             
             <div class="" style="padding-top: 10px">
@@ -25,21 +61,8 @@
                 <div class="" style="padding-top: 10px">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <div class="dropdown">
-                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button"><i class="glyphicon glyphicon-bookmark" aria-hidden="true"></i> Add book to collection <span class="caret"></span></button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li class="dropdown-header">Already in</li>
-                                @foreach (var clc in Model.CollectionsWithBook)
-                                {
-                                    <li><a href="@Url.Action("DeleteFromCollection", "CollectionBook", new {bookID = Model.ID, clID = clc.ID, returnUrl = Url.Action("Details", "Books", new {id = Model.ID})})">@clc.Name<span><i class="glyphicon glyphicon-remove"></i></span></a></li>
-                                }
-                                <li class="divider"></li>
-                                <li class="dropdown-header">Add to</li>
-                                @foreach (var clc in Model.CollectionWithoutBook)
-                                {
-                                    <li><a href="@Url.Action("Add", "CollectionBook", new {bookID = Model.ID, clID = clc.ID, returnUrl = Url.Action("Details", "Books", new {id = Model.ID})})">@clc.Name<span><i class="glyphicon glyphicon-saved"></i></span></a></li>
-                                }
-                            </ul>
+                        <div id="collections-manage-content">
+                            @Html.Partial("_CollectionsBookManageView",Model.Collections)
                         </div>
                         <div class="" style="padding-top: 10px">
                             <div class="btn-group btn-group-sm btn-group-justified">
@@ -67,8 +90,8 @@
                         @foreach (AuthorShortModel author in Model.Authors)
                         {
                             @Html.ActionLink(author.Name, "Details", "Author", new { id = author.ID }, htmlAttributes: new { @class = "control-label" })
-                            @Html.Display(". ")
-                        }
+                            <text>|</text>
+}
                     </div>
                     <div class="list-group-item">
                         @Html.LabelFor(model => model.PublishDate, htmlAttributes: new {@class = "control-label col-md-4"})
@@ -221,13 +244,13 @@
                                         <div class="col-md-offset-2 col-md-5">
                                             <div class="btn-group btn-group-justified" data-toggle="buttons">
                                                 <label class="btn btn-danger">
-                                                    <input type="radio" autocomplete="off" name="review.Type" value="-1"/> Negative
+                                                    <input type="radio" autocomplete="off" name="review.Type" value="0"/> Negative
                                                 </label>
                                                 <label class="btn btn-default">
-                                                    <input type="radio" autocomplete="off" name="review.Type" value="0"/> Neutral
+                                                    <input type="radio" autocomplete="off" name="review.Type" value="1"/> Neutral
                                                 </label>
                                                 <label class="btn btn-success">
-                                                    <input type="radio" autocomplete="off" name="review.Type" value="1" /> Positive
+                                                    <input type="radio" autocomplete="off" name="review.Type" value="-1" /> Positive
                                                 </label>
                                             </div>
                                         </div>
